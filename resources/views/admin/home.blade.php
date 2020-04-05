@@ -14,7 +14,17 @@
                         </div>
                     @endif
 
-                    You are logged in!
+                    <p>
+                        Hi {{ Auth::user()->name }}, You are logged in!
+                    </p>
+                    <hr>
+                    <p>
+                        <h4>Profile</h4>
+                        <ul>
+                            <li>Identity: {{ Auth::user()->profile->getBeautyIdentity() }}</li>
+                            <li>Birthdate: {{ Auth::user()->profile->getBeautyBirthdate() }}</li>
+                        </ul>
+                    </p>
                 </div>
             </div>
         </div>
