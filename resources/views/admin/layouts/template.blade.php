@@ -49,7 +49,7 @@
     <div class="wrapper">
 
         <!-- Navbar -->
-        <nav class="main-header navbar navbar-expand navbar-dark bg-primary">
+        <nav class="main-header navbar navbar-expand navbar-dark bg-{{ app('config')->get('template')['color'] }}">
             <ul class="navbar-nav">
                 <li class="nav-item">
                     <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
@@ -66,7 +66,7 @@
                         <i class="nav-icon fas fa-user mr-1"></i>
                     </a>
                     <ul class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
-                    <li class="user-header bg-dark">
+                    <li class="user-header bg-{{ app('config')->get('template')['color'] }}">
                         <img src="{{ url('img/avatar.jpg') }}" class="img-circle" alt="User Image">
                         <p>
                             {{ Auth::user()->name }}
@@ -96,9 +96,9 @@
         <!-- /.navbar -->
 
         <!-- Main Sidebar Container -->
-        <aside class="main-sidebar sidebar-dark-primary elevation-4">
+        <aside class="main-sidebar sidebar-dark-{{ app('config')->get('template')['color'] }} elevation-4">
             <!-- Brand Logo -->
-            <a href="{{ url('/admin') }}" class="brand-link">
+            <a href="{{ url('/admin') }}" class="brand-link navbar-{{ app('config')->get('template')['color'] }}">
                 <img src="{{ url('img/logo.jpg') }}" alt="Logo" class="brand-image img-circle elevation-3">
                 <span class="brand-text font-weight-light">{{ config('app.name', 'Laravel') }}</span>
             </a>
@@ -127,7 +127,7 @@
                 ?>
                 <nav class="mt-2">
                     <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
-                        @foreach(app('config')->get('menu') as $item)
+                        @foreach(app('config')->get('template')['menu'] as $item)
                         <li class="nav-item {{ isset($item['children']) ? 'has-treeview' : '' }}  {{ isset($item['children']) && hasActiveChild($item['children']) ? 'menu-open' : '' }}">
                             <a href="{{ isset($item['action']) ? url($item['action']) : 'javascript:void(0);' }}" class="nav-link {{ isset($item['action']) && ($item['action'] == app('request')->route()->uri) || (isset($item['children']) && hasActiveChild($item['children'])) ? 'active' : '' }}">
                                 <i class="nav-icon fas fa-{{ $item['icon'] }}"></i>
@@ -201,7 +201,7 @@
             <strong>Copyright &copy; {{ date('Y') }} {{ config('app.name', 'Laravel') }}.</strong>
             All rights reserved.
             <div class="float-right d-none d-sm-inline-block">
-                <b>Version</b> 1.0.0
+                <b>Version</b> {{ app('config')->get('template')['version'] }}
             </div>
         </footer>
 

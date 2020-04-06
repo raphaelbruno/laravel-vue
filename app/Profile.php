@@ -10,22 +10,19 @@ class Profile extends Model
 {
     use SoftDeletes;
 
+    protected $fillable = ['identity', 'birthdate'];
+    protected $dates = ['birthdate'];
+    
     public function user()
     {
         return $this->belongsTo('App\User');
     }
 
-    public function getBeautyIdentity()
+    public function getMaskedIdentity()
     {
         return $this->maskCPF($this->identity);
     }
 
-    public function getBeautyBirthdate()
-    {
-        $birthdate = new Carbon($this->birthdate);
-        return $birthdate->format('d/m/Y');
-    }
-    
     function maskCPF($identity) {
         return preg_replace("/(\d{3})(\d{3})(\d{3})(\d{2})/", "\$1.\$2.\$3-\$4", str_pad($identity, 11, "0", STR_PAD_LEFT));
     }

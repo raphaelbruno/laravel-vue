@@ -11,12 +11,12 @@
 @section('content')
 <div class="row">
     <div class="col-lg-3 col-6">
-        <div class="small-box bg-info">
+        <div class="small-box bg-primary">
             <div class="inner">
                 <h3>150</h3>
                 <p>Some Information</p>
             </div>
-            <div class="icon"><i class="fas fa-shopping-bag"></i></div>
+            <div class="icon"><i class="fas fa-thumbs-up"></i></div>
             <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
         </div>
     </div>
@@ -63,14 +63,16 @@
                 <p>
                     Hi {{ Auth::user()->name }}, You are logged in!
                 </p>
+                @if(Auth::user()->profile)
                 <hr>
                 <p>
                     <h4>Your Profile</h4>
                     <ul>
-                        <li>Identity: {{ Auth::user()->profile->getBeautyIdentity() }}</li>
-                        <li>Birthdate: {{ Auth::user()->profile->getBeautyBirthdate() }}</li>
+                        <li>Identity: {{ Auth::user()->profile->getMaskedIdentity() }}</li>
+                        <li>Birthdate: {{ Auth::user()->profile->birthdate->format('d/m/Y') }}</li>
                     </ul>
                 </p>
+                @endif
             </div>
         </div>
     </section>
