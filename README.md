@@ -1,4 +1,4 @@
-# Boilerplate Laravel + AdminLTE
+# Boilerplate Laravel 7.0 + AdminLTE 3.0.4 
 A blank project with all you need to start a new application using Laravel and AdminLTE.
 
 Use the file config/template.php to customize menu, color, version, etc.
