@@ -49,13 +49,47 @@
     <div class="wrapper">
 
         <!-- Navbar -->
-        <nav class="main-header navbar navbar-expand navbar-white navbar-light">
+        <nav class="main-header navbar navbar-expand navbar-dark bg-primary">
             <ul class="navbar-nav">
                 <li class="nav-item">
-                <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
+                    <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
                 </li>
                 <li class="nav-item d-none d-sm-inline-block">
-                <a href="{{ url('/') }}" class="nav-link">Site</a>
+                    <a href="{{ url('/') }}" class="nav-link">Site</a>
+                </li>
+            </ul>
+
+
+            <ul class="navbar-nav ml-auto">
+                <li class="dropdown user user-menu open">
+                    <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" aria-expanded="true">
+                        <i class="nav-icon fas fa-user mr-1"></i>
+                    </a>
+                    <ul class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
+                    <li class="user-header bg-dark">
+                        <img src="{{ url('img/avatar.jpg') }}" class="img-circle" alt="User Image">
+                        <p>
+                            {{ Auth::user()->name }}
+                            <small>{{ Auth::user()->email }}</small>
+                        </p>
+                    </li>
+                    <li class="user-footer d-flex">
+                        <div class="mr-auto">
+                        <a href="#" class="btn btn-secondary">Profile</a>
+                        </div>
+                        <div class="ml-auto">
+                            <a class="btn btn-danger" href="{{ route('logout') }}"
+                                onclick="event.preventDefault();
+                                                document.getElementById('logout-form').submit();">
+                                {{ __('Logout') }}
+                            </a>
+
+                            <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                                @csrf
+                            </form>
+                        </div>
+                    </li>
+                    </ul>
                 </li>
             </ul>
         </nav>
