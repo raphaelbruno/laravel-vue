@@ -55,7 +55,7 @@
                     <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
                 </li>
                 <li class="nav-item d-none d-sm-inline-block">
-                    <a href="{{ url('/') }}" class="nav-link">Site</a>
+                    <a href="{{ url('/') }}" class="nav-link">@lang('admin.site')</a>
                 </li>
             </ul>
 
@@ -75,13 +75,13 @@
                     </li>
                     <li class="user-footer d-flex">
                         <div class="mr-auto">
-                        <a href="#" class="btn btn-secondary">Profile</a>
+                        <a href="#" class="btn btn-secondary">@lang('admin.profile')</a>
                         </div>
                         <div class="ml-auto">
                             <a class="btn btn-danger" href="{{ route('logout') }}"
                                 onclick="event.preventDefault();
                                                 document.getElementById('logout-form').submit();">
-                                {{ __('Logout') }}
+                                @lang('admin.logout')
                             </a>
 
                             <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
@@ -132,7 +132,7 @@
                             <a href="{{ isset($item['action']) ? url($item['action']) : 'javascript:void(0);' }}" class="nav-link {{ isset($item['action']) && ($item['action'] == app('request')->route()->uri) || (isset($item['children']) && hasActiveChild($item['children'])) ? 'active' : '' }}">
                                 <i class="nav-icon fas fa-{{ $item['icon'] }}"></i>
                                 <p>
-                                    {{ $item['name'] }}
+                                    @lang($item['name'])
                                     @if(isset($item['children']))
                                     <i class="fas fa-angle-left right"></i>
                                     @endif
@@ -144,7 +144,7 @@
                                 <li class="nav-item">
                                     <a href="{{ isset($subitem['action']) ? url($subitem['action']) : 'javascript:void(0);' }}" class="nav-link {{ isset($subitem['action']) && $subitem['action'] == app('request')->route()->uri ? 'active' : '' }}">
                                         <i class="nav-icon fas fa-{{ $subitem['icon'] }}"></i>
-                                        <p>{{ $subitem['name'] }}</p>
+                                        <p>@lang($subitem['name'])</p>
                                     </a>
                                 </li>
                                 @endforeach
@@ -206,7 +206,7 @@
                         
                         <div class="col-sm-6">
                             <ol class="breadcrumb float-sm-right">
-                                <li class="breadcrumb-item"><a href="{{ url('/admin') }}"><i class="fas fa-home"></i> Dashboard</a></li>
+                                <li class="breadcrumb-item"><a href="{{ url('/admin') }}"><i class="fas fa-home"></i> @lang('admin.dashboard')</a></li>
                                 @yield('breadcrumb')
                             </ol>
                         </div>
@@ -228,9 +228,9 @@
 
         <footer class="main-footer">
             <strong>Copyright &copy; {{ date('Y') }} {{ config('app.name', 'Laravel') }}.</strong>
-            All rights reserved.
+            @lang('admin.all-rights')
             <div class="float-right d-none d-sm-inline-block">
-                <b>Version</b> {{ app('config')->get('template')['version'] }}
+                <b>@lang('admin.version')</b> {{ app('config')->get('template')['version'] }}
             </div>
         </footer>
 

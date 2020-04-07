@@ -1,4 +1,9 @@
+html, body { height: 100vh; margin: 0; }
 body {
     color: #636b6f;
     font-family: 'Source Sans Pro', sans-serif;
+}
+
+.flex-grow {
+    flex: 1 0 auto;
 }

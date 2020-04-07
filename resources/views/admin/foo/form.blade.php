@@ -6,7 +6,7 @@
 
 @section('breadcrumb')
 <li class="breadcrumb-item"><a href="{{ route('admin::foos.index') }}"><i class="fas fa-copy"></i> Foos</a></li>
-<li class="breadcrumb-item"><i class="fas fa-{{ isset($item) ? 'edit' : 'plus' }}"></i> {{ isset($item) ? 'Edit' : 'New' }}</li>
+<li class="breadcrumb-item"><i class="fas fa-{{ isset($item) ? 'edit' : 'plus' }}"></i> {{ isset($item) ? __('crud.edit') : __('crud.new') }}</li>
 @endsection
 
 @section('content')
@@ -14,7 +14,7 @@
     <section class="col connectedSortable">
         <div class="card card-outline card-{{ isset($item) ? 'primary' : 'success' }}">
             <div class="card-header">
-                <h3 class="card-title"><i class="fas fa-{{ isset($item) ? 'edit' : 'plus' }} mr-1"></i> {{ isset($item) ? 'Edit' : 'New' }}</h3>
+                <h3 class="card-title"><i class="fas fa-{{ isset($item) ? 'edit' : 'plus' }} mr-1"></i> {{ isset($item) ? __('crud.edit') : __('crud.new') }}</h3>
             </div>
 
             <form method="POST" action="{{ isset($item) ? route('admin::foos.update', $item->id) : route('admin::foos.store') }}">
@@ -32,7 +32,7 @@
                             </div>
                         </div>
                         <div class="col">
-                            <h3>Help</h3>
+                            <h3>@lang('crud.help')</h3>
                             <p>
                                 Some informations to help the user.
                             </p>
@@ -41,8 +41,8 @@
                 </div>
 
                 <div class="card-footer">
-                    <button type="submit" class="btn btn-success">Save</button>
-                    <a href="{{ route('admin::foos.index') }}" class="btn btn-danger">Cancel</a>
+                    <button type="submit" class="btn btn-success">@lang('crud.save')</button>
+                    <a href="{{ route('admin::foos.index') }}" class="btn btn-danger">@lang('crud.cancel')</a>
                 </div>
             </form>
         </div>

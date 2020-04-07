@@ -3,11 +3,6 @@
 @section('content')
 <!-- Styles -->
 <style>
-    html, body {
-        height: 100vh;
-        margin: 0;
-    }
-
     .content {
         text-align: center;
     }
@@ -32,8 +27,8 @@
     }
 </style>
 
-<div class="container">
-    <div class="content">
+<div class="container h-100 d-flex flex-column">
+    <div class="content my-auto">
         <div class="title m-b-md">Laravel</div>
 
         <div class="links">

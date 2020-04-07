@@ -10,7 +10,7 @@ Use the file config/template.php to customize menu, color, version, etc.
 - [ ] User Profile (Basic)
 - [ ] Access Control List (Basic ACL)
 - [ ] CURD to manage ACL
-- [ ] Multi-language Support
+- [X] Multi-language Support
 - [X] Basic CRUD Example
 
 ### Site Preview
