@@ -11,7 +11,7 @@ Use the file config/template.php to customize menu, color, version, etc.
 - [ ] Access Control List (Basic ACL)
 - [ ] CURD to manage ACL
 - [ ] Multi-language Support
-- [ ] Basic Example of CURD
+- [X] Basic CRUD Example
 
 ### Site Preview
 ![preview-site](preview-site.jpg)

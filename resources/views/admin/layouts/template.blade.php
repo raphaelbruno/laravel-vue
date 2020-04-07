@@ -45,7 +45,7 @@
     <link rel="stylesheet" href="{{ asset('plugins/daterangepicker/daterangepicker.css') }}">
     <link rel="stylesheet" href="{{ asset('plugins/summernote/summernote-bs4.css') }}">
 </head>
-<body class="hold-transition sidebar-mini layout-fixed">
+<body class="hold-transition sidebar-mini layout-fixed layout-navbar-fixed">
     <div class="wrapper">
 
         <!-- Navbar -->
@@ -164,13 +164,41 @@
             <!-- Content Header (Page header) -->
             <div class="content-header">
                 <div class="container-fluid">
-                    @if (session('status'))
-                    <div class="alert alert-info alert-dismissible">
+                    @if ($message = Session::get('success'))
+                    <div class="alert alert-success alert-dismissible">
                         <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
-                        {{ session('status') }}
+                        {{ $message }}
                     </div>
                     @endif
-
+                    
+                    @if ($message = Session::get('error'))
+                    <div class="alert alert-danger alert-dismissible">
+                        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                        {{ $message }}
+                    </div>
+                    @endif
+                    
+                    @if ($message = Session::get('warning'))
+                    <div class="alert alert-warning alert-dismissible">
+                        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                        {{ $message }}
+                    </div>
+                    @endif
+                    
+                    @if ($message = Session::get('info'))
+                    <div class="alert alert-info alert-dismissible">
+                        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                        {{ $message }}
+                    </div>
+                    @endif
+                    
+                    @if ($errors->any())
+                    <div class="alert alert-danger alert-dismissible">
+                        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                        {{ $errors->first() }}
+                    </div>
+                    @endif
+                    
                     <div class="row mb-2">
                         <div class="col-sm-6">
                             <h1 class="m-0 text-dark">@yield('title')</h1>
@@ -178,6 +206,7 @@
                         
                         <div class="col-sm-6">
                             <ol class="breadcrumb float-sm-right">
+                                <li class="breadcrumb-item"><a href="{{ url('/admin') }}"><i class="fas fa-home"></i> Dashboard</a></li>
                                 @yield('breadcrumb')
                             </ol>
                         </div>
@@ -189,7 +218,7 @@
             <!-- Main content -->
             <section class="content">
                 <div class="container-fluid">
-                    @yield('content')
+                    @yield('main')
                 </div>
             </section>
             <!-- /.content -->

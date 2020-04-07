@@ -4,11 +4,7 @@
     <i class="fas fa-tachometer-alt mr-1"></i> Dashboard
 @endsection
 
-@section('breadcrumb')
-<li class="breadcrumb-item"><a href="{{ url('/admin') }}">Dashboard</a></li>
-@endsection
-
-@section('content')
+@section('main')
 <div class="row">
     <div class="col-lg-3 col-6">
         <div class="small-box bg-primary">
@@ -54,7 +50,7 @@
 
 <div class="row">
     <section class="col connectedSortable">
-        <div class="card">
+        <div class="card card-outline card-primary">
             <div class="card-header">
                 <h3 class="card-title"><i class="far fa-newspaper mr-1"></i> Informations</h3>
             </div>

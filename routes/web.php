@@ -17,4 +17,8 @@ Route::get('/', 'Site\PageController@index');
 
 Auth::routes();
 
-Route::get('/admin', 'Admin\HomeController@index')->name('admin');
+Route::prefix('admin')->as('admin::')->group(function () {
+    Route::get('/', 'Admin\DashboardController@index')->name('dashboard');
+    
+    Route::resource('foos', 'Admin\FooController');
+});
