@@ -18,6 +18,8 @@ Use the file config/template.php to customize menu, color, version, etc.
 
 ### Admin Preview
 ![preview-admin](preview-admin.jpg)
+![preview-crud-list](preview-crud-list.jpg)
+![preview-crud-new](preview-crud-new.jpg)
 
 ### Instalation
 ```
