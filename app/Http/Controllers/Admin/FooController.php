@@ -28,6 +28,7 @@ class FooController extends Controller
     {
         $query = $request->get('q');
         $items = Foo::where('something', 'ilike', "%{$query}%")
+                    ->where('user_id', Auth::user()->id)
                     ->paginate();
         return view('admin.foo.list', compact('items', 'request'));
     }
@@ -81,6 +82,9 @@ class FooController extends Controller
     public function show($id)
     {
         $item = Foo::find($id);
+        if(!isset($item))
+            return Redirect::back()->withErrors([trans('crud.item-not-found')]);
+            
         return view('admin.foo.show', compact('item'));
     }
 
@@ -93,6 +97,9 @@ class FooController extends Controller
     public function edit($id)
     {
         $item = Foo::find($id);
+        if(!isset($item))
+            return Redirect::back()->withErrors([trans('crud.item-not-found')]);
+
         return view('admin.foo.form', compact('item'));
     }
 

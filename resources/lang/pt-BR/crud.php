@@ -46,4 +46,5 @@ return [
     'successfully-updated' => ':0 atualizado com sucesso!',
     'successfully-deleted' => ':0 excluído com sucesso!',
     'error-occurred' => '<b>Ocorreu um erro!</b><br>',
+    'item-not-found' => 'O item requisitado não foi encontrado!',
 ];
