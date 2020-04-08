@@ -14,6 +14,7 @@
         <th>Somethng</th>
         <th>@lang('crud.created-at')</th>
         <th>@lang('crud.updated-at')</th>
+        <th>@lang('crud.author')</th>
         <th class="text-center">@lang('crud.actions')</th>
     </tr>
 @endsection
@@ -25,6 +26,7 @@
             <td>{{ $item->something }}</td>
             <td>{{ $item->created_at->format('d/m/Y H:i:s') }}</td>
             <td>{{ $item->updated_at->format('d/m/Y H:i:s') }}</td>
+            <td>{{ $item->user->shortName() }}</td>
             <td class="text-center">
                 @include('admin.layouts.partials.actions', [
                     'resource' => 'foos',

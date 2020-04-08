@@ -18,7 +18,7 @@ return [
     'logout' => 'Logout',
     'dashboard' => 'Dashboard',
     'informations' => 'Informations',
-    'you-are-logged-in' => 'Hi :name, You are logged in!',
+    'you-are-logged-in' => 'Hi :name, you are logged in!',
     'your-profile' => 'Your Profile',
     'update-profile' => 'It looks like your profile need more information, click the button bellow to update your profile.',
     'identity' => 'Identity',

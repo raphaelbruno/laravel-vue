@@ -57,7 +57,7 @@
             
             <div class="card-body">
                 <p>
-                @lang('admin.you-are-logged-in', ['name' => Auth::user()->name])
+                @lang('admin.you-are-logged-in', ['name' => Auth::user()->firstName()])
                 </p>
                 <hr>
                 <p>

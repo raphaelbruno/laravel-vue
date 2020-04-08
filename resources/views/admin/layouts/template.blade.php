@@ -126,7 +126,7 @@
                         <img src="{{ url('img/avatar.jpg') }}" class="img-circle elevation-2" alt="User Image">
                     </div>
                     <div class="info">
-                        <a href="{{ route('admin::profile') }}" class="d-block">{{ Auth::user()->name }}</a>
+                        <a href="{{ route('admin::profile') }}" class="d-block">{{ Auth::user()->shortName() }}</a>
                     </div>
                 </div>
 

@@ -43,4 +43,26 @@ class User extends Authenticatable
     {
         return $this->hasOne('App\Profile');
     }
+
+    public function firstName()
+    {
+        $names = explode(' ', trim($this->name));
+        if(count($names) >= 1) return $names[0];
+        return $this->name;
+    }
+
+    public function lastName()
+    {
+        $names = explode(' ', trim($this->name));
+        if(count($names) >= 1) return $names[count($names)-1];
+        return $this->name;
+    }
+
+    public function shortName()
+    {
+        $names = explode(' ', trim($this->name));
+        if(count($names) >= 2)
+            return $names[0] . ' ' . $names[count($names)-1];
+        return $this->name;
+    }
 }

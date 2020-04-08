@@ -18,7 +18,7 @@ return [
     'logout' => 'Sair',
     'dashboard' => 'Dashboard',
     'informations' => 'Informações',
-    'you-are-logged-in' => 'Olá :name, Você está logado!',
+    'you-are-logged-in' => 'Olá :name, você está logado!',
     'your-profile' => 'Seu Perfil',
     'update-profile' => 'Parece que seu perfil precisa de mais informação, clique no botão abaixo para atualizar seu perfil.',
     'identity' => 'CPF',

@@ -10,7 +10,7 @@
     <section class="col">
         <div class="card card-outline card-{{ $itemID ? 'primary' : 'success' }}">
             <div class="card-header">
-                <h3 class="card-title"><i class="fas fa-{{ $itemID ? 'edit' : 'plus' }} mr-1"></i> {{ $itemID ? __('crud.edit') : __('crud.new') }}</h3>
+                <h3 class="card-title"><i class="fas fa-{{ $itemID ? 'edit' : 'plus' }} mr-1"></i> {{ $itemID ? trans('crud.edit') : trans('crud.new') }}</h3>
             </div>
 
             <form method="POST" action="{{ $itemID ? route('admin::'.$currentResource.'.update', $itemID) : route('admin::'.$currentResource.'.store') }}">

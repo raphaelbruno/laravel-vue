@@ -15,11 +15,15 @@
     <div class="col">{{ $item->something }}</div>
 </div>
 <div class="form-group row">
-    <label class="col-2 text-right">{{ __('crud.created-at') }}</label>
+    <label class="col-2 text-right">@lang('crud.author')</label>
+    <div class="col">{{ $item->user->shortName() }}</div>
+</div>
+<div class="form-group row">
+    <label class="col-2 text-right">@lang('crud.created-at')</label>
     <div class="col">{{ $item->created_at->format('d/m/Y H:i:s') }}</div>
 </div>
 <div class="form-group row">
-    <label class="col-2 text-right">{{ __('crud.updated-at') }}</label>
+    <label class="col-2 text-right">@lang('crud.updated-at')</label>
     <div class="col">{{ $item->updated_at->format('d/m/Y H:i:s') }}</div>
 </div>
 @endsection

@@ -16,6 +16,7 @@ return [
     'list' => 'List',
     'new' => 'New',
     'id' => 'ID',
+    'author' => 'Author',
     'title' => 'Title',
     'name' => 'Name',
     'email' => 'E-mail',
