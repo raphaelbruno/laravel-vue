@@ -59,10 +59,10 @@ class ProfileController extends Controller
             }
             
             $user->name = $fields['name'];
-            //if(!empty($newPassword)) $user->password = $newPassword;
+            if(!empty($newPassword)) $user->password = $newPassword;
 
-            $user->profile->identity = Profile::clearMask($fields['profile']['identity']);
-            $user->profile->birthdate = Carbon::createFromFormat('d/m/Y', $fields['profile']['birthdate']);
+            $user->profile->identity = isset($fields['profile']['identity']) ? Profile::clearMask($fields['profile']['identity']) : null;
+            $user->profile->birthdate = isset($fields['profile']['birthdate']) ? Carbon::createFromFormat('d/m/Y', $fields['profile']['birthdate']) : null;
 
             $user->profile->save();
             $user->save();
