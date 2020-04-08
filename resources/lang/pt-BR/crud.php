@@ -30,6 +30,7 @@ return [
     'actions' => 'Ações',
     'show' => 'Ver',
     'edit' => 'Editar',
+    'update' => 'Atualizar',
     'delete' => 'Excluir',
     'clear' => 'Limpar',
     'search' => 'Pesquisar',
@@ -43,5 +44,5 @@ return [
     'successfully-saved' => ':0 salvo com sucesso!',
     'successfully-updated' => ':0 atualizado com sucesso!',
     'successfully-deleted' => ':0 excluído com sucesso!',
-    'error-occurred' => 'Ocorreu um erro!',
+    'error-occurred' => '<b>Ocorreu um erro!</b><br>',
 ];

@@ -9,7 +9,7 @@ class Profile extends Model
 {
     use SoftDeletes;
 
-    protected $fillable = ['identity', 'birthdate'];
+    protected $fillable = ['user_id', 'identity', 'birthdate'];
     protected $dates = ['birthdate'];
     
     public function user()
@@ -23,7 +23,7 @@ class Profile extends Model
     }
 
     public static function maskCPF($identity) {
-        return preg_replace("/(\d{3})(\d{3})(\d{3})(\d{2})/", "\$1.\$2.\$3-\$4", str_pad($identity, 11, "0", STR_PAD_LEFT));
+        return isset($identity) ? preg_replace("/(\d{3})(\d{3})(\d{3})(\d{2})/", "\$1.\$2.\$3-\$4", str_pad($identity, 11, "0", STR_PAD_LEFT)) : null;
     }
     
     public static function maskCNPJ($identity) {

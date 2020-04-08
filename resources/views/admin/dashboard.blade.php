@@ -59,16 +59,23 @@
                 <p>
                 @lang('admin.you-are-logged-in', ['name' => Auth::user()->name])
                 </p>
-                @if(Auth::user()->profile)
                 <hr>
                 <p>
-                    <h4>@lang('admin.your-profile')</h4>
+                    <h5>@lang('admin.your-profile')</h5>
+                    @if(Auth::user()->profile)
                     <ul>
-                        <li>@lang('admin.identity'): {{ Auth::user()->profile->getMaskedIdentity() }}</li>
-                        <li>@lang('admin.birthdate'): {{ Auth::user()->profile->birthdate->format('d/m/Y') }}</li>
+                        @if(isset(Auth::user()->profile->identity))
+                            <li>@lang('admin.identity'): {{ Auth::user()->profile->getMaskedIdentity() }}</li>
+                        @endif
+                        @if(isset(Auth::user()->profile->birthdate))
+                            <li>@lang('admin.birthdate'): {{ Auth::user()->profile->birthdate->format('d/m/Y') }}</li>
+                        @endif
                     </ul>
+                    @else
+                    <p>@lang('admin.update-profile')</p>
+                    @endif
+                    <a href="{{ route('admin::profile') }}" class="btn btn-primary">@lang('crud.update')</a>
                 </p>
-                @endif
             </div>
         </div>
     </section>

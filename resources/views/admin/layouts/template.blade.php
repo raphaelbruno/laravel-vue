@@ -35,7 +35,7 @@
         $(document).ready(function(){
             $('.date-picker').datepicker({
                 language: '{{ Config::get('app.locale') }}',
-                format: 'dd/mm/yyyy',
+                format: '{{ app('config')->get('template')['dateformat'] }}',
                 autoclose: true
             });
         });
@@ -131,20 +131,11 @@
                 </div>
 
                 <!-- Sidebar Menu -->
-                <?php
-                    function hasActiveChild($children){
-                        if(!empty($children))
-                            foreach($children as $child)
-                                if(isset($child['action']) && $child['action'] == app('request')->route()->uri)
-                                    return true;
-                        return false;
-                    }
-                ?>
                 <nav class="mt-2">
                     <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
                         @foreach(app('config')->get('template')['menu'] as $item)
-                        <li class="nav-item {{ isset($item['children']) ? 'has-treeview' : '' }}  {{ isset($item['children']) && hasActiveChild($item['children']) ? 'menu-open' : '' }}">
-                            <a href="{{ isset($item['action']) ? url($item['action']) : 'javascript:void(0);' }}" class="nav-link {{ isset($item['action']) && ($item['action'] == app('request')->route()->uri) || (isset($item['children']) && hasActiveChild($item['children'])) ? 'active' : '' }}">
+                        <li class="nav-item {{ isset($item['children']) ? 'has-treeview' : '' }}  {{ App\Helpers\TemplateHelper::isMenuActive($item) ? 'menu-open' : '' }}">
+                            <a href="{{ isset($item['action']) ? route($item['action']) : 'javascript:void(0);' }}" class="nav-link {{ App\Helpers\TemplateHelper::isMenuActive($item) ? 'active' : '' }}">
                                 <i class="nav-icon fas fa-{{ $item['icon'] }}"></i>
                                 <p>
                                     @lang($item['name'])
@@ -157,7 +148,7 @@
                             <ul class="nav nav-treeview">
                                 @foreach($item['children'] as $subitem)
                                 <li class="nav-item">
-                                    <a href="{{ isset($subitem['action']) ? url($subitem['action']) : 'javascript:void(0);' }}" class="nav-link {{ isset($subitem['action']) && $subitem['action'] == app('request')->route()->uri ? 'active' : '' }}">
+                                    <a href="{{ isset($subitem['action']) ? route($subitem['action']) : 'javascript:void(0);' }}" class="nav-link {{ App\Helpers\TemplateHelper::isMenuActive($subitem) ? 'active' : '' }}">
                                         <i class="nav-icon fas fa-{{ $subitem['icon'] }}"></i>
                                         <p>@lang($subitem['name'])</p>
                                     </a>
@@ -182,35 +173,35 @@
                     @if ($message = Session::get('success'))
                     <div class="alert alert-success alert-dismissible">
                         <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
-                        {{ $message }}
+                        {!! $message !!}
                     </div>
                     @endif
                     
                     @if ($message = Session::get('error'))
                     <div class="alert alert-danger alert-dismissible">
                         <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
-                        {{ $message }}
+                        {!! $message !!}
                     </div>
                     @endif
                     
                     @if ($message = Session::get('warning'))
                     <div class="alert alert-warning alert-dismissible">
                         <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
-                        {{ $message }}
+                        {!! $message !!}
                     </div>
                     @endif
                     
                     @if ($message = Session::get('info'))
                     <div class="alert alert-info alert-dismissible">
                         <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
-                        {{ $message }}
+                        {!! $message !!}
                     </div>
                     @endif
                     
                     @if ($errors->any())
                     <div class="alert alert-danger alert-dismissible">
                         <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
-                        {{ $errors->first() }}
+                        {!! $errors->first() !!}
                     </div>
                     @endif
                     

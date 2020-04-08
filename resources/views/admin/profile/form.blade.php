@@ -1,4 +1,4 @@
-@extends('admin.layouts.template-form')
+@extends('admin.layouts.template')
 
 @section('title')
     <i class="fas fa-user mr-1"></i> @lang('admin.profile')
@@ -8,7 +8,7 @@
 <li class="breadcrumb-item"><i class="fas fa-user"></i> @lang('admin.profile')</li>
 @endsection
 
-@section('content')
+@section('main')
 <div class="row">
     <section class="col connectedSortable">
         <div class="card card-outline card-{{ isset($item) ? 'primary' : 'success' }}">
@@ -76,7 +76,7 @@
                                     <div class="input-group-prepend">
                                         <span class="input-group-text"><i class="far fa-calendar-alt"></i></span>
                                     </div>
-                                    <input type="text" id="birthdate" name="profile[birthdate]" class="form-control date date-picker" value="{{ isset($user->profile) ? $user->profile->birthdate->format('d/m/Y') : '' }}">
+                                    <input type="text" id="birthdate" name="profile[birthdate]" class="form-control date date-picker" value="{{ isset($user->profile) && isset($user->profile->birthdate) ? $user->profile->birthdate->format('d/m/Y') : '' }}">
                                 </div>
                             </div>
                         </div>
@@ -85,7 +85,7 @@
 
                 <div class="card-footer">
                     <button type="submit" class="btn btn-success">@lang('crud.save')</button>
-                    <a href="{{ route('admin::foos.index') }}" class="btn btn-danger">@lang('crud.cancel')</a>
+                    <a href="{{ route('admin::dashboard') }}" class="btn btn-danger">@lang('crud.cancel')</a>
                 </div>
             </form>
         </div>

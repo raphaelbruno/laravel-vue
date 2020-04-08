@@ -67,7 +67,7 @@ class FooController extends Controller
                 ->with(['success' => trans('crud.successfully-added', ['Foo'])]);
         } catch (\Exception $e) {
             return Redirect::back()
-                ->withErrors([trans('crud.error-occurred') . ' ' . $e->getMessage()])
+                ->withErrors([trans('crud.error-occurred') . $e->getMessage()])
                 ->withInput();
         }
     }
@@ -123,7 +123,7 @@ class FooController extends Controller
                 ->with(['success' => trans('crud.successfully-updated', ['Foo'])]);
         } catch (\Exception $e) {
             return Redirect::back()
-                ->withErrors([trans('crud.error-occurred') . ' ' . $e->getMessage()])
+                ->withErrors([trans('crud.error-occurred') . $e->getMessage()])
                 ->withInput();
         }
     }
@@ -144,7 +144,7 @@ class FooController extends Controller
                 ->with(['success' => trans('crud.successfully-deleted', ['Foo'])]);
         } catch (\Exception $e) {
             return Redirect::back()
-                ->withErrors([trans('crud.error-occurred') . ' ' . $e->getMessage()])
+                ->withErrors([trans('crud.error-occurred') . $e->getMessage()])
                 ->withInput();
         }
     }
