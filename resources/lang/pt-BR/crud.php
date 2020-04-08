@@ -18,6 +18,9 @@ return [
     'id' => 'ID',
     'title' => 'Título',
     'name' => 'Nome',
+    'email' => 'E-mail',
+    'password' => 'Senha',
+    'confirm-password' => 'Confirme a Senha',
     'description' => 'Descrição',
     'image' => 'Imagem',
     'date' => 'Data',
@@ -36,4 +39,9 @@ return [
     'back' => 'Voltar',
     'help' => 'Ajuda',
 
+    'successfully-added' => ':0 adicionado com sucesso!',
+    'successfully-saved' => ':0 salvo com sucesso!',
+    'successfully-updated' => ':0 atualizado com sucesso!',
+    'successfully-deleted' => ':0 excluído com sucesso!',
+    'error-occurred' => 'Ocorreu um erro!',
 ];

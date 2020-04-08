@@ -18,6 +18,9 @@ return [
     'id' => 'ID',
     'title' => 'Title',
     'name' => 'Name',
+    'email' => 'E-mail',
+    'password' => 'Password',
+    'confirm-password' => 'Confirm Password',
     'description' => 'Description',
     'image' => 'Image',
     'date' => 'Date',
@@ -36,4 +39,9 @@ return [
     'back' => 'Back',
     'help' => 'Help',
 
+    'successfully-added' => ':0 was successfully added!',
+    'successfully-saved' => ':0 was successfully saved!',
+    'successfully-updated' => ':0 was successfully updated!',
+    'successfully-deleted' => ':0 was successfully deleted!',
+    'error-occurred' => 'An error has occurred!',
 ];

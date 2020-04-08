@@ -64,10 +64,10 @@ class FooController extends Controller
             Foo::create($fields);
 
             return Redirect::route('admin::foos.index')
-                ->with(['success' => 'Foo was successfully added!']);
+                ->with(['success' => trans('crud.successfully-added', ['Foo'])]);
         } catch (\Exception $e) {
             return Redirect::back()
-                ->withErrors(['An error has occurred! ' . $e->getMessage()])
+                ->withErrors([trans('crud.error-occurred') . ' ' . $e->getMessage()])
                 ->withInput();
         }
     }
@@ -120,10 +120,10 @@ class FooController extends Controller
             $item->save();
 
             return Redirect::route('admin::foos.index')
-                ->with(['success' => 'Foo was successfully updated!']);
+                ->with(['success' => trans('crud.successfully-updated', ['Foo'])]);
         } catch (\Exception $e) {
             return Redirect::back()
-                ->withErrors(['An error has occurred! ' . $e->getMessage()])
+                ->withErrors([trans('crud.error-occurred') . ' ' . $e->getMessage()])
                 ->withInput();
         }
     }
@@ -141,10 +141,10 @@ class FooController extends Controller
             $item->delete();
 
             return Redirect::route('admin::foos.index')
-                ->with(['success' => 'Foo was successfully deleted!']);
+                ->with(['success' => trans('crud.successfully-deleted', ['Foo'])]);
         } catch (\Exception $e) {
             return Redirect::back()
-                ->withErrors(['An error has occurred! ' . $e->getMessage()])
+                ->withErrors([trans('crud.error-occurred') . ' ' . $e->getMessage()])
                 ->withInput();
         }
     }

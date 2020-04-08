@@ -28,14 +28,13 @@
                         <div class="col">
                             <div class="form-group">
                                 <label for="something">Something</label>
-                                <input type="text" id="something" name="item[something]" class="form-control" placeholder="Type Something" value="{{ isset($item) ? $item->something : old('item.something') }}">
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text"><i class="fas fa-copy"></i></span>
+                                    </div>
+                                    <input type="text" id="something" name="item[something]" class="form-control" placeholder="Type Something" value="{{ isset($item) ? $item->something : old('item.something') }}">
+                                </div>
                             </div>
-                        </div>
-                        <div class="col">
-                            <h3>@lang('crud.help')</h3>
-                            <p>
-                                Some informations to help the user.
-                            </p>
                         </div>
                     </div>
                 </div>

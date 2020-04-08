@@ -24,11 +24,23 @@
     <script src="{{ asset('plugins/jqvmap/jquery.vmap.min.js') }}"></script>
     <script src="{{ asset('plugins/jqvmap/maps/jquery.vmap.usa.js') }}"></script>
     <script src="{{ asset('plugins/jquery-knob/jquery.knob.min.js') }}"></script>
+    <script src="{{ asset('plugins/jquery-mask/jquery.mask.min.js') }}"></script>
     <script src="{{ asset('plugins/moment/moment.min.js') }}"></script>
-    <script src="{{ asset('plugins/daterangepicker/daterangepicker.js') }}"></script>
     <script src="{{ asset('plugins/tempusdominus-bootstrap-4/js/tempusdominus-bootstrap-4.min.js') }}"></script>
     <script src="{{ asset('plugins/summernote/summernote-bs4.min.js') }}"></script>
     <script src="{{ asset('plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js') }}"></script>
+    <script src="{{ asset('plugins/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js') }}"></script>
+    <script src="{{ asset('plugins/bootstrap-datepicker/dist/locales/bootstrap-datepicker.'.Config::get('app.locale').'.min.js') }}"></script>
+    <script>
+        $(document).ready(function(){
+            $('.date-picker').datepicker({
+                language: '{{ Config::get('app.locale') }}',
+                format: 'dd/mm/yyyy',
+                autoclose: true
+            });
+        });
+    </script>
+
     <script src="{{ asset('plugins/adminlte/js/adminlte.js') }}"></script>
 
     <!-- Fonts -->
@@ -42,8 +54,11 @@
     <link rel="stylesheet" href="{{ asset('plugins/jqvmap/jqvmap.min.css') }}">
     <link rel="stylesheet" href="{{ asset('plugins/adminlte/css/adminlte.min.css') }}">
     <link rel="stylesheet" href="{{ asset('plugins/overlayScrollbars/css/OverlayScrollbars.min.css') }}">
-    <link rel="stylesheet" href="{{ asset('plugins/daterangepicker/daterangepicker.css') }}">
     <link rel="stylesheet" href="{{ asset('plugins/summernote/summernote-bs4.css') }}">
+    <link rel="stylesheet" href="{{ asset('plugins/bootstrap-datepicker/dist/css/bootstrap-datepicker.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/admin.css') }}">
+
+    <script src="{{ asset('js/admin.js') }}"></script>
 </head>
 <body class="hold-transition sidebar-mini layout-fixed layout-navbar-fixed">
     <div class="wrapper">
@@ -75,7 +90,7 @@
                     </li>
                     <li class="user-footer d-flex">
                         <div class="mr-auto">
-                        <a href="#" class="btn btn-secondary">@lang('admin.profile')</a>
+                        <a href="{{ route('admin::profile') }}" class="btn btn-secondary">@lang('admin.profile')</a>
                         </div>
                         <div class="ml-auto">
                             <a class="btn btn-danger" href="{{ route('logout') }}"
@@ -111,7 +126,7 @@
                         <img src="{{ url('img/avatar.jpg') }}" class="img-circle elevation-2" alt="User Image">
                     </div>
                     <div class="info">
-                        <a href="#" class="d-block">{{ Auth::user()->name }}</a>
+                        <a href="{{ route('admin::profile') }}" class="d-block">{{ Auth::user()->name }}</a>
                     </div>
                 </div>
 
