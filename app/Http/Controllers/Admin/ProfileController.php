@@ -49,22 +49,22 @@ class ProfileController extends Controller
 
         try {
             $user = Auth::user();
-
-            if(!isset($user->profile)){
-                Profile::create([
+            
+            if(!isset($user->profile))
+            {
+                $profile = Profile::create([
                     'user_id' => $user->id
                 ]);
+            } else $profile = $user->profile;
 
-                $user = Auth::user();
-            }
             
             $user->name = $fields['name'];
             if(!empty($newPassword)) $user->password = $newPassword;
 
-            $user->profile->identity = isset($fields['profile']['identity']) ? Profile::clearMask($fields['profile']['identity']) : null;
-            $user->profile->birthdate = isset($fields['profile']['birthdate']) ? Carbon::createFromFormat('d/m/Y', $fields['profile']['birthdate']) : null;
+            $profile->identity = isset($fields['profile']['identity']) ? Profile::clearMask($fields['profile']['identity']) : null;
+            $profile->birthdate = isset($fields['profile']['birthdate']) ? Carbon::createFromFormat('d/m/Y', $fields['profile']['birthdate']) : null;
 
-            $user->profile->save();
+            $profile->save();
             $user->save();
 
             return Redirect::route('admin::profile')

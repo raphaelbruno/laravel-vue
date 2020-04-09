@@ -47,4 +47,5 @@ return [
     'successfully-deleted' => ':0 was successfully deleted!',
     'error-occurred' => '<b>An error has occurred!</b><br>',
     'item-not-found' => 'The requested item was not found!',
+    'not-authorized' => 'Your user is not allowed to complete the request!',
 ];

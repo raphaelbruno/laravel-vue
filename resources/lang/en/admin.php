@@ -15,6 +15,9 @@ return [
 
     'site' => 'Website',
     'profile' => 'Profile',
+    'roles' => 'Roles',
+    'permissions' => 'Permissions',
+    'level' => 'Level',
     'logout' => 'Logout',
     'dashboard' => 'Dashboard',
     'informations' => 'Informations',
@@ -26,5 +29,6 @@ return [
     'more-information' => 'More info',
     'version' => 'Version',
     'all-rights' => 'All rights reserved.',
+    'no-items' => 'There is no item here!.',
 
 ];

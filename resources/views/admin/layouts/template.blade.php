@@ -134,29 +134,33 @@
                 <nav class="mt-2">
                     <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
                         @foreach(app('config')->get('template')['menu'] as $item)
-                        <li class="nav-item {{ isset($item['children']) ? 'has-treeview' : '' }}  {{ App\Helpers\TemplateHelper::isMenuActive($item) ? 'menu-open' : '' }}">
-                            <a href="{{ isset($item['action']) ? route($item['action']) : 'javascript:void(0);' }}" class="nav-link {{ App\Helpers\TemplateHelper::isMenuActive($item) ? 'active' : '' }}">
-                                <i class="nav-icon fas fa-{{ $item['icon'] }}"></i>
-                                <p>
-                                    @lang($item['name'])
-                                    @if(isset($item['children']))
-                                    <i class="fas fa-angle-left right"></i>
-                                    @endif
-                                </p>
-                            </a>
-                            @if(isset($item['children']))
-                            <ul class="nav nav-treeview">
-                                @foreach($item['children'] as $subitem)
-                                <li class="nav-item">
-                                    <a href="{{ isset($subitem['action']) ? route($subitem['action']) : 'javascript:void(0);' }}" class="nav-link {{ App\Helpers\TemplateHelper::isMenuActive($subitem) ? 'active' : '' }}">
-                                        <i class="nav-icon fas fa-{{ $subitem['icon'] }}"></i>
-                                        <p>@lang($subitem['name'])</p>
-                                    </a>
-                                </li>
-                                @endforeach
-                            </ul>
+                            @if(!isset($item['permission']) || Gate::check($item['permission']))
+                            <li class="nav-item {{ isset($item['children']) ? 'has-treeview' : '' }}  {{ App\Helpers\TemplateHelper::isMenuActive($item) ? 'menu-open' : '' }}">
+                                <a href="{{ isset($item['action']) ? route($item['action']) : 'javascript:void(0);' }}" class="nav-link {{ App\Helpers\TemplateHelper::isMenuActive($item) ? 'active' : '' }}">
+                                    <i class="nav-icon fas fa-{{ $item['icon'] }}"></i>
+                                    <p>
+                                        @lang($item['name'])
+                                        @if(isset($item['children']))
+                                        <i class="fas fa-angle-left right"></i>
+                                        @endif
+                                    </p>
+                                </a>
+                                @if(isset($item['children']))
+                                <ul class="nav nav-treeview">
+                                    @foreach($item['children'] as $subitem)
+                                        @if(!isset($subitem['permission']) || Gate::check($subitem['permission']))
+                                        <li class="nav-item">
+                                            <a href="{{ isset($subitem['action']) ? route($subitem['action']) : 'javascript:void(0);' }}" class="nav-link {{ App\Helpers\TemplateHelper::isMenuActive($subitem) ? 'active' : '' }}">
+                                                <i class="nav-icon fas fa-{{ $subitem['icon'] }}"></i>
+                                                <p>@lang($subitem['name'])</p>
+                                            </a>
+                                        </li>
+                                        @endif
+                                    @endforeach
+                                </ul>
+                                @endif
+                            </li>
                             @endif
-                        </li>
                         @endforeach
                     </ul>
                 </nav>

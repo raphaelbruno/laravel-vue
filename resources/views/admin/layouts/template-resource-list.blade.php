@@ -43,9 +43,11 @@
 
                 <div class="card-footer">
                     @section('actions')
-                    <a href="{{ route('admin::'.$currentResource.'.create') }}" title="@lang('crud.new')" class="btn btn-sm btn-success float-left">
-                        <i class="fas fa-plus"></i> @lang('crud.new')
-                    </a>
+                        @can($currentResource.'-create')
+                        <a href="{{ route('admin::'.$currentResource.'.create') }}" title="@lang('crud.new')" class="btn btn-sm btn-success float-left">
+                            <i class="fas fa-plus"></i> @lang('crud.new')
+                        </a>
+                        @endcan
                     @show
                     @yield('pagination')
                 </div>

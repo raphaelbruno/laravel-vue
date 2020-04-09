@@ -10,7 +10,7 @@
 
 @section('main')
 <div class="row">
-    <section class="col connectedSortable">
+    <section class="col">
         <div class="card card-outline card-{{ isset($item) ? 'primary' : 'success' }}">
             <div class="card-header">
                 <h3 class="card-title"><i class="fas fa-edit mr-1"></i>  @lang('crud.edit')</h3>
@@ -22,7 +22,7 @@
                 
                 <div class="card-body">
                     <div class="row">
-                        <div class="col">
+                        <div class="col col-12 col-lg-6">
                             <div class="form-group">
                                 <label for="name">@lang('crud.name')</label>
                                 <div class="input-group">
@@ -78,6 +78,29 @@
                                     </div>
                                     <input type="text" id="birthdate" name="profile[birthdate]" class="form-control date date-picker" value="{{ isset($user->profile) && isset($user->profile->birthdate) ? $user->profile->birthdate->format('d/m/Y') : '' }}">
                                 </div>
+                            </div>
+                        </div>
+
+                        <div class="col col-12 col-lg-6">
+                            <div class="form-group">
+                                <label for="birthdate">@lang('admin.roles')</label>
+                                @foreach($user->roles as $role)
+                                <div class="card card-outline card-warning">
+                                    <div class="card-header">
+                                        <b>{{ $role->title }} (@lang('admin.level'): {{ $role->level }})</b>
+                                    </div>
+                                    <div class="card-body">
+                                        @lang('admin.permissions'):
+                                        <ul>
+                                            @forelse($role->permissions as $permission)
+                                            <li>{{ $permission->title }}</li>
+                                            @empty
+                                            <li>@lang('admin.no-items')</li>
+                                            @endforelse
+                                        </ul>
+                                    </div>
+                                </div>
+                                @endforeach
                             </div>
                         </div>
                     </div>

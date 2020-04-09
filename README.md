@@ -6,11 +6,12 @@ Use the file config/template.php to customize menu, color, version, etc.
 ### Features
 - [x] Basic Bootstrap Template (Site)
 - [x] AdminLTE Template (Admin)
+- [X] Multi-language Support
 - [x] User Authentication
 - [X] User Profile (Basic)
-- [ ] Access Control List (Basic ACL)
-- [ ] CURD to manage ACL
-- [X] Multi-language Support
+- [X] Access Control List (Basic ACL)
+- [ ] CURD to manage Users
+- [ ] CURD to manage Roles
 - [X] Basic CRUD Example
 
 ### Site Preview

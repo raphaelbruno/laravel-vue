@@ -47,4 +47,5 @@ return [
     'successfully-deleted' => ':0 excluído com sucesso!',
     'error-occurred' => '<b>Ocorreu um erro!</b><br>',
     'item-not-found' => 'O item requisitado não foi encontrado!',
+    'not-authorized' => 'Seu usuário não tem permissão para completar a requisição!',
 ];

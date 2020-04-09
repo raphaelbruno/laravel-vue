@@ -18,25 +18,26 @@ class CreatePermissionsTable extends Migration
             $table->string('title', 100);
             $table->string('name', 50);
             $table->timestamps();
+            $table->softDeletes();
         });
 
         // ACL
-        DB::table('permissions')->insert(['title' => 'ACL Create', 'name' => 'acl-create']);
-        DB::table('permissions')->insert(['title' => 'ACL Read', 'name' => 'acl-read']);
-        DB::table('permissions')->insert(['title' => 'ACL Update', 'name' => 'acl-update']);
-        DB::table('permissions')->insert(['title' => 'ACL Delete', 'name' => 'acl-delete']);        
+        DB::table('permissions')->insert(['title' => 'Roles Create', 'name' => 'roles-create']);
+        DB::table('permissions')->insert(['title' => 'Roles View', 'name' => 'roles-view']);
+        DB::table('permissions')->insert(['title' => 'Roles Update', 'name' => 'roles-update']);
+        DB::table('permissions')->insert(['title' => 'Roles Delete', 'name' => 'roles-delete']);        
         
         // User
-        DB::table('permissions')->insert(['title' => 'User Create', 'name' => 'user-create']);
-        DB::table('permissions')->insert(['title' => 'User Read', 'name' => 'user-read']);
-        DB::table('permissions')->insert(['title' => 'User Update', 'name' => 'user-update']);
-        DB::table('permissions')->insert(['title' => 'User Delete', 'name' => 'user-delete']);        
+        DB::table('permissions')->insert(['title' => 'Users Create', 'name' => 'users-create']);
+        DB::table('permissions')->insert(['title' => 'Users View', 'name' => 'users-view']);
+        DB::table('permissions')->insert(['title' => 'Users Update', 'name' => 'users-update']);
+        DB::table('permissions')->insert(['title' => 'Users Delete', 'name' => 'users-delete']);        
 
         // Foo
-        DB::table('permissions')->insert(['title' => 'Foo Create', 'name' => 'foo-create']);
-        DB::table('permissions')->insert(['title' => 'Foo Read', 'name' => 'foo-read']);
-        DB::table('permissions')->insert(['title' => 'Foo Update', 'name' => 'foo-update']);
-        DB::table('permissions')->insert(['title' => 'Foo Delete', 'name' => 'foo-delete']);        
+        DB::table('permissions')->insert(['title' => 'Foos Create', 'name' => 'foos-create']);
+        DB::table('permissions')->insert(['title' => 'Foos View', 'name' => 'foos-view']);
+        DB::table('permissions')->insert(['title' => 'Foos Update', 'name' => 'foos-update']);
+        DB::table('permissions')->insert(['title' => 'Foos Delete', 'name' => 'foos-delete']);        
 
         Schema::create('permission_role', function (Blueprint $table) {
             $table->id();
@@ -45,6 +46,7 @@ class CreatePermissionsTable extends Migration
             $table->unsignedBigInteger('permission_id');
             $table->foreign('permission_id')->references('id')->on('permissions')->onDelete('cascade');
             $table->timestamps();
+            $table->softDeletes();
         });
 
         // Manager
