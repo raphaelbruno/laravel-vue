@@ -11,14 +11,17 @@
                 <div class="card-header">
                     <h3 class="card-title"><i class="fas fa-list mr-1"></i> @lang('crud.list')</h3>
                     <div class="card-tools">
-                        <form method="GET">
-                            <div class="input-group input-group-sm">
-                                <input type="text" name="q" class="form-control float-right" placeholder="@lang('crud.search')" value="{{ $request->get('q') }}">
-                                <div class="input-group-append">
-                                    <a href="{{ route('admin::'.$currentResource.'.index') }}" title="@lang('crud.clear')" class="btn btn-default"><i class="fas fa-eraser"></i></a>
-                                </div>
-                                <div class="input-group-append">
-                                    <button type="submit" title="@lang('crud.search')" class="btn btn-default"><i class="fas fa-search"></i></button>
+                        <form method="GET" class="d-flex align-items-center">
+                            @yield('filters')
+                            <div>
+                                <div class="input-group input-group-sm">
+                                    <input type="text" name="q" class="form-control float-right" placeholder="@lang('crud.search')" value="{{ $request->get('q') }}">
+                                    <div class="input-group-append">
+                                        <a href="{{ route('admin::'.$currentResource.'.index') }}" title="@lang('crud.clear')" class="btn btn-default"><i class="fas fa-eraser"></i></a>
+                                    </div>
+                                    <div class="input-group-append">
+                                        <button type="submit" title="@lang('crud.search')" class="btn btn-default"><i class="fas fa-search"></i></button>
+                                    </div>
                                 </div>
                             </div>
                         </form>
