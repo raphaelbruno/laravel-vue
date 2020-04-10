@@ -17,7 +17,7 @@
                                 <div class="input-group input-group-sm">
                                     <input type="text" name="q" class="form-control float-right" placeholder="@lang('crud.search')" value="{{ $request->get('q') }}">
                                     <div class="input-group-append">
-                                        <a href="{{ route('admin::'.$currentResource.'.index') }}" title="@lang('crud.clear')" class="btn btn-default"><i class="fas fa-eraser"></i></a>
+                                        <a href="{{ route('admin:'.$currentResource.'.index') }}" title="@lang('crud.clear')" class="btn btn-default"><i class="fas fa-eraser"></i></a>
                                     </div>
                                     <div class="input-group-append">
                                         <button type="submit" title="@lang('crud.search')" class="btn btn-default"><i class="fas fa-search"></i></button>
@@ -44,7 +44,7 @@
                 <div class="card-footer">
                     @section('actions')
                         @can($currentResource.'-create')
-                        <a href="{{ route('admin::'.$currentResource.'.create') }}" title="@lang('crud.new')" class="btn btn-sm btn-success float-left">
+                        <a href="{{ route('admin:'.$currentResource.'.create') }}" title="@lang('crud.new')" class="btn btn-sm btn-success float-left">
                             <i class="fas fa-plus"></i> @lang('crud.new')
                         </a>
                         @endcan

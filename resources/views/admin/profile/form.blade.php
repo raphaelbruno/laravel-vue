@@ -16,7 +16,7 @@
                 <h3 class="card-title"><i class="fas fa-edit mr-1"></i>  @lang('crud.edit')</h3>
             </div>
 
-            <form method="POST" action="{{ route('admin::profile.update') }}">
+            <form method="POST" action="{{ route('admin:profile.update') }}">
                 @csrf
                 @method('PATCH')
                 
@@ -108,7 +108,7 @@
 
                 <div class="card-footer">
                     <button type="submit" class="btn btn-success">@lang('crud.save')</button>
-                    <a href="{{ route('admin::dashboard') }}" class="btn btn-danger">@lang('crud.cancel')</a>
+                    <a href="{{ route('admin:dashboard') }}" class="btn btn-danger">@lang('crud.cancel')</a>
                 </div>
             </form>
         </div>

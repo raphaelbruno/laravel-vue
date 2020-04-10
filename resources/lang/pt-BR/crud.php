@@ -19,6 +19,7 @@ return [
     'author' => 'Autor',
     'title' => 'Título',
     'name' => 'Nome',
+    'label' => 'Rótulo',
     'email' => 'E-mail',
     'password' => 'Senha',
     'confirm-password' => 'Confirme a Senha',

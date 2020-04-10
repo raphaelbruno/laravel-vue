@@ -67,7 +67,7 @@ class ProfileController extends Controller
             $profile->save();
             $user->save();
 
-            return Redirect::route('admin::profile')
+            return Redirect::route('admin:profile')
                 ->with(['success' => trans('crud.successfully-saved', [trans('admin.profile')])]);
         } catch (\Exception $e) {
             return Redirect::back()

@@ -17,10 +17,11 @@ Route::get('/', 'Site\PageController@index');
 
 Auth::routes();
 
-Route::prefix('admin')->namespace('Admin')->as('admin::')->group(function () {
+Route::prefix('admin')->namespace('Admin')->as('admin:')->group(function () {
     Route::get('/', 'DashboardController@index')->name('dashboard');
     Route::get('profile', 'ProfileController@edit')->name('profile');
     Route::match(['PUT', 'PATCH'], 'profile/update', 'ProfileController@update')->name('profile.update');
     
+    Route::resource('roles', 'RoleController');
     Route::resource('foos', 'FooController');
 });

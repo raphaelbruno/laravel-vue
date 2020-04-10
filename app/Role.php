@@ -9,6 +9,8 @@ class Role extends Model
 {
     use SoftDeletes;
     
+    protected $fillable = ['title', 'name', 'level', 'default'];
+
     public function users()
     {
         return $this->belongsToMany('App\User')->whereNull('role_user.deleted_at')->withTimestamps();

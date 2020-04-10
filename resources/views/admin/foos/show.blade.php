@@ -5,7 +5,7 @@
 @endsection
 
 @section('breadcrumb')
-    <li class="breadcrumb-item"><a href="{{ route('admin::foos.index') }}"><i class="fas fa-copy"></i> Foos</a></li>
+    <li class="breadcrumb-item"><a href="{{ route('admin:foos.index') }}"><i class="fas fa-copy"></i> Foos</a></li>
     <li class="breadcrumb-item"><i class="fas fa-eye"></i> Show</li>
 @endsection
 

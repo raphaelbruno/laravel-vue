@@ -90,7 +90,7 @@
                     </li>
                     <li class="user-footer d-flex">
                         <div class="mr-auto">
-                        <a href="{{ route('admin::profile') }}" class="btn btn-secondary">@lang('admin.profile')</a>
+                        <a href="{{ route('admin:profile') }}" class="btn btn-secondary">@lang('admin.profile')</a>
                         </div>
                         <div class="ml-auto">
                             <a class="btn btn-danger" href="{{ route('logout') }}"
@@ -126,7 +126,7 @@
                         <img src="{{ url('img/avatar.jpg') }}" class="img-circle elevation-2" alt="User Image">
                     </div>
                     <div class="info">
-                        <a href="{{ route('admin::profile') }}" class="d-block">{{ Auth::user()->shortName() }}</a>
+                        <a href="{{ route('admin:profile') }}" class="d-block">{{ Auth::user()->shortName() }}</a>
                     </div>
                 </div>
 
@@ -134,7 +134,7 @@
                 <nav class="mt-2">
                     <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
                         @foreach(app('config')->get('template')['menu'] as $item)
-                            @if(!isset($item['permission']) || Gate::check($item['permission']))
+                            @if(App\Helpers\TemplateHelper::displayMenu($item))
                             <li class="nav-item {{ isset($item['children']) ? 'has-treeview' : '' }}  {{ App\Helpers\TemplateHelper::isMenuActive($item) ? 'menu-open' : '' }}">
                                 <a href="{{ isset($item['action']) ? route($item['action']) : 'javascript:void(0);' }}" class="nav-link {{ App\Helpers\TemplateHelper::isMenuActive($item) ? 'active' : '' }}">
                                     <i class="nav-icon fas fa-{{ $item['icon'] }}"></i>
@@ -148,7 +148,7 @@
                                 @if(isset($item['children']))
                                 <ul class="nav nav-treeview">
                                     @foreach($item['children'] as $subitem)
-                                        @if(!isset($subitem['permission']) || Gate::check($subitem['permission']))
+                                        @if(App\Helpers\TemplateHelper::displayMenu($subitem))
                                         <li class="nav-item">
                                             <a href="{{ isset($subitem['action']) ? route($subitem['action']) : 'javascript:void(0);' }}" class="nav-link {{ App\Helpers\TemplateHelper::isMenuActive($subitem) ? 'active' : '' }}">
                                                 <i class="nav-icon fas fa-{{ $subitem['icon'] }}"></i>

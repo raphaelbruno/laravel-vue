@@ -24,7 +24,7 @@
 
                 <div class="card-footer">
                     @section('actions')
-                    <a href="{{ route('admin::'.$currentResource.'.index') }}" class="btn btn-primary">{{ trans('crud.back') }}</a>
+                    <a href="{{ route('admin:'.$currentResource.'.index') }}" class="btn btn-primary">{{ trans('crud.back') }}</a>
                     @show
                 </div>
             </div>

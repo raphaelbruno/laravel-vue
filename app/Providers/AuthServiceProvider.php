@@ -42,7 +42,7 @@ class AuthServiceProvider extends ServiceProvider
         
         // Access Control List
         $permission = new Permission();
-        if(!Schema::hasTable($permission)) return;
+        if(!Schema::hasTable($permission->getTable())) return;
 
         foreach(Permission::with('roles')->get() as $permission)
         {

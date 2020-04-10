@@ -17,4 +17,8 @@ $(document).ready(function(){
     });
     $('.ip_address').mask('099.099.099.099');
     $('.percent').mask('##0,00%', {reverse: true});
+    $('.mask').each(function(){
+        $(this).mask($(this).data('mask'), $(this).data());
+    });
+
 });

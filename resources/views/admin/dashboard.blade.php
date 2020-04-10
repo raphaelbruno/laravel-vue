@@ -74,7 +74,7 @@
                     @else
                     <p>@lang('admin.update-profile')</p>
                     @endif
-                    <a href="{{ route('admin::profile') }}" class="btn btn-primary">@lang('crud.update')</a>
+                    <a href="{{ route('admin:profile') }}" class="btn btn-primary">@lang('crud.update')</a>
                 </p>
             </div>
         </div>
