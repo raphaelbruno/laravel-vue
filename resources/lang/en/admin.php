@@ -26,6 +26,8 @@ return [
     'user-new' => 'User New',
     'role-list' => 'Role List',
     'role-new' => 'Role New',
+    'permission-list' => 'Permission List',
+    'permission-new' => 'Permission New',
     'logout' => 'Logout',
     'dashboard' => 'Dashboard',
     'informations' => 'Informations',

@@ -43,10 +43,6 @@
     @endforeach
 @endsection
 
-@section('actions')
-    @parent
-@endsection
-
 @section('pagination')
     @include('admin.layouts.partials.navegation', ['pagination' => $items])
 @endsection

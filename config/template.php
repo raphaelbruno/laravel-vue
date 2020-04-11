@@ -11,9 +11,11 @@
              * permission(string|array): Hide menu item if the user has not this permission
              */
             ['name' => 'admin.dashboard', 'icon' => 'tachometer-alt', 'action' => 'admin:dashboard'],
-            ['name' => 'admin.access-control', 'icon' => 'users', 'resource' => ['users', 'roles'], 'permission' => ['users-view', 'roles-view'], 'children' => [
+            ['name' => 'admin.access-control', 'icon' => 'users', 'resource' => ['users', 'roles', 'permissions'], 'permission' => ['users-view', 'roles-view'], 'children' => [
                     ['name' => 'admin.role-list', 'icon' => 'id-card', 'action' => 'admin:roles.index', 'permission' => 'roles-view'],
-                    ['name' => 'admin.role-new', 'icon' => 'id-card', 'action' => 'admin:roles.create', 'permission' => 'roles-create']
+                    ['name' => 'admin.role-new', 'icon' => 'id-card', 'action' => 'admin:roles.create', 'permission' => 'roles-create'],
+                    ['name' => 'admin.permission-list', 'icon' => 'clipboard-list', 'action' => 'admin:permissions.index', 'permission' => 'roles-view'],
+                    ['name' => 'admin.permission-new', 'icon' => 'clipboard-list', 'action' => 'admin:permissions.create', 'permission' => 'roles-create']
                 ]
             ],
             ['name' => 'Foos', 'icon' => 'copy', 'resource' => 'foos', 'permission' => 'foos-view', 'children' => [

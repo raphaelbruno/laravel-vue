@@ -48,9 +48,9 @@ class User extends Authenticatable
     public function roles()
     {
         return $this->belongsToMany('App\Role')
-                    ->whereNull('role_user.deleted_at')
-                    ->orderBy('name')
-                    ->withTimestamps();
+            ->whereNull('role_user.deleted_at')
+            ->orderBy('name')
+            ->withTimestamps();
     }
 
     public function hasPermission($permission)

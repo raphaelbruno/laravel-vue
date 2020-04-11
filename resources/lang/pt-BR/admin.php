@@ -26,6 +26,8 @@ return [
     'user-new' => 'Novo Usuário',
     'role-list' => 'Lista de Papéis',
     'role-new' => 'Novo Papel',
+    'permission-list' => 'Lista de Permissões',
+    'permission-new' => 'Nova Permissão',
     'logout' => 'Sair',
     'dashboard' => 'Dashboard',
     'informations' => 'Informações',

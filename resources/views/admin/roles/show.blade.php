@@ -1,11 +1,11 @@
 @extends('admin.layouts.template-resource-show')
 
 @section('title')
-    <i class="fas fa-id-card mr-1"></i> Roles
+    <i class="fas fa-id-card mr-1"></i> @lang('admin.roles')
 @endsection
 
 @section('breadcrumb')
-    <li class="breadcrumb-item"><a href="{{ route('admin:roles.index') }}"><i class="fas fa-id-card"></i> Roles</a></li>
+    <li class="breadcrumb-item"><a href="{{ route('admin:roles.index') }}"><i class="fas fa-id-card"></i> @lang('admin.roles')</a></li>
     <li class="breadcrumb-item"><i class="fas fa-eye"></i> Show</li>
 @endsection
 

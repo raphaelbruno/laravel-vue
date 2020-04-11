@@ -14,17 +14,17 @@ class Role extends Model
     public function users()
     {
         return $this->belongsToMany('App\User')
-                    ->whereNull('role_user.deleted_at')
-                    ->orderBy('name')
-                    ->withTimestamps();
+            ->whereNull('role_user.deleted_at')
+            ->orderBy('name')
+            ->withTimestamps();
     }
 
     public function permissions()
     {
         return $this->belongsToMany('App\Permission')
-                    ->whereNull('permission_role.deleted_at')
-                    ->orderBy('name')
-                    ->withTimestamps();
+            ->whereNull('permission_role.deleted_at')
+            ->orderBy('name')
+            ->withTimestamps();
     }
 
     public function permissionsToString()

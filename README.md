@@ -11,7 +11,7 @@ Use the file config/template.php to customize menu, color, version, etc.
 - [X] User Profile (Basic)
 - [X] Access Control List (Basic ACL)
 - [ ] CURD to manage Users
-- [ ] CURD to manage Roles
+- [X] CURD to manage Roles and Permissions
 - [X] Basic CRUD Example
 
 ### Site Preview

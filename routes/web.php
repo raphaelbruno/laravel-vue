@@ -23,5 +23,6 @@ Route::prefix('admin')->namespace('Admin')->as('admin:')->group(function () {
     Route::match(['PUT', 'PATCH'], 'profile/update', 'ProfileController@update')->name('profile.update');
     
     Route::resource('roles', 'RoleController');
+    Route::resource('permissions', 'PermissionController');
     Route::resource('foos', 'FooController');
 });

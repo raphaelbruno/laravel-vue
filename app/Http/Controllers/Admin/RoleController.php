@@ -42,9 +42,14 @@ class RoleController extends Controller
         if(Gate::denies('roles-view'))
             return Redirect::back()->withErrors([trans('crud.not-authorized')]);
             
-        $query = $request->get('q');
-        $items = Role::where('title', 'ilike', "%{$query}%")
-                    ->paginate();
+        $q = $request->get('q');
+        $items = Role::where(function ($query) use ($q) {
+                $query->where('title', 'ilike', "%{$q}%")
+                    ->orWhere('name', 'ilike', "%{$q}%");
+            })
+            ->orderBy('name')
+            ->paginate();
+        
         return view('admin.roles.list', compact('items', 'request'));
     }
 
@@ -74,7 +79,7 @@ class RoleController extends Controller
             return Redirect::back()->withErrors([trans('crud.not-authorized')]);
 
         $fields = $request->item;
-        $subfields = array_map('intval', $request->subitems);
+        $subfields = isset($request->subitems) ? array_map('intval', $request->subitems) : [];
         $validator = Validator::make($fields, $this->rulesCreate, [], $this->names);
         if ($validator->fails())
             return Redirect::back()->withErrors($validator)->withInput();
