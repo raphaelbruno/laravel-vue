@@ -16,7 +16,7 @@
             <div class="input-group-prepend">
                 <span class="input-group-text"><i class="fas fa-clipboard-list"></i></span>
             </div>
-            <input type="text" id="title" name="item[title]" class="form-control" value="{{ isset($item) ? $item->title : old('item.title') }}">
+            <input type="text" id="title" name="item[title]" class="form-control" value="{{ !empty(old('item.title')) ? old('item.title') : ( isset($item) ? $item->title : '' ) }}">
         </div>
     </div>
     <div class="form-group">
@@ -25,7 +25,7 @@
             <div class="input-group-prepend">
                 <span class="input-group-text"><i class="fas fa-tag"></i></span>
             </div>
-            <input type="text" id="name" name="item[name]" class="form-control" value="{{ isset($item) ? $item->name : old('item.name') }}">
+            <input type="text" id="name" name="item[name]" class="form-control" value="{{ !empty(old('item.name')) ? old('item.name') : ( isset($item) ? $item->name : '' ) }}">
         </div>
     </div>
 @endsection

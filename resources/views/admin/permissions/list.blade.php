@@ -21,7 +21,7 @@
         <tr>
             <td class="align-middle"><a href="{{ route('admin:permissions.edit', $item->id) }}" title="@lang('crud.edit')"><b>{{ $item->title }}</b></a></td>
             <td class="align-middle">{{ $item->name }}</td>
-            <td class="align-middle text-center">
+            <td class="align-middle text-center text-nowrap">
                 @include('admin.layouts.partials.actions', [
                     'resource' => 'permissions',
                     'permission' => 'roles',

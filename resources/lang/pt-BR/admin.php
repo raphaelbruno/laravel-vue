@@ -16,6 +16,8 @@ return [
     'site' => 'Site',
     'profile' => 'Perfil',
     'access-control' => 'Controle de Acesso',
+    'user' => 'Usuário',
+    'users' => 'Usuários',
     'role' => 'Papel',
     'roles' => 'Papéis',
     'permission' => 'Permissão',

@@ -31,7 +31,7 @@
             <td class="align-middle text-center">
                 {{ $item->permissionsToString() }}
             </td>
-            <td class="align-middle text-center">
+            <td class="align-middle text-center text-nowrap">
                 @include('admin.layouts.partials.actions', [
                     'resource' => 'roles',
                     'id' => $item->id,

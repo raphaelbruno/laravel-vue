@@ -12,6 +12,8 @@
              */
             ['name' => 'admin.dashboard', 'icon' => 'tachometer-alt', 'action' => 'admin:dashboard'],
             ['name' => 'admin.access-control', 'icon' => 'users', 'resource' => ['users', 'roles', 'permissions'], 'permission' => ['users-view', 'roles-view'], 'children' => [
+                    ['name' => 'admin.user-list', 'icon' => 'user', 'action' => 'admin:users.index', 'permission' => 'users-view'],
+                    ['name' => 'admin.user-new', 'icon' => 'user', 'action' => 'admin:users.create', 'permission' => 'users-create'],
                     ['name' => 'admin.role-list', 'icon' => 'id-card', 'action' => 'admin:roles.index', 'permission' => 'roles-view'],
                     ['name' => 'admin.role-new', 'icon' => 'id-card', 'action' => 'admin:roles.create', 'permission' => 'roles-create'],
                     ['name' => 'admin.permission-list', 'icon' => 'clipboard-list', 'action' => 'admin:permissions.index', 'permission' => 'roles-view'],

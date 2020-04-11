@@ -27,7 +27,7 @@
             <td class="align-middle">{{ $item->created_at->format('d/m/Y H:i:s') }}</td>
             <td class="align-middle">{{ $item->updated_at->format('d/m/Y H:i:s') }}</td>
             <td class="align-middle">{{ $item->user->shortName() }}</td>
-            <td class="align-middle text-center">
+            <td class="align-middle text-center text-nowrap">
                 @include('admin.layouts.partials.actions', [
                     'resource' => 'foos',
                     'id' => $item->id,

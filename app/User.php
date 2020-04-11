@@ -60,6 +60,11 @@ class User extends Authenticatable
         })->count() > 0;
     }
 
+    public function rolesToString()
+    {
+        return $this->roles->implode('title', ', ');
+    }
+
     public function isSuperUser()
     {
         return $this->roles->filter(function($role){
@@ -87,5 +92,11 @@ class User extends Authenticatable
         if(count($names) >= 2)
             return $names[0] . ' ' . $names[count($names)-1];
         return $this->name;
+    }
+
+    public static function generatePassword($length = 8)
+    {
+        $pool = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+        return substr(str_shuffle(str_repeat($pool, 5)), 0, $length);
     }
 }

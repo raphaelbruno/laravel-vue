@@ -29,7 +29,7 @@
                                     <div class="input-group-prepend">
                                         <span class="input-group-text"><i class="fas fa-user"></i></span>
                                     </div>
-                                    <input type="text" id="name" name="user[name]" class="form-control" value="{{ $user->name }}">
+                                    <input type="text" id="name" name="user[name]" class="form-control" value="{{ !empty(old('user.name')) ? old('user.name') : $user->name }}">
                                 </div>
                             </div>
                             <div class="form-group">
@@ -38,7 +38,7 @@
                                     <div class="input-group-prepend">
                                         <span class="input-group-text"><i class="fas fa-at"></i></span>
                                     </div>
-                                    <input disabled type="text" id="email" name="user[email]" class="form-control" value="{{ $user->email }}">
+                                    <input disabled type="text" id="email" name="user[email]" class="form-control" value="{{ !empty(old('user.email')) ? old('user.email') : $user->email }}">
                                 </div>
                             </div>
                             <div class="row">
@@ -67,7 +67,7 @@
                                     <div class="input-group-prepend">
                                         <span class="input-group-text"><i class="far fa-address-card"></i></span>
                                     </div>
-                                    <input type="text" id="identity" name="profile[identity]" class="form-control cpf" value="{{ isset($user->profile) ? $user->profile->getMaskedIdentity() : '' }}">
+                                    <input type="text" id="identity" name="profile[identity]" class="form-control cpf" value="{{ !empty(old('profile.identity')) ? old('profile.identity') : ( isset($user->profile) ? $user->profile->getMaskedIdentity() : '' ) }}">
                                 </div>
                             </div>
                             <div class="form-group">
@@ -76,7 +76,7 @@
                                     <div class="input-group-prepend">
                                         <span class="input-group-text"><i class="far fa-calendar-alt"></i></span>
                                     </div>
-                                    <input type="text" id="birthdate" name="profile[birthdate]" class="form-control date date-picker" value="{{ isset($user->profile) && isset($user->profile->birthdate) ? $user->profile->birthdate->format('d/m/Y') : '' }}">
+                                    <input type="text" id="birthdate" name="profile[birthdate]" class="form-control date date-picker" value="{{ !empty(old('profile.birthdate')) ? old('profile.birthdate') : ( isset($user->profile) && isset($user->profile->birthdate) ? $user->profile->birthdate->format('d/m/Y') : '' ) }}">
                                 </div>
                             </div>
                         </div>
@@ -90,14 +90,7 @@
                                         <b>{{ $role->title }} (@lang('admin.level'): {{ $role->level }})</b>
                                     </div>
                                     <div class="card-body">
-                                        @lang('admin.permissions'):
-                                        <ul>
-                                            @forelse($role->permissions as $permission)
-                                            <li>{{ $permission->title }}</li>
-                                            @empty
-                                            <li>@lang('admin.no-items')</li>
-                                            @endforelse
-                                        </ul>
+                                        {{ !empty($role->permissionsToString()) ? $role->permissionsToString() : trans('admin.no-items') }}
                                     </div>
                                 </div>
                                 @endforeach

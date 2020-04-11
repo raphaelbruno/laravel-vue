@@ -6,7 +6,7 @@
 
 @section('breadcrumb')
     <li class="breadcrumb-item"><a href="{{ route('admin:roles.index') }}"><i class="fas fa-id-card"></i> @lang('admin.roles')</a></li>
-    <li class="breadcrumb-item"><i class="fas fa-eye"></i> Show</li>
+    <li class="breadcrumb-item"><i class="fas fa-eye"></i> @lang('crud.show')</li>
 @endsection
 
 @section('fields')

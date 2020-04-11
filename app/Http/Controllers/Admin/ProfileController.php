@@ -32,8 +32,8 @@ class ProfileController extends Controller
      */
     public function update(Request $request)
     {
-        $fields = $request->get('user');
-        $fields['profile'] = $request->get('profile');
+        $fields = $request->user;
+        $fields['profile'] = $request->profile;
         $newPassword = null;
         
         if(!empty($fields['password']))

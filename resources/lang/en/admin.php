@@ -16,6 +16,8 @@ return [
     'site' => 'Website',
     'profile' => 'Profile',
     'access-control' => 'Access Control',
+    'user' => 'User',
+    'users' => 'Users',
     'role' => 'Role',
     'roles' => 'Roles',
     'permission' => 'Permission',

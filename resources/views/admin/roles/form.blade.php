@@ -16,7 +16,7 @@
             <div class="input-group-prepend">
                 <span class="input-group-text"><i class="fas fa-id-card"></i></span>
             </div>
-            <input type="text" id="title" name="item[title]" class="form-control" value="{{ isset($item) ? $item->title : old('item.title') }}">
+            <input type="text" id="title" name="item[title]" class="form-control" value="{{ !empty(old('item.title')) ? old('item.title') : ( isset($item) ? $item->title : '' ) }}">
         </div>
     </div>
     <div class="form-group">
@@ -25,7 +25,7 @@
             <div class="input-group-prepend">
                 <span class="input-group-text"><i class="fas fa-tag"></i></span>
             </div>
-            <input type="text" id="name" name="item[name]" class="form-control" value="{{ isset($item) ? $item->name : old('item.name') }}">
+            <input type="text" id="name" name="item[name]" class="form-control" value="{{ !empty(old('item.name')) ? old('item.name') : ( isset($item) ? $item->name : '' ) }}">
         </div>
     </div>
     <div class="form-group">
@@ -34,13 +34,13 @@
             <div class="input-group-prepend">
                 <span class="input-group-text"><i class="fas fa-sitemap"></i></span>
             </div>
-            <input type="text" id="level" name="item[level]" data-mask="00" data-mask-reverse="true" class="form-control mask" value="{{ isset($item) ? $item->level : old('item.level') }}">
+            <input type="text" id="level" name="item[level]" data-mask="00" data-mask-reverse="true" class="form-control mask" value="{{ !empty(old('item.level')) ? old('item.level') : ( isset($item) ? $item->level : '' ) }}">
         </div>
     </div>
     <div class="form-group">
         <label for="default">@lang('admin.default')</label>
         <div class="custom-control custom-switch">
-            <input type="checkbox" name="item[default]" class="custom-control-input" id="default" {{ (isset($item) ? $item->default : old('item.default')) ? 'checked' : '' }}>
+            <input type="checkbox" name="item[default]" class="custom-control-input" id="default" {{ (!empty(old('item.default')) ? old('item.default') : ( isset($item) ? $item->default : false ) ) ? 'checked' : '' }}>
             <label class="custom-control-label" for="default"></label>
         </div>
     </div>
