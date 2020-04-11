@@ -26,11 +26,23 @@ class RoleController extends Controller
         'name' => 'unique:roles|min:3',
         'level' => 'nullable|numeric|between:0,99'
     ];
-    protected $names = [
-        'title' => 'crud.title',
-        'name' => 'crud.name',
-        'level' => 'crud.level'
-    ];
+    protected $names;
+    
+    /**
+     * Create a new instance.
+     *
+     * @return void
+     */
+    function __construct()
+    {
+        $this->names = [
+            'title' => trans('crud.title'),
+            'name' => trans('crud.name'),
+            'level' => trans('crud.level')
+        ];
+
+        $this->middleware('auth');
+    }
 
     /**
      * Display a listing of the resource.

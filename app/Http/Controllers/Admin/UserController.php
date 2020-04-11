@@ -26,11 +26,23 @@ class UserController extends Controller
         'name' => 'required|min:3',
         'email' => 'unique:users|email'
     ];
-    protected $names = [
-        'name' => 'crud.name',
-        'email' => 'crud.email'
-    ];
+    protected $names;
     
+    /**
+     * Create a new instance.
+     *
+     * @return void
+     */
+    function __construct()
+    {
+        $this->names = [
+            'name' => trans('crud.name'),
+            'email' => trans('crud.email')
+        ];
+
+        $this->middleware('auth');
+    }
+
     /**
      * Display a listing of the resource.
      *

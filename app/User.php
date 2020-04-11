@@ -49,6 +49,7 @@ class User extends Authenticatable
     {
         return $this->belongsToMany('App\Role')
             ->whereNull('role_user.deleted_at')
+            ->orderBy('level')
             ->orderBy('name')
             ->withTimestamps();
     }
@@ -68,7 +69,7 @@ class User extends Authenticatable
     public function isSuperUser()
     {
         return $this->roles->filter(function($role){
-            return $role->level == 0;
+            return $role->level === 0;
         })->count() > 0;
     }
 

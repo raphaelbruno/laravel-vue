@@ -8,7 +8,7 @@ use App\Http\Controllers\Controller;
 class DashboardController extends Controller
 {
     /**
-     * Create a new controller instance.
+     * Create a new instance.
      *
      * @return void
      */

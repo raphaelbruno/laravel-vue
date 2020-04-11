@@ -1,37 +1,24 @@
 <?php
 
-namespace App\Http\Controllers\Admin;
+namespace App\Http\Controllers;
 
-use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Validator;
-use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Gate;
-use DB;
+use Illuminate\Support\Facades\Redirect;
+use Illuminate\Support\Facades\Validator;
 
-use App\Permission;
-
-class PermissionController extends Controller
+class CrudController extends Controller
 {
-    protected $rules = [
-        'title' => 'required|min:3',
-        'name' => 'required|unique:permissions|min:3'
-    ];
-    protected $names;
+    protected $onlyMine = false;
 
     /**
      * Create a new instance.
      *
      * @return void
      */
-    function __construct()
+    public function __construct()
     {
-        $this->names = [
-            'title' => trans('crud.title'),
-            'name' => trans('crud.name')
-        ];
-
         $this->middleware('auth');
     }
 
@@ -42,18 +29,19 @@ class PermissionController extends Controller
      */
     public function index(Request $request)
     {
-        if(Gate::denies('roles-view'))
+        if(Gate::denies($this->resource.'-view'))
             return Redirect::back()->withErrors([trans('crud.not-authorized')]);
             
+        $items = $this->search($request);
+            
+        return view('admin.'.$this->resource.'.list', compact('items', 'request'));
+    }
+    public function search(Request $request)
+    {
         $q = $request->get('q');
-        $items = Permission::where(function ($query) use ($q) {
-                $query->where('title', 'ilike', "%{$q}%")
-                    ->orWhere('name', 'ilike', "%{$q}%");
-            })
-            ->orderBy('name')
+        return $this->model::where('title', 'ilike', "%{$q}%")
+            ->orderBy('title')
             ->paginate();
-        
-        return view('admin.permissions.list', compact('items', 'request'));
     }
 
     /**
@@ -63,10 +51,10 @@ class PermissionController extends Controller
      */
     public function create()
     {
-        if(Gate::denies('roles-create'))
+        if(Gate::denies($this->resource.'-create'))
             return Redirect::back()->withErrors([trans('crud.not-authorized')]);
 
-        return view('admin.permissions.form');
+        return view('admin.'.$this->resource.'.form');
     }
 
     /**
@@ -77,7 +65,7 @@ class PermissionController extends Controller
      */
     public function store(Request $request)
     {
-        if(Gate::denies('roles-create'))
+        if(Gate::denies($this->resource.'-create'))
             return Redirect::back()->withErrors([trans('crud.not-authorized')]);
 
         $fields = $request->item;
@@ -86,15 +74,20 @@ class PermissionController extends Controller
             return Redirect::back()->withErrors($validator)->withInput();
 
         try {
-            $item = Permission::create($fields);
-            
-            return Redirect::route('admin:permissions.index')
-                ->with(['success' => trans('crud.successfully-added', [trans('admin.permission')])]);
+            $fields = $this->prepareFieldInsert($fields);
+            $this->model::create($fields);
+
+            return Redirect::route('admin:'.$this->resource.'.index')
+                ->with(['success' => trans('crud.successfully-added', [trans($this->item)])]);
         } catch (\Exception $e) {
             return Redirect::back()
                 ->withErrors([trans('crud.error-occurred') . $e->getMessage()])
                 ->withInput();
         }
+    }
+    public function prepareFieldInsert($fields)
+    {
+        return $fields;
     }
 
     /**
@@ -105,14 +98,17 @@ class PermissionController extends Controller
      */
     public function show($id)
     {
-        if(Gate::denies('roles-view'))
+        if(Gate::denies($this->resource.'-view'))
             return Redirect::back()->withErrors([trans('crud.not-authorized')]);
 
-        $item = Permission::find($id);
+        $item = $this->model::find($id);
         if(!isset($item))
             return Redirect::back()->withErrors([trans('crud.item-not-found')]);
-            
-        return view('admin.permissions.show', compact('item'));
+        
+        if($this->onlyMine && Gate::denies('mine', $item))
+            return Redirect::back()->withErrors([trans('crud.not-authorized')]);
+        
+        return view('admin.'.$this->resource.'.show', compact('item'));
     }
 
     /**
@@ -123,14 +119,17 @@ class PermissionController extends Controller
      */
     public function edit($id)
     {
-        if(Gate::denies('roles-update'))
+        if(Gate::denies($this->resource.'-update'))
             return Redirect::back()->withErrors([trans('crud.not-authorized')]);
 
-        $item = Permission::find($id);
+        $item = $this->model::find($id);
         if(!isset($item))
             return Redirect::back()->withErrors([trans('crud.item-not-found')]);
 
-        return view('admin.permissions.form', compact('item'));
+        if($this->onlyMine && Gate::denies('mine', $item))
+            return Redirect::back()->withErrors([trans('crud.not-authorized')]);
+        
+        return view('admin.'.$this->resource.'.form', compact('item'));
     }
 
     /**
@@ -142,31 +141,34 @@ class PermissionController extends Controller
      */
     public function update(Request $request, $id)
     {
-        if(Gate::denies('roles-update'))
+        if(Gate::denies($this->resource.'-update'))
             return Redirect::back()->withErrors([trans('crud.not-authorized')]);
-        
-        $item = Permission::find($id);
+
+        $item = $this->model::find($id);
+            
+        if($this->onlyMine && Gate::denies('mine', $item))
+            return Redirect::back()->withErrors([trans('crud.not-authorized')]);
 
         $fields = $request->item;
-        if($item->name == $fields['name']) unset($fields['name']);
-
         $validator = Validator::make($fields, $this->rules, [], $this->names);
         if ($validator->fails())
             return Redirect::back()->withErrors($validator)->withInput();
         
         try {
-            $item->title = $fields['title'];
-            if(isset($fields['name'])) $item->name = $fields['name'];
-            
-            $item->save();
+            $fields = $this->prepareFieldUpdate($fields);
+            $item->update($fields);
 
-            return Redirect::route('admin:permissions.index')
-                ->with(['success' => trans('crud.successfully-updated', [trans('admin.permission')])]);
+            return Redirect::route('admin:'.$this->resource.'.index')
+                ->with(['success' => trans('crud.successfully-updated', [trans($this->item)])]);
         } catch (\Exception $e) {
             return Redirect::back()
                 ->withErrors([trans('crud.error-occurred') . $e->getMessage()])
                 ->withInput();
         }
+    }
+    public function prepareFieldUpdate($fields)
+    {
+        return $fields;
     }
 
     /**
@@ -177,15 +179,15 @@ class PermissionController extends Controller
      */
     public function destroy($id)
     {
-        if(Gate::denies('roles-delete'))
+        if(Gate::denies($this->resource.'-delete'))
             return Redirect::back()->withErrors([trans('crud.not-authorized')]);
 
         try {
-            $item = Permission::find($id);
+            $item = $this->model::find($id);
             $item->delete();
 
-            return Redirect::route('admin:permissions.index')
-                ->with(['success' => trans('crud.successfully-deleted', [trans('admin.permission')])]);
+            return Redirect::route('admin:'.$this->resource.'.index')
+                ->with(['success' => trans('crud.successfully-deleted', [trans($this->item)])]);
         } catch (\Exception $e) {
             return Redirect::back()
                 ->withErrors([trans('crud.error-occurred') . $e->getMessage()])

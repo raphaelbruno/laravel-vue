@@ -87,8 +87,9 @@
                     <li class="user-header bg-{{ app('config')->get('template')['color'] }}">
                         <img src="{{ url('img/avatar.jpg') }}" class="img-circle" alt="User Image">
                         <p>
-                            {{ Auth::user()->name }}
+                            <b>{{ Auth::user()->name }}</b>
                             <small>{{ Auth::user()->email }}</small>
+                            <small>{{ Auth::user()->rolesToString() }}</small>
                         </p>
                     </li>
                     <li class="user-footer d-flex">

@@ -14,6 +14,16 @@ use App\Profile;
 class ProfileController extends Controller
 {
     /**
+     * Create a new instance.
+     *
+     * @return void
+     */
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+
+    /**
      * Show the form for editing the specified resource.
      *
      * @return \Illuminate\Http\Response

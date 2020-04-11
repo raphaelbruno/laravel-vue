@@ -14,6 +14,7 @@ return [
     */
 
     'list' => 'Lista',
+    'item' => 'Item',
     'new' => 'Novo',
     'id' => 'ID',
     'author' => 'Autor',

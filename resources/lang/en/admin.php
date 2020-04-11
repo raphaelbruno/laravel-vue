@@ -14,10 +14,11 @@ return [
     */
 
     'site' => 'Website',
-    'profile' => 'Profile',
     'access-control' => 'Access Control',
     'user' => 'User',
     'users' => 'Users',
+    'profile' => 'Profile',
+    'profiles' => 'Profiles',
     'role' => 'Role',
     'roles' => 'Roles',
     'permission' => 'Permission',
