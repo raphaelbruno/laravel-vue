@@ -44,4 +44,13 @@
             <label class="custom-control-label" for="default"></label>
         </div>
     </div>
+
+@endsection
+
+@section('col')
+    @include('admin.layouts.partials.subitems', [
+        'subitems' => $subitems,
+        'label' => trans('admin.permissions'),
+        'addedItems' => isset($item) ? $item->permissions : []
+    ])
 @endsection

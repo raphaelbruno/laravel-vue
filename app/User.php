@@ -47,20 +47,25 @@ class User extends Authenticatable
 
     public function roles()
     {
-        return $this->belongsToMany('App\Role')->whereNull('role_user.deleted_at')->withTimestamps();
+        return $this->belongsToMany('App\Role')
+                    ->whereNull('role_user.deleted_at')
+                    ->orderBy('name')
+                    ->withTimestamps();
     }
 
     public function hasPermission($permission)
     {
-        return $this->roles->filter(function($role) use($permission) { return $permission->roles->contains($role); })->count() > 0;
+        return $this->roles->filter(function($role) use($permission) {
+            return $permission->roles->contains($role);
+        })->count() > 0;
     }
 
     public function isSuperUser()
     {
-        return $this->roles->filter(function($role){ return $role->level == 0; })->count() > 0;
+        return $this->roles->filter(function($role){
+            return $role->level == 0;
+        })->count() > 0;
     }
-
-
 
     public function firstName()
     {

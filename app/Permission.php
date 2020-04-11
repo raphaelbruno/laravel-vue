@@ -13,6 +13,8 @@ class Permission extends Model
     
     public function roles()
     {
-        return $this->belongsToMany('App\Role')->whereNull('permission_role.deleted_at')->withTimestamps();
+        return $this->belongsToMany('App\Role')
+                    ->whereNull('permission_role.deleted_at')
+                    ->withTimestamps();
     }
 }

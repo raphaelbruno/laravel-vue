@@ -8,21 +8,23 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Gate;
+use DB;
 
 use App\Role;
+use App\Permission;
 
 class RoleController extends Controller
 {
     protected $rulesCreate = [
         'title' => 'required|min:3',
         'name' => 'required|unique:roles|min:3',
-        'level' => 'numeric|between:0,99',
+        'level' => 'nullable|numeric|between:0,99',
         'default' => 'in:0,1'
     ];
     protected $rulesUpdate = [
         'title' => 'required|min:3',
         'name' => 'unique:roles|min:3',
-        'level' => 'numeric|between:0,99'
+        'level' => 'nullable|numeric|between:0,99'
     ];
     protected $names = [
         'title' => 'crud.title',
@@ -56,7 +58,8 @@ class RoleController extends Controller
         if(Gate::denies('roles-create'))
             return Redirect::back()->withErrors([trans('crud.not-authorized')]);
 
-        return view('admin.roles.form');
+        $subitems = Permission::orderBy('name')->get();
+        return view('admin.roles.form', compact('subitems'));
     }
 
     /**
@@ -71,13 +74,20 @@ class RoleController extends Controller
             return Redirect::back()->withErrors([trans('crud.not-authorized')]);
 
         $fields = $request->item;
+        $subfields = array_map('intval', $request->subitems);
         $validator = Validator::make($fields, $this->rulesCreate, [], $this->names);
         if ($validator->fails())
             return Redirect::back()->withErrors($validator)->withInput();
 
         try {
-            Role::create($fields);
-
+            DB::transaction(function() use($fields, $subfields) {
+                $item = Role::create($fields);
+                
+                foreach($subfields as $subitemId)
+                    $item->permissions()->attach($subitemId);
+                
+                $item->save();
+            });
             return Redirect::route('admin:roles.index')
                 ->with(['success' => trans('crud.successfully-added', [trans('admin.role')])]);
         } catch (\Exception $e) {
@@ -120,7 +130,8 @@ class RoleController extends Controller
         if(!isset($item))
             return Redirect::back()->withErrors([trans('crud.item-not-found')]);
 
-        return view('admin.roles.form', compact('item'));
+        $subitems = Permission::orderBy('name')->get();
+        return view('admin.roles.form', compact('item', 'subitems'));
     }
 
     /**
@@ -134,11 +145,16 @@ class RoleController extends Controller
     {
         if(Gate::denies('roles-update'))
             return Redirect::back()->withErrors([trans('crud.not-authorized')]);
-
+        
         $item = Role::find($id);
-            
+
         $fields = $request->item;
+        $subfields = array_map('intval', $request->subitems);
         if($item->name == $fields['name']) unset($fields['name']);
+
+        $subitemsOnDatabase = $item->permissions->map(function($permission){ return $permission->id; })->toArray();
+        $subitemsToDelete = array_diff($subitemsOnDatabase, $subfields);
+        $subitemsToInsert = array_unique(array_diff($subfields, $subitemsOnDatabase));
 
         $validator = Validator::make($fields, $this->rulesUpdate, [], $this->names);
         if ($validator->fails())
@@ -149,8 +165,15 @@ class RoleController extends Controller
             if(isset($fields['name'])) $item->name = $fields['name'];
             $item->level = $fields['level'];
             $item->default = isset($fields['default']) ? true : false;
-            $item->save();
+            
+            DB::transaction(function() use($item, $subitemsToDelete, $subitemsToInsert) {
+                foreach($subitemsToDelete as $subitemId)
+                    $item->permissions()->detach($subitemId);
+                foreach($subitemsToInsert as $subitemId)
+                    $item->permissions()->attach($subitemId);
 
+                $item->save();
+            });
             return Redirect::route('admin:roles.index')
                 ->with(['success' => trans('crud.successfully-updated', [trans('admin.role')])]);
         } catch (\Exception $e) {

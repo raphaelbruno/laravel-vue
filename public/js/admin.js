@@ -21,4 +21,31 @@ $(document).ready(function(){
         $(this).mask($(this).data('mask'), $(this).data());
     });
 
+    $('.select2').select2();
 });
+
+function addSubitem(id){
+    var row = $($('.subitem .model').html());
+    var tbody = $('.subitem table.subitems tbody');
+    tbody.append(row);
+
+    if(id) row.find('select option').each(function(){
+        if($(this).val() == id)
+        $(this).attr('selected', true);
+    });
+    row.find('select').attr('name', 'subitems[]').select2();
+
+    updateSubitems();
+}
+
+function deleteSubitem(button){
+    $(button).closest('tr').remove();
+    updateSubitems();
+}
+
+function updateSubitems(){
+    var tbody = $('.subitem table.subitems tbody');
+    var rows = tbody.find('tr:not(.no-subitems)');
+    tbody.find('.no-subitems').toggle(rows.length < 1);
+    $('.subitem .total').text(rows.length);
+}

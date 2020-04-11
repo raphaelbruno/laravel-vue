@@ -22,12 +22,12 @@
 @section('tbody')
     @foreach($items as $item)
         <tr>
-            <td>{{ $item->id }}</td>
-            <td><a href="{{ route('admin:foos.edit', $item->id) }}" title="@lang('crud.edit')"><b>{{ $item->something }}</b></a></td>
-            <td>{{ $item->created_at->format('d/m/Y H:i:s') }}</td>
-            <td>{{ $item->updated_at->format('d/m/Y H:i:s') }}</td>
-            <td>{{ $item->user->shortName() }}</td>
-            <td class="text-center">
+            <td class="align-middle">{{ $item->id }}</td>
+            <td class="align-middle"><a href="{{ route('admin:foos.edit', $item->id) }}" title="@lang('crud.edit')"><b>{{ $item->something }}</b></a></td>
+            <td class="align-middle">{{ $item->created_at->format('d/m/Y H:i:s') }}</td>
+            <td class="align-middle">{{ $item->updated_at->format('d/m/Y H:i:s') }}</td>
+            <td class="align-middle">{{ $item->user->shortName() }}</td>
+            <td class="align-middle text-center">
                 @include('admin.layouts.partials.actions', [
                     'resource' => 'foos',
                     'id' => $item->id,
