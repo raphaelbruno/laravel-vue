@@ -16,7 +16,7 @@
                 <h3 class="card-title"><i class="fas fa-edit mr-1"></i>  @lang('crud.edit')</h3>
             </div>
 
-            <form method="POST" action="{{ route('admin:profile.update') }}">
+            <form method="POST" action="{{ route('admin:profile.update') }}" enctype="multipart/form-data">
                 @csrf
                 @method('PATCH')
                 
@@ -39,6 +39,30 @@
                                         <span class="input-group-text"><i class="fas fa-at"></i></span>
                                     </div>
                                     <input disabled type="text" id="email" name="user[email]" class="form-control" value="{{ !empty(old('user.email')) ? old('user.email') : $user->email }}">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="email">@lang('admin.avatar')</label>
+                                <div class="row">
+                                    @if(isset($user->profile) && isset($user->profile->avatar))
+                                    <div class="col-3 col-md-2 col-lg-3">
+                                        <img class="img-thumbnail img-circle img-fluid" src="{{ asset('admin/media/'.$user->profile->avatar) }}" alt="">
+                                    </div>
+                                    @endif
+                                    <div class="col">
+                                        <div class="input-group">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text"><i class="fas fa-image"></i></span>
+                                            </div>
+                                            <input type="text" class="form-control selected-file" readonly placeholder="@lang('crud.choose-file')">
+                                            <div class="input-group-append">
+                                                <label class="btn btn-primary m-0" for="avatar">
+                                                    <input id="avatar" name="profile[avatar]" type="file" class="d-none" onchange="top.a = this.files;  $(this).closest('.input-group').find('.selected-file').val( Object.values(this.files).map(function(item){ return item.name; }).join(', ') )">
+                                                    <i class="fas fa-search mr-1"></i>
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                             <div class="row">

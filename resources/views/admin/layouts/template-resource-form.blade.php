@@ -13,7 +13,7 @@
                     <h3 class="card-title"><i class="fas fa-{{ $itemID ? 'edit' : 'plus' }} mr-1"></i> {{ $itemID ? trans('crud.edit') : trans('crud.new') }}</h3>
                 </div>
 
-                <form method="POST" action="{{ $itemID ? route('admin:'.$currentResource.'.update', $itemID) : route('admin:'.$currentResource.'.store') }}">
+                <form method="POST" action="{{ $itemID ? route('admin:'.$currentResource.'.update', $itemID) : route('admin:'.$currentResource.'.store') }}" enctype="multipart/form-data">
                     @csrf
                     @if($itemID)
                         @method('PATCH')

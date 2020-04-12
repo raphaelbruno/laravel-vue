@@ -4,9 +4,11 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
+use Illuminate\Support\Facades\Storage;
 use Carbon\Carbon;
 
 use App\Profile;
@@ -57,26 +59,34 @@ class ProfileController extends Controller
             $newPassword = Hash::make($fields['password']);
         }
 
+        unset($fields['password']);
+        unset($fields['confirm-password']);
+        if(!empty($newPassword)) $fields['password'] = $newPassword;
+
+        if(isset($fields['profile']['avatar'])) $fields['profile']['avatar'] = $fields['profile']['avatar']->store('avatars');
+        $fields['profile']['identity'] = isset($fields['profile']['identity']) ? Profile::clearMask($fields['profile']['identity']) : null;
+        $fields['profile']['birthdate'] = isset($fields['profile']['birthdate']) ? Carbon::createFromFormat('d/m/Y', $fields['profile']['birthdate']) : null;
+        
         try {
-            $user = Auth::user();
-            
-            if(!isset($user->profile))
-            {
-                $profile = Profile::create([
-                    'user_id' => $user->id
-                ]);
-            } else $profile = $user->profile;
+            $profile = null;
+            DB::transaction(function() use($fields, $profile) {
+                $user = Auth::user();
+                if(!isset($user->profile))
+                {
+                    $profile = Profile::create([
+                        'user_id' => $user->id
+                    ]);
+                } else $profile = $user->profile;
+                
+                if(isset($fields['profile']['avatar']))
+                    $previousAvatar = $profile->avatar;
 
-            
-            $user->name = $fields['name'];
-            if(!empty($newPassword)) $user->password = $newPassword;
-
-            $profile->identity = isset($fields['profile']['identity']) ? Profile::clearMask($fields['profile']['identity']) : null;
-            $profile->birthdate = isset($fields['profile']['birthdate']) ? Carbon::createFromFormat('d/m/Y', $fields['profile']['birthdate']) : null;
-
-            $profile->save();
-            $user->save();
-
+                $profile->update($fields['profile']);
+                $user->update($fields);
+                
+                if(isset($previousAvatar))
+                    Storage::delete($previousAvatar);
+            });
             return Redirect::route('admin:profile')
                 ->with(['success' => trans('crud.successfully-saved', [trans('admin.profile')])]);
         } catch (\Exception $e) {

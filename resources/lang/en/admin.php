@@ -23,6 +23,7 @@ return [
     'roles' => 'Roles',
     'permission' => 'Permission',
     'permissions' => 'Permissions',
+    'avatar' => 'Avatar',
     'level' => 'Level',
     'default' => 'Default',
     'user-list' => 'User List',

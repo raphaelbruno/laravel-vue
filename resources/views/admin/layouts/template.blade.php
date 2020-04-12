@@ -85,7 +85,7 @@
                     </a>
                     <ul class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
                     <li class="user-header bg-{{ app('config')->get('template')['color'] }}">
-                        <img src="{{ url('img/avatar.jpg') }}" class="img-circle" alt="User Image">
+                        <img src="{{ isset(Auth::user()->profile) && isset(Auth::user()->profile->avatar) ? asset('admin/media/'.Auth::user()->profile->avatar) : asset('img/avatar.jpg') }}" class="img-circle" alt="User Image">
                         <p>
                             <b>{{ Auth::user()->name }}</b>
                             <small>{{ Auth::user()->email }}</small>
@@ -118,7 +118,7 @@
         <aside class="main-sidebar sidebar-dark-{{ app('config')->get('template')['color'] }} elevation-4">
             <!-- Brand Logo -->
             <a href="{{ url('/admin') }}" class="brand-link navbar-{{ app('config')->get('template')['color'] }}">
-                <img src="{{ url('img/logo.jpg') }}" alt="Logo" class="brand-image img-circle elevation-3">
+                <img src="{{ asset('img/logo.jpg') }}" alt="Logo" class="brand-image img-circle elevation-3">
                 <span class="brand-text font-weight-light">{{ config('app.name', 'Laravel') }}</span>
             </a>
 
@@ -127,7 +127,7 @@
                 <!-- Sidebar user panel (optional) -->
                 <div class="user-panel mt-3 pb-3 mb-3 d-flex">
                     <div class="image">
-                        <img src="{{ url('img/avatar.jpg') }}" class="img-circle elevation-2" alt="User Image">
+                        <img class="img-circle elevation-2" src="{{ isset(Auth::user()->profile) && isset(Auth::user()->profile->avatar) ? asset('admin/media/'.Auth::user()->profile->avatar) : asset('img/avatar.jpg') }}" alt="User Image">
                     </div>
                     <div class="info">
                         <a href="{{ route('admin:profile') }}" class="d-block">{{ Auth::user()->shortName() }}</a>

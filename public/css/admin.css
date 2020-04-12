@@ -1,3 +1,7 @@
 /* Fix DatePicker Position */
 .datepicker-dropdown { margin-top: calc(3.5rem + 1px); }
 .datepicker-dropdown > div {margin: 10px; }
+
+/* Fix bootstrap readonly style */
+.form-control[readonly] { background-color: transparent; }
+.form-control:disabled { background-color: #e9ecef; }

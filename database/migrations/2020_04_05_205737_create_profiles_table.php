@@ -19,6 +19,7 @@ class CreateProfilesTable extends Migration
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->bigInteger('identity')->nullable();
             $table->date('birthdate')->nullable();
+            $table->string('avatar')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });

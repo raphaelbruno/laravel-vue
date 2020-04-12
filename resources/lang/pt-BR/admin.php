@@ -23,6 +23,7 @@ return [
     'roles' => 'Papéis',
     'permission' => 'Permissão',
     'permissions' => 'Permissões',
+    'avatar' => 'Avatar',
     'level' => 'Nível',
     'default' => 'Padrão',
     'user-list' => 'Lista de Usuários',
