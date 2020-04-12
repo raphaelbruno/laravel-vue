@@ -63,7 +63,7 @@ class ProfileController extends Controller
         unset($fields['confirm-password']);
         if(!empty($newPassword)) $fields['password'] = $newPassword;
 
-        if(isset($fields['profile']['avatar'])) $fields['profile']['avatar'] = $fields['profile']['avatar']->store('avatars');
+        if(isset($fields['profile']['avatar'])) $fields['profile']['avatar'] = $fields['profile']['avatar']->store('public/avatars');
         $fields['profile']['identity'] = isset($fields['profile']['identity']) ? Profile::clearMask($fields['profile']['identity']) : null;
         $fields['profile']['birthdate'] = isset($fields['profile']['birthdate']) ? Carbon::createFromFormat('d/m/Y', $fields['profile']['birthdate']) : null;
         

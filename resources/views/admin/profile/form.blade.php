@@ -45,7 +45,7 @@
                                 <label for="email">@lang('admin.avatar')</label>
                                 <div class="row">
                                     <div class="col-3 col-md-2 col-lg-3">
-                                        <img class="img-thumbnail img-circle img-fluid" src="{{ isset($user->profile) && isset($user->profile->avatar) ? asset('admin/media/'.$user->profile->avatar) : asset('img/avatar.jpg') }}" alt="">
+                                        <img class="img-thumbnail img-circle img-fluid" src="{{ isset($user->profile) && isset($user->profile->avatar) ? asset(Storage::url($user->profile->avatar)) : asset('img/avatar.jpg') }}" alt="">
                                     </div>
 
                                     <div class="col">

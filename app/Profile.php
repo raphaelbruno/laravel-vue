@@ -22,6 +22,11 @@ class Profile extends Model
         return self::maskCPF($this->identity);
     }
 
+    public function getPublicPath($path)
+    {
+        return str_replace('public/', 'storage/', $path);
+    }
+
     public static function maskCPF($identity) {
         return isset($identity) ? preg_replace("/(\d{3})(\d{3})(\d{3})(\d{2})/", "\$1.\$2.\$3-\$4", str_pad($identity, 11, "0", STR_PAD_LEFT)) : null;
     }
