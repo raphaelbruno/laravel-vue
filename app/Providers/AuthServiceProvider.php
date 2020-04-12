@@ -35,6 +35,11 @@ class AuthServiceProvider extends ServiceProvider
             if($user->isSuperUser()) return true;
         });
         
+        // Admin Access
+        Gate::define('administrator-access', function(User $user){
+            return $user->hasPermission('admin');
+        });
+        
         // Is Mine
         Gate::define('mine', function(User $user, $object){
             return $user->id == $object->user->id;

@@ -183,7 +183,7 @@ class UserController extends Controller
 
         $fields = $request->item;
         $fields['profile'] = $request->profile;
-        $subfields = array_map('intval', $request->subitems);
+        $subfields = isset($request->subitems) ? array_map('intval', $request->subitems) : [];
         $newPassword = null;
         
         if($item->email == $fields['email']) unset($fields['email']);

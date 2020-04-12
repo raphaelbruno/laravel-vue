@@ -166,7 +166,7 @@ class RoleController extends Controller
         $item = Role::find($id);
 
         $fields = $request->item;
-        $subfields = array_map('intval', $request->subitems);
+        $subfields = isset($request->subitems) ? array_map('intval', $request->subitems) : [];
         if($item->name == $fields['name']) unset($fields['name']);
 
         $subitemsOnDatabase = $item->permissions->map(function($permission){ return $permission->id; })->toArray();

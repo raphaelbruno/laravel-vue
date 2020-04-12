@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Middleware\AdministratorAccess;
 
 /*
 |--------------------------------------------------------------------------
@@ -17,7 +18,7 @@ Route::get('/', 'Site\PageController@index');
 
 Auth::routes();
 
-Route::prefix('admin')->namespace('Admin')->as('admin:')->group(function () {
+Route::prefix('admin')->namespace('Admin')->as('admin:')->middleware(AdministratorAccess::class)->group(function () {
     Route::get('/', 'DashboardController@index')->name('dashboard');
     
     // Media

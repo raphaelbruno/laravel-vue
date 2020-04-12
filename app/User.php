@@ -56,8 +56,11 @@ class User extends Authenticatable
 
     public function hasPermission($permission)
     {
-        return $this->roles->filter(function($role) use($permission) {
-            return $permission->roles->contains($role);
+        $permissionName = $permission;
+        if($permission instanceof Permission) $permissionName = $permission->name;
+
+        return $this->roles->filter(function($role) use($permissionName) {
+            return $role->permissions->contains('name', $permissionName);
         })->count() > 0;
     }
 

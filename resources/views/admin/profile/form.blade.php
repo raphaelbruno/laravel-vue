@@ -44,11 +44,10 @@
                             <div class="form-group">
                                 <label for="email">@lang('admin.avatar')</label>
                                 <div class="row">
-                                    @if(isset($user->profile) && isset($user->profile->avatar))
                                     <div class="col-3 col-md-2 col-lg-3">
-                                        <img class="img-thumbnail img-circle img-fluid" src="{{ asset('admin/media/'.$user->profile->avatar) }}" alt="">
+                                        <img class="img-thumbnail img-circle img-fluid" src="{{ isset($user->profile) && isset($user->profile->avatar) ? asset('admin/media/'.$user->profile->avatar) : asset('img/avatar.jpg') }}" alt="">
                                     </div>
-                                    @endif
+
                                     <div class="col">
                                         <div class="input-group">
                                             <div class="input-group-prepend">
