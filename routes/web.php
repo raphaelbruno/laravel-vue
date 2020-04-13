@@ -18,6 +18,11 @@ Route::get('/', 'Site\PageController@index');
 
 Auth::routes();
 
+// Google OAuth
+Route::get('login/google', 'Auth\LoginController@redirectToProviderGoogle');
+Route::get('login/google/callback', 'Auth\LoginController@handleProviderGoogleCallback');
+
+// Admin Routes
 Route::prefix('admin')->namespace('Admin')->as('admin:')->middleware(AdministratorAccess::class)->group(function () {
     Route::get('/', 'DashboardController@index')->name('dashboard');
     

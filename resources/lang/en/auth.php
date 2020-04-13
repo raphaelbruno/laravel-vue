@@ -25,6 +25,8 @@ return [
     'forgot-password' => 'Forgot Your Password?',
     'verify-email' => 'Verify Your Email Address',
     'remember-me' => 'Remember Me',
+    
+    'login-google' => 'Sign in with Google',
 
     'before-proceeding' => 'Before proceeding, please check your email for a verification link.',
     'dont-receive-email' => 'If you did not receive the email',

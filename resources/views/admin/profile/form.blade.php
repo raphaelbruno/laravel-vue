@@ -45,7 +45,14 @@
                                 <label for="email">@lang('admin.avatar')</label>
                                 <div class="row">
                                     <div class="col-3 col-md-2 col-lg-3">
-                                        <img class="img-thumbnail img-circle img-fluid" src="{{ isset($user->profile) && isset($user->profile->avatar) ? asset(Storage::url($user->profile->avatar)) : asset('img/avatar.jpg') }}" alt="">
+                                        <?php
+                                            $avatar = isset(Auth::user()->profile) && isset(Auth::user()->profile->avatar)
+                                                ? empty(parse_url(Auth::user()->profile->avatar)['scheme'])
+                                                    ? asset(Storage::url(Auth::user()->profile->avatar))
+                                                    : Auth::user()->profile->avatar
+                                                : asset('img/avatar.jpg');
+                                        ?>
+                                        <img class="img-thumbnail img-circle img-fluid" src="{{ $avatar }}" alt="">
                                     </div>
 
                                     <div class="col">

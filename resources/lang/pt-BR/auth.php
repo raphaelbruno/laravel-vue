@@ -26,6 +26,8 @@ return [
     'verify-email' => 'Verifique seu E-mail',
     'remember-me' => 'Lembre-me',
 
+    'login-google' => 'Entrar com o Google',
+
     'before-proceeding' => 'Antes de proceder, por gentileza confira se recebeu um link de verificação.',
     'dont-receive-email' => 'If you did not receive the email',
     'request-another' => 'clique aqui para receber um outro',

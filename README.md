@@ -13,6 +13,7 @@ Use the file config/template.php to customize menu, color, version, etc.
 - [X] CURD to manage Users
 - [X] CURD to manage Roles and Permissions
 - [X] Basic CRUD Example
+- [X] Social Login
 
 ### Site Preview
 ![preview-site](preview-site.jpg)

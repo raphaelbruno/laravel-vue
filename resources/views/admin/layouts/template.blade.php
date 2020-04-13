@@ -1,3 +1,10 @@
+<?php
+    $avatar = isset(Auth::user()->profile) && isset(Auth::user()->profile->avatar)
+        ? empty(parse_url(Auth::user()->profile->avatar)['scheme'])
+            ? asset(Storage::url(Auth::user()->profile->avatar))
+            : Auth::user()->profile->avatar
+        : asset('img/avatar.jpg');
+?>
 <!doctype html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 <head>
@@ -85,7 +92,7 @@
                     </a>
                     <ul class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
                     <li class="user-header bg-{{ app('config')->get('template')['color'] }}">
-                        <img src="{{ isset(Auth::user()->profile) && isset(Auth::user()->profile->avatar) ? asset(Storage::url(Auth::user()->profile->avatar)) : asset('img/avatar.jpg') }}" class="img-circle" alt="User Image">
+                        <img src="{{ $avatar }}" class="img-circle" alt="User Image">
                         <p>
                             <b>{{ Auth::user()->name }}</b>
                             <small>{{ Auth::user()->email }}</small>
@@ -127,7 +134,7 @@
                 <!-- Sidebar user panel (optional) -->
                 <div class="user-panel mt-3 pb-3 mb-3 d-flex">
                     <div class="image">
-                        <img class="img-circle elevation-2" src="{{ isset(Auth::user()->profile) && isset(Auth::user()->profile->avatar) ? asset(Storage::url(Auth::user()->profile->avatar)) : asset('img/avatar.jpg') }}" alt="User Image">
+                        <img class="img-circle elevation-2" src="{{ $avatar }}" alt="User Image">
                     </div>
                     <div class="info">
                         <a href="{{ route('admin:profile') }}" class="d-block">{{ Auth::user()->shortName() }}</a>

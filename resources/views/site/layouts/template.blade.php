@@ -20,6 +20,7 @@
 
     <!-- Styles -->
     <link href="{{ asset('plugins/bootstrap/css/bootstrap.min.css') }}" rel="stylesheet">
+    <link rel="stylesheet" href="{{ asset('plugins/fontawesome-free/css/all.min.css') }}">
 
     <!-- Site Assets -->
     <link href="{{ asset('css/site.css') }}" rel="stylesheet">
