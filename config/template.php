@@ -1,6 +1,6 @@
 <?php 
     return [
-        'color' => 'purple',
+        'theme' => 'purple',
         'version' => '1.0.0',
         'menu' => [
             /**
