@@ -24,6 +24,8 @@ Use the file config/template.php to customize menu, color, version, etc.
 ![preview-crud-new](preview-crud-new.jpg)
 
 ### Instalation
+Make a copy or rename ".env.example" file to ".env" and configure some variables before.
+
 ```
 composer install
 php artisan migrate
