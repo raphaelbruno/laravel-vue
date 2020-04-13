@@ -75,6 +75,10 @@ class User extends Authenticatable
             return $role->level === 0;
         })->count() > 0;
     }
+    
+    public function getHighestLevel(){
+        return $this->roles->max('level');
+    }
 
     public function firstName()
     {

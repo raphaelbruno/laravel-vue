@@ -73,8 +73,16 @@ class UserController extends Controller
     {
         if(Gate::denies('users-create'))
             return Redirect::back()->withErrors([trans('crud.not-authorized')]);
-
-        $subitems = Role::orderBy('title')->get();
+        
+        $subitems = Role::where(function ($query){
+                if(!Auth::user()->isSuperUser()){
+                    $query->where('level', '>', Auth::user()->getHighestLevel());
+                    if(is_numeric(Auth::user()->getHighestLevel()))
+                        $query->orWhere('level', null);
+                }
+            })
+            ->orderBy('title')
+            ->get();
         return view('admin.users.form', compact('subitems'));
     }
 
@@ -138,13 +146,14 @@ class UserController extends Controller
      */
     public function show($id)
     {
-        if(Gate::denies('users-view'))
-            return Redirect::back()->withErrors([trans('crud.not-authorized')]);
-
         $item = User::find($id);
+
         if(!isset($item))
             return Redirect::back()->withErrors([trans('crud.item-not-found')]);
-            
+        
+        if(Gate::denies('has-level', $item) || Gate::denies('users-view'))
+            return Redirect::back()->withErrors([trans('crud.not-authorized')]);
+
         return view('admin.users.show', compact('item'));
     }
 
@@ -156,15 +165,24 @@ class UserController extends Controller
      */
     public function edit($id)
     {
-        if(Gate::denies('users-update'))
-            return Redirect::back()->withErrors([trans('crud.not-authorized')]);
-
         $item = User::find($id);
+
         if(!isset($item))
             return Redirect::back()->withErrors([trans('crud.item-not-found')]);
 
-        $subitems = Role::orderBy('name')->get();
-        return view('admin.users.form', compact('item', 'subitems'));
+        if(Gate::denies('has-level', $item) || Gate::denies('users-update'))
+            return Redirect::back()->withErrors([trans('crud.not-authorized')]);
+
+        $subitems = Role::where(function ($query){
+                if(!Auth::user()->isSuperUser()){
+                    $query->where('level', '>', Auth::user()->getHighestLevel());
+                    if(is_numeric(Auth::user()->getHighestLevel()))
+                        $query->orWhere('level', null);
+                }
+            })
+            ->orderBy('title')
+            ->get();
+    return view('admin.users.form', compact('item', 'subitems'));
     }
 
     /**
@@ -176,10 +194,13 @@ class UserController extends Controller
      */
     public function update(Request $request, $id)
     {
-        if(Gate::denies('users-update'))
-            return Redirect::back()->withErrors([trans('crud.not-authorized')]);
-        
         $item = User::find($id);
+
+        if(!isset($item))
+            return Redirect::back()->withErrors([trans('crud.item-not-found')]);
+
+        if(Gate::denies('has-level', $item) || Gate::denies('users-update'))
+            return Redirect::back()->withErrors([trans('crud.not-authorized')]);        
 
         $fields = $request->item;
         $fields['profile'] = $request->profile;
@@ -247,11 +268,15 @@ class UserController extends Controller
      */
     public function destroy($id)
     {
-        if(Gate::denies('users-delete'))
+        $item = User::find($id);
+
+        if(!isset($item))
+            return Redirect::back()->withErrors([trans('crud.item-not-found')]);
+
+        if(Gate::denies('has-level', $item) || Gate::denies('users-delete'))
             return Redirect::back()->withErrors([trans('crud.not-authorized')]);
 
         try {
-            $item = User::find($id);
             $item->delete();
 
             return Redirect::route('admin:users.index')

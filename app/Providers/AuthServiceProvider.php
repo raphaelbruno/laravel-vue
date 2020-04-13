@@ -40,6 +40,13 @@ class AuthServiceProvider extends ServiceProvider
             return $user->hasPermission('admin');
         });
         
+        // Has Level
+        Gate::define('has-level', function(User $user, User $otherUser){
+            return $user->id == $otherUser->id 
+                || $user->getHighestLevel() < $otherUser->getHighestLevel()
+                || (is_numeric($user->getHighestLevel()) && is_null($otherUser->getHighestLevel()));
+        });
+        
         // Is Mine
         Gate::define('mine', function(User $user, $object){
             return $user->id == $object->user->id;
