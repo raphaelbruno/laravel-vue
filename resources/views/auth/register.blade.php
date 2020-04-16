@@ -67,6 +67,11 @@
                                     @lang('auth.register')
                                 </button>
                             </div>
+                            @if(!empty(env('GOOGLE_CLIENT_ID')))
+                            <div class="col-md-8 offset-md-4 mt-3">
+                                <a href="{{ url('login/google') }}" class="btn btn-danger"><i class="fab fa-google-plus-g mr-2"></i> @lang('auth.login-google')</a>
+                            </div>
+                            @endif
                         </div>
                     </form>
                 </div>

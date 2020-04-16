@@ -51,7 +51,7 @@
                             </div>
                         </div>
 
-                        <div class="form-group row">
+                        <div class="form-group row mb-0">
                             <div class="col-md-8 offset-md-4">
                                 <button type="submit" class="btn btn-primary">
                                     @lang('auth.login')
@@ -63,12 +63,12 @@
                                     </a>
                                 @endif
                             </div>
-                        </div>
-                        
-                        <div class="form-group row mb-0">
-                            <div class="col-md-8 offset-md-4">
+
+                            @if(!empty(env('GOOGLE_CLIENT_ID')))
+                            <div class="col-md-8 offset-md-4 mt-3">
                                 <a href="{{ url('login/google') }}" class="btn btn-danger"><i class="fab fa-google-plus-g mr-2"></i> @lang('auth.login-google')</a>
                             </div>
+                            @endif
                         </div>
                     </form>
                 </div>
