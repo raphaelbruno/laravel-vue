@@ -49,6 +49,7 @@ return [
     'back' => 'Voltar',
     'help' => 'Ajuda',
 
+    'instructions' => '* Campos Obrigatórios.',
     'successfully-added' => ':0 adicionado(a) com sucesso!',
     'successfully-saved' => ':0 salvo(a) com sucesso!',
     'successfully-updated' => ':0 atualizado(a) com sucesso!',
@@ -56,4 +57,5 @@ return [
     'error-occurred' => '<b>Ocorreu um erro!</b><br>',
     'item-not-found' => 'O item requisitado não foi encontrado!',
     'not-authorized' => 'Seu usuário não tem permissão para completar a requisição!',
+    'invalid-field' => 'Preencha corretamente o campo :0.',
 ];

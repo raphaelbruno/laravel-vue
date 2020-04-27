@@ -1,18 +1,22 @@
+<?php
+    $icon = 'fas fa-copy';
+    $resource = App\Helpers\TemplateHelper::getCurrentResource();
+?>
 @extends('admin.layouts.template-resource-show')
 
 @section('title')
-    <i class="fas fa-copy mr-1"></i> Foos
+    <i class="{{ $icon }} mr-1"></i> {{ $title }}
 @endsection
 
 @section('breadcrumb')
-    <li class="breadcrumb-item"><a href="{{ route('admin:foos.index') }}"><i class="fas fa-copy"></i> Foos</a></li>
+    <li class="breadcrumb-item"><a href="{{ route('admin:'.$resource.'.index') }}"><i class="{{ $icon }}"></i> {{ $title }}</a></li>
     <li class="breadcrumb-item"><i class="fas fa-eye"></i> @lang('crud.show')</li>
 @endsection
 
 @section('fields')
     <div class="form-group row">
-        <label class="col-2 text-right">Something</label>
-        <div class="col">{{ $item->something }}</div>
+        <label class="col-2 text-right">@lang('crud.title')</label>
+        <div class="col">{{ $item->title }}</div>
     </div>
     <div class="form-group row">
         <label class="col-2 text-right">@lang('crud.author')</label>

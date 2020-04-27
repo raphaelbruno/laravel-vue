@@ -3,14 +3,20 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Validator;
+use App\Helpers\TemplateHelper;
+
+use Exception;
 
 class CrudController extends Controller
 {
     protected $onlyMine = false;
+    protected $title = null;
+    protected $resource = null;
 
     /**
      * Create a new instance.
@@ -20,6 +26,7 @@ class CrudController extends Controller
     public function __construct()
     {
         $this->middleware('auth');
+        if(!$this->resource) $this->resource = TemplateHelper::getCurrentResource();
     }
 
     /**
@@ -31,17 +38,18 @@ class CrudController extends Controller
     {
         if(Gate::denies($this->resource.'-view'))
             return Redirect::back()->withErrors([trans('crud.not-authorized')]);
-            
+        
+        $title = $this->title;
         $items = $this->search($request);
-            
-        return view('admin.'.$this->resource.'.list', compact('items', 'request'));
+        
+        return view('admin.'.$this->resource.'.list', compact('items', 'request', 'title'));
     }
     public function search(Request $request)
     {
         $q = $request->get('q');
-        return $this->model::where('title', 'ilike', "%{$q}%")
-            ->orderBy('title')
-            ->paginate();
+        $queryBuilder = $this->model::where('title', 'ilike', "%{$q}%")->orderBy('title');
+        if($this->onlyMine) $queryBuilder->where('user_id', Auth::user()->id);
+        return $queryBuilder->paginate();
     }
 
     /**
@@ -54,7 +62,8 @@ class CrudController extends Controller
         if(Gate::denies($this->resource.'-create'))
             return Redirect::back()->withErrors([trans('crud.not-authorized')]);
 
-        return view('admin.'.$this->resource.'.form');
+        $title = $this->title;
+        return view('admin.'.$this->resource.'.form', compact('title'));
     }
 
     /**
@@ -68,15 +77,22 @@ class CrudController extends Controller
         if(Gate::denies($this->resource.'-create'))
             return Redirect::back()->withErrors([trans('crud.not-authorized')]);
 
-        $fields = $request->item;
+        $fields = $this->prepareValidationStore($request);
         $validator = Validator::make($fields, $this->rules, [], $this->names);
         if ($validator->fails())
             return Redirect::back()->withErrors($validator)->withInput();
 
         try {
-            $fields = $this->prepareFieldInsert($fields);
-            $this->model::create($fields);
+            $fields = $this->prepareFieldStore($fields);
 
+            DB::beginTransaction();
+            $item = $this->model::create($fields);
+            if(!$this->afterStore($item)){
+                DB::rollBack();
+                throw new Exception();
+            }
+
+            DB::commit();
             return Redirect::route('admin:'.$this->resource.'.index')
                 ->with(['success' => trans('crud.successfully-added', [trans($this->item)])]);
         } catch (\Exception $e) {
@@ -85,9 +101,18 @@ class CrudController extends Controller
                 ->withInput();
         }
     }
-    public function prepareFieldInsert($fields)
+    public function prepareValidationStore(Request $request)
     {
+        return $request->item;
+    }
+    public function prepareFieldStore($fields)
+    {
+        if($this->onlyMine) $fields['user_id'] = Auth::user()->id;
         return $fields;
+    }
+    public function afterStore($item)
+    {
+        return true;
     }
 
     /**
@@ -101,6 +126,7 @@ class CrudController extends Controller
         if(Gate::denies($this->resource.'-view'))
             return Redirect::back()->withErrors([trans('crud.not-authorized')]);
 
+        $title = $this->title;
         $item = $this->model::find($id);
         if(!isset($item))
             return Redirect::back()->withErrors([trans('crud.item-not-found')]);
@@ -108,7 +134,7 @@ class CrudController extends Controller
         if($this->onlyMine && Gate::denies('mine', $item))
             return Redirect::back()->withErrors([trans('crud.not-authorized')]);
         
-        return view('admin.'.$this->resource.'.show', compact('item'));
+        return view('admin.'.$this->resource.'.show', compact('item', 'title'));
     }
 
     /**
@@ -122,6 +148,7 @@ class CrudController extends Controller
         if(Gate::denies($this->resource.'-update'))
             return Redirect::back()->withErrors([trans('crud.not-authorized')]);
 
+        $title = $this->title;
         $item = $this->model::find($id);
         if(!isset($item))
             return Redirect::back()->withErrors([trans('crud.item-not-found')]);
@@ -129,7 +156,7 @@ class CrudController extends Controller
         if($this->onlyMine && Gate::denies('mine', $item))
             return Redirect::back()->withErrors([trans('crud.not-authorized')]);
         
-        return view('admin.'.$this->resource.'.form', compact('item'));
+        return view('admin.'.$this->resource.'.form', compact('item', 'title'));
     }
 
     /**
@@ -145,19 +172,28 @@ class CrudController extends Controller
             return Redirect::back()->withErrors([trans('crud.not-authorized')]);
 
         $item = $this->model::find($id);
+        if(!isset($item))
+            return Redirect::back()->withErrors([trans('crud.item-not-found')]);
             
         if($this->onlyMine && Gate::denies('mine', $item))
             return Redirect::back()->withErrors([trans('crud.not-authorized')]);
 
-        $fields = $request->item;
+        $fields = $this->prepareValidationUpdate($request);
         $validator = Validator::make($fields, $this->rules, [], $this->names);
         if ($validator->fails())
             return Redirect::back()->withErrors($validator)->withInput();
         
         try {
             $fields = $this->prepareFieldUpdate($fields);
-            $item->update($fields);
 
+            DB::beginTransaction();
+            $item->update($fields);
+            if(!$this->afterUpdate($item)){
+                DB::rollBack();
+                throw new Exception();
+            }
+
+            DB::commit();
             return Redirect::route('admin:'.$this->resource.'.index')
                 ->with(['success' => trans('crud.successfully-updated', [trans($this->item)])]);
         } catch (\Exception $e) {
@@ -166,9 +202,17 @@ class CrudController extends Controller
                 ->withInput();
         }
     }
+    public function prepareValidationUpdate(Request $request)
+    {
+        return $request->item;
+    }
     public function prepareFieldUpdate($fields)
     {
         return $fields;
+    }
+    public function afterUpdate($item)
+    {
+        return true;
     }
 
     /**
@@ -182,10 +226,22 @@ class CrudController extends Controller
         if(Gate::denies($this->resource.'-delete'))
             return Redirect::back()->withErrors([trans('crud.not-authorized')]);
 
-        try {
-            $item = $this->model::find($id);
-            $item->delete();
+        $item = $this->model::find($id);
+        if(!isset($item))
+            return Redirect::back()->withErrors([trans('crud.item-not-found')]);
 
+        if($this->onlyMine && Gate::denies('mine', $item))
+            return Redirect::back()->withErrors([trans('crud.not-authorized')]);
+
+        try {
+            DB::beginTransaction();
+            $item->delete();
+            if(!$this->afterDestroy($item)){
+                DB::rollBack();
+                throw new Exception();
+            }
+
+            DB::commit();
             return Redirect::route('admin:'.$this->resource.'.index')
                 ->with(['success' => trans('crud.successfully-deleted', [trans($this->item)])]);
         } catch (\Exception $e) {
@@ -193,5 +249,9 @@ class CrudController extends Controller
                 ->withErrors([trans('crud.error-occurred') . $e->getMessage()])
                 ->withInput();
         }
+    }
+    public function afterDestroy($item)
+    {
+        return true;
     }
 }

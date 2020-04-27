@@ -49,6 +49,7 @@ return [
     'back' => 'Back',
     'help' => 'Help',
 
+    'instructions' => '* Required fields.',
     'successfully-added' => ':0 was successfully added!',
     'successfully-saved' => ':0 was successfully saved!',
     'successfully-updated' => ':0 was successfully updated!',
@@ -56,4 +57,5 @@ return [
     'error-occurred' => '<b>An error has occurred!</b><br>',
     'item-not-found' => 'The requested item was not found!',
     'not-authorized' => 'Your user is not allowed to complete the request!',
+    'invalid-field' => 'Please provide a valid :0.',
 ];

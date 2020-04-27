@@ -1,4 +1,4 @@
-$(document).ready(function(){
+function init() {
     $('.date').mask('00/00/0000');
     $('.time').mask('00:00:00');
     $('.date_time').mask('00/00/0000 00:00:00');
@@ -22,7 +22,22 @@ $(document).ready(function(){
     });
 
     $('.select2').select2();
-});
+    
+    $('form.needs-validation').submit(function(event) {
+        if (this.checkValidity() === false) {
+            event.preventDefault();
+            event.stopPropagation();
+        }
+        $(this).addClass('was-validated');
+    });
+    // Fix .input-group rounded corner
+    $('.input-group .invalid-feedback, .input-group .valid-feedback').each(function(index, item){
+        $(item).prev()
+            .addClass('rounded-right')
+            .find('*')
+            .addClass('rounded-right');
+    });
+}
 
 function addSubitem(id){
     var row = $($('.subitem .model').html());
@@ -49,3 +64,5 @@ function updateSubitems(){
     tbody.find('.no-subitems').toggle(rows.length < 1);
     $('.subitem .total').text(rows.length);
 }
+
+window.addEventListener('load', init);

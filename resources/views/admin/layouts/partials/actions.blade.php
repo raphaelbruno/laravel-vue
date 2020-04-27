@@ -1,3 +1,7 @@
+<?php
+    if(!isset($resource)) $resource = App\Helpers\TemplateHelper::getCurrentResource();
+?>
+
 @can((isset($permission) ? $permission : $resource).'-view')
     @if(!isset($hide) || !in_array('view', $hide))
         <a href="{{ route('admin:'.$resource.'.show', $id) }}" title="@lang('crud.show')" class="btn btn-sm btn-warning">

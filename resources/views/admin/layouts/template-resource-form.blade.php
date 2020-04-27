@@ -13,7 +13,7 @@
                     <h3 class="card-title"><i class="fas fa-{{ $itemID ? 'edit' : 'plus' }} mr-1"></i> {{ $itemID ? trans('crud.edit') : trans('crud.new') }}</h3>
                 </div>
 
-                <form method="POST" action="{{ $itemID ? route('admin:'.$currentResource.'.update', $itemID) : route('admin:'.$currentResource.'.store') }}" enctype="multipart/form-data">
+                <form class="needs-validation" novalidate method="POST" action="{{ $itemID ? route('admin:'.$currentResource.'.update', $itemID) : route('admin:'.$currentResource.'.store') }}" enctype="multipart/form-data">
                     @csrf
                     @if($itemID)
                         @method('PATCH')
@@ -23,6 +23,10 @@
                         <div class="row">
                             <div class="col">
                                 @yield('fields')
+
+                                @section('instructions')
+                                    <small>@lang('crud.instructions')</small>
+                                @show
                             </div>
                             @yield('col')
                         </div>

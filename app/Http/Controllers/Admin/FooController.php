@@ -9,38 +9,24 @@ use Illuminate\Support\Facades\Auth;
 class FooController extends CrudController
 {
     protected $model = \App\Foo::class;
-    protected $resource = 'foos';
     protected $onlyMine = true;
     protected $names;
     protected $item;
+    protected $title;
     
     protected $rules = [
-        'something' => 'required|min:3'
+        'title' => 'required|min:3'
     ];
     
     function __construct()
     {
         $this->names = [
-            'something' => trans('Something')
+            'title' => trans('crud.title')
         ];
 
-        $this->item = trans('Foo');
+        $this->item = trans('Foo'); // Create a new file at "resources/lang/" to translate
+        $this->title = trans('Foos'); // Create a new file at "resources/lang/" to translate
 
         parent::__construct();
-    }
-
-    public function search(Request $request)
-    {
-        $q = $request->get('q');
-        return $this->model::where('something', 'ilike', "%{$q}%")
-            ->where('user_id', Auth::user()->id)
-            ->orderBy('something')
-            ->paginate();
-    }
-    
-    public function prepareFieldInsert($fields)
-    {
-        $fields['user_id'] = Auth::user()->id;
-        return $fields;
     }
 }

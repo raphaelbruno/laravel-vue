@@ -9,7 +9,7 @@ class Foo extends Model
 {
     use SoftDeletes;
     
-    protected $fillable = ['something', 'user_id'];
+    protected $fillable = ['title', 'user_id'];
     
     public function user()
     {
