@@ -24,7 +24,7 @@
                     ['name' => 'crud.list', 'icon' => 'list', 'action' => 'admin:foos.index', 'permission' => 'foos-view'],
                     ['name' => 'crud.new', 'icon' => 'plus', 'action' => 'admin:foos.create', 'permission' => 'foos-create']
                 ]
-            ]
+            ],
         ],
         'dateformat' => 'dd/mm/yyyy',
     ];

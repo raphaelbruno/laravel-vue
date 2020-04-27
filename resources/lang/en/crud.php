@@ -29,6 +29,7 @@ return [
     'file' => 'File',
     'upload' => 'Upload',
     'download' => 'Download',
+    'pages' => 'Pages',
     'choose-file' => 'Choose a file',
     'choose-files' => 'Choose the files',
     'browse' => 'Browse',

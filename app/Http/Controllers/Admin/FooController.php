@@ -15,13 +15,13 @@ class FooController extends CrudController
     protected $title;
     
     protected $rules = [
-        'title' => 'required|min:3'
+        'title' => 'required|min:3',
     ];
     
     function __construct()
     {
         $this->names = [
-            'title' => trans('crud.title')
+            'title' => trans('crud.title'),
         ];
 
         $this->item = trans('Foo'); // Create a new file at "resources/lang/" to translate

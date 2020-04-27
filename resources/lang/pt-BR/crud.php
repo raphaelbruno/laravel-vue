@@ -29,6 +29,7 @@ return [
     'file' => 'Arquivo',
     'upload' => 'Enviar',
     'download' => 'Baixar',
+    'pages' => 'Páginas',
     'choose-file' => 'Escolha um Arquivo',
     'choose-files' => 'Escolha os Arquivos',
     'browse' => 'Procurar',
