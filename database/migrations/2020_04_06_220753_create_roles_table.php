@@ -22,12 +22,7 @@ class CreateRolesTable extends Migration
             $table->timestamps();
             $table->softDeletes();
         });
-
-        DB::table('roles')->insert(['title' => 'Super User', 'name' => 'su', 'default' => 0, 'level' => 0]);
-        DB::table('roles')->insert(['title' => 'Manager', 'name' => 'manager', 'default' => 0, 'level' => 1]);
-        DB::table('roles')->insert(['title' => 'Common User', 'name' => 'common', 'default' => 0, 'level' => 2]);
-        DB::table('roles')->insert(['title' => 'Public User', 'name' => 'public', 'default' => 1]);
-
+        
         Schema::create('role_user', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('user_id');

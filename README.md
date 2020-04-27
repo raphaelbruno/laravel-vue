@@ -24,10 +24,21 @@ Use the file config/template.php to customize menu, color, version, etc.
 ![preview-crud-new](preview-crud-new.jpg)
 
 ### Instalation
-Make a copy or rename ".env.example" file to ".env" and configure some variables before.
+Assuming you already have the database service running, make a copy or rename ".env.example" file to ".env" and configure some variables before.
 
 ```
 composer install
+artisan key:generate
+```
+
+If you want a basic example ACL run:
+```
+php artisan migrate --seed
+```
+In this case, after creating your user, you may want to remove "Super User" as default role for new users on "/admin/roles".
+
+If you want a clean database run:
+```
 php artisan migrate
 ```
 
