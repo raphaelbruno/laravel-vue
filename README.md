@@ -28,7 +28,7 @@ Assuming you already have the database service running, make a copy or rename ".
 
 ```
 composer install
-artisan key:generate
+php artisan key:generate
 ```
 
 If you want a basic example ACL run:
