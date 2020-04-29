@@ -17,6 +17,7 @@ class CrudController extends Controller
     protected $onlyMine = false;
     protected $title = null;
     protected $resource = null;
+    protected $variablesToView = [];
 
     /**
      * Create a new instance.
@@ -30,6 +31,16 @@ class CrudController extends Controller
     }
 
     /**
+     * Add Variables to view
+     * 
+     * @param array $variables
+     */
+    function addToView($variables)
+    {
+        $this->variablesToView = array_merge($this->variablesToView, $variables);
+    }
+
+    /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
@@ -40,16 +51,27 @@ class CrudController extends Controller
             return Redirect::back()->withErrors([trans('crud.not-authorized')]);
         
         $title = $this->title;
-        $items = $this->search($request);
+        $items = $this->incrementToSearch($this->search($request), $request)->paginate();
         
-        return view('admin.'.$this->resource.'.list', compact('items', 'request', 'title'));
+        return view('admin.'.$this->resource.'.list', array_merge($this->variablesToView, compact('items', 'request', 'title')));
     }
     public function search(Request $request)
     {
         $q = $request->get('q');
         $queryBuilder = $this->model::where('title', 'ilike', "%{$q}%")->orderBy('title');
         if($this->onlyMine) $queryBuilder->where('user_id', Auth::user()->id);
-        return $queryBuilder->paginate();
+        return $queryBuilder;
+    }
+
+    /**
+     * Override this method if you want to increment the query build of search
+     * 
+     * @param \Illuminate\Database\Eloquent\Builder $queryBuilder
+     * @param \Illuminate\Http\Response $request
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function incrementToSearch($queryBuilder, Request $request){
+        return $queryBuilder;
     }
 
     /**
@@ -63,7 +85,7 @@ class CrudController extends Controller
             return Redirect::back()->withErrors([trans('crud.not-authorized')]);
 
         $title = $this->title;
-        return view('admin.'.$this->resource.'.form', compact('title'));
+        return view('admin.'.$this->resource.'.form', array_merge($this->variablesToView, compact('title')));
     }
 
     /**
@@ -136,7 +158,7 @@ class CrudController extends Controller
         if($this->onlyMine && Gate::denies('mine', $item))
             return Redirect::back()->withErrors([trans('crud.not-authorized')]);
         
-        return view('admin.'.$this->resource.'.show', compact('item', 'title'));
+        return view('admin.'.$this->resource.'.show', array_merge($this->variablesToView, compact('item', 'title')));
     }
 
     /**
@@ -158,7 +180,7 @@ class CrudController extends Controller
         if($this->onlyMine && Gate::denies('mine', $item))
             return Redirect::back()->withErrors([trans('crud.not-authorized')]);
         
-        return view('admin.'.$this->resource.'.form', compact('item', 'title'));
+        return view('admin.'.$this->resource.'.form', array_merge($this->variablesToView, compact('item', 'title')));
     }
 
     /**
