@@ -63,7 +63,7 @@
                                             <input type="text" class="form-control selected-file" readonly placeholder="@lang('crud.choose-file')">
                                             <div class="input-group-append">
                                                 <label class="btn btn-primary m-0" for="avatar">
-                                                    <input id="avatar" name="profile[avatar]" type="file" class="d-none" onchange="top.a = this.files;  $(this).closest('.input-group').find('.selected-file').val( Object.values(this.files).map(function(item){ return item.name; }).join(', ') )">
+                                                    <input id="avatar" name="profile[avatar]" type="file" class="d-none file">
                                                     <i class="fas fa-search mr-1"></i>
                                                 </label>
                                             </div>

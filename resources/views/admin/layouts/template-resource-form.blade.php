@@ -34,8 +34,14 @@
 
                     <div class="card-footer">
                         @section('actions')
-                        <button type="submit" class="btn btn-success">@lang('crud.save')</button>
-                        <a href="{{ route('admin:'.$currentResource.'.index') }}" class="btn btn-danger">@lang('crud.cancel')</a>
+                        <button type="submit" class="btn btn-success">
+                            <i class="fas fa-save mr-1"></i>
+                            @lang('crud.save')
+                        </button>
+                        <a href="{{ route('admin:'.$currentResource.'.index') }}" class="btn btn-danger">
+                            <i class="fas fa-times-circle mr-1"></i>
+                            @lang('crud.cancel')
+                        </a>
                         @show
                     </div>
                 </form>

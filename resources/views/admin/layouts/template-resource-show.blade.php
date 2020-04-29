@@ -24,7 +24,16 @@
 
                 <div class="card-footer">
                     @section('actions')
-                    <a href="{{ route('admin:'.$currentResource.'.index') }}" class="btn btn-primary">{{ trans('crud.back') }}</a>
+                        <a href="{{ route('admin:'.$currentResource.'.index') }}" class="btn btn-secondary">
+                            <i class="fas fa-undo-alt mr-1"></i>
+                            {{ trans('crud.back') }}
+                        </a>
+                        @can($currentResource.'-update')
+                            <a href="{{ route('admin:'.$currentResource.'.edit', $itemID) }}" class="btn btn-primary">
+                                <i class="fas fa-edit mr-1"></i>
+                                {{ trans('crud.edit') }}
+                            </a>
+                        @endcan
                     @show
                 </div>
             </div>

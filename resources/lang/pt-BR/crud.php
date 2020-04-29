@@ -29,6 +29,7 @@ return [
     'file' => 'Arquivo',
     'upload' => 'Enviar',
     'download' => 'Baixar',
+    'link' => 'Link',
     'pages' => 'Páginas',
     'choose-file' => 'Escolha um Arquivo',
     'choose-files' => 'Escolha os Arquivos',
@@ -50,6 +51,9 @@ return [
     'back' => 'Voltar',
     'help' => 'Ajuda',
 
+    'delete-confirmation' => 'Confirmação de Exclusão',
+    'are-you-sure-delete' => 'Realmente deseja excluir este item',
+    
     'instructions' => '* Campos Obrigatórios.',
     'successfully-added' => ':0 adicionado(a) com sucesso!',
     'successfully-saved' => ':0 salvo(a) com sucesso!',

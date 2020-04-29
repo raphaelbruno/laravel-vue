@@ -29,6 +29,7 @@ return [
     'file' => 'File',
     'upload' => 'Upload',
     'download' => 'Download',
+    'link' => 'Link',
     'pages' => 'Pages',
     'choose-file' => 'Choose a file',
     'choose-files' => 'Choose the files',
@@ -50,6 +51,9 @@ return [
     'back' => 'Back',
     'help' => 'Help',
 
+    'delete-confirmation' => 'Delete Confirmation',
+    'are-you-sure-delete' => 'Are you sure you want to delete this item',
+    
     'instructions' => '* Required fields.',
     'successfully-added' => ':0 was successfully added!',
     'successfully-saved' => ':0 was successfully saved!',

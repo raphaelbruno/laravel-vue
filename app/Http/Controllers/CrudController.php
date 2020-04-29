@@ -96,6 +96,7 @@ class CrudController extends Controller
             return Redirect::route('admin:'.$this->resource.'.index')
                 ->with(['success' => trans('crud.successfully-added', [trans($this->item)])]);
         } catch (\Exception $e) {
+            $this->errorStore($fields);
             return Redirect::back()
                 ->withErrors([trans('crud.error-occurred') . $e->getMessage()])
                 ->withInput();
@@ -114,6 +115,7 @@ class CrudController extends Controller
     {
         return true;
     }
+    public function errorStore($fields){}
 
     /**
      * Display the specified resource.
@@ -178,14 +180,14 @@ class CrudController extends Controller
         if($this->onlyMine && Gate::denies('mine', $item))
             return Redirect::back()->withErrors([trans('crud.not-authorized')]);
 
-        $fields = $this->prepareValidationUpdate($request);
+        $fields = $this->prepareValidationUpdate($request, $item);
         $validator = Validator::make($fields, $this->rules, [], $this->names);
         if ($validator->fails())
             return Redirect::back()->withErrors($validator)->withInput();
         
         try {
-            $fields = $this->prepareFieldUpdate($fields);
-
+            $fields = $this->prepareFieldUpdate($fields, $item);
+            
             DB::beginTransaction();
             $item->update($fields);
             if(!$this->afterUpdate($item)){
@@ -197,16 +199,17 @@ class CrudController extends Controller
             return Redirect::route('admin:'.$this->resource.'.index')
                 ->with(['success' => trans('crud.successfully-updated', [trans($this->item)])]);
         } catch (\Exception $e) {
+            $this->errorUpdate($item, $fields);
             return Redirect::back()
                 ->withErrors([trans('crud.error-occurred') . $e->getMessage()])
                 ->withInput();
         }
     }
-    public function prepareValidationUpdate(Request $request)
+    public function prepareValidationUpdate(Request $request, $item)
     {
         return $request->item;
     }
-    public function prepareFieldUpdate($fields)
+    public function prepareFieldUpdate($fields, $item)
     {
         return $fields;
     }
@@ -214,6 +217,7 @@ class CrudController extends Controller
     {
         return true;
     }
+    public function errorUpdate($item, $fields){}
 
     /**
      * Remove the specified resource from storage.

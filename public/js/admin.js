@@ -37,6 +37,11 @@ function init() {
             .find('*')
             .addClass('rounded-right');
     });
+    
+    $('.file').change(function(){
+        var filename = Object.values(this.files).map(function(item){ return item.name; }).join(', ');
+        $(this).closest('.input-group').find('.selected-file').val(filename);
+    });
 }
 
 function addSubitem(id){

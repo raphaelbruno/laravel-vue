@@ -45,7 +45,7 @@
                     @section('actions')
                         @can($currentResource.'-create')
                         <a href="{{ route('admin:'.$currentResource.'.create') }}" title="@lang('crud.new')" class="btn btn-sm btn-success float-left">
-                            <i class="fas fa-plus"></i> @lang('crud.new')
+                            <i class="fas fa-plus mr-1"></i> @lang('crud.new')
                         </a>
                         @endcan
                     @show
@@ -71,17 +71,23 @@
                     @csrf
                     @method('DELETE')
                     <div class="modal-header">
-                        <h5 class="modal-title" id="deleteConfirmLabel">Delete Confirmation</h5>
+                        <h5 class="modal-title" id="deleteConfirmLabel">@lang('crud.delete-confirmation')</h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
                     <div class="modal-body">
-                        Are you sure you want to delete this item<span class="item"></span>?
+                        @lang('crud.are-you-sure-delete')<span class="item"></span>?
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-                        <button type="submit" class="btn btn-danger">Delete</button>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">
+                            <i class="fas fa-times-circle mr-1"></i>
+                            @lang('crud.cancel')
+                        </button>
+                        <button type="submit" class="btn btn-danger">
+                            <i class="fas fa-trash mr-1"></i>
+                            @lang('crud.delete')
+                        </button>
                     </div>
                 </form>
             </div>
