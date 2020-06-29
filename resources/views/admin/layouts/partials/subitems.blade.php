@@ -49,7 +49,7 @@
 </div>
 
 <script>
-    $(function(){
+    window.addEventListener('load', function(){
         @if(is_array(old('subitems')))
             @foreach(old('subitems') as $addedItem)
                 addSubitem({{ $addedItem }});
