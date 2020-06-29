@@ -41,6 +41,10 @@ If you want a clean database run:
 ```
 php artisan migrate
 ```
+You may want to link the storage folder with public folder.
+```
+php artisan storage:link
+```
 
 ### Run
 ```
