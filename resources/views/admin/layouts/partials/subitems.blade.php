@@ -1,4 +1,4 @@
-<div class="subitem col col-12 col-lg-6">
+<div class="subitem">
     <div class="form-group">
         <label>@lang(isset($label) ? $label : '&nbsp;')</label>
         <div class="card card-outline card-secondary">
@@ -19,7 +19,7 @@
                     </table>
                 </div>
                 <div class="card-footer">
-                    <a href="javascript:void(0);" onclick="addSubitem();" title="Novo" class="btn btn-sm btn-success float-left">
+                    <a href="javascript:void(0);" onclick="addSubitem('{{ isset($name) ? $name : 'subitems' }}');" title="Novo" class="btn btn-sm btn-success float-left">
                         <i class="fas fa-plus"></i> @lang('crud.new')
                     </a>
                     <div class="float-right">
@@ -49,14 +49,14 @@
 </div>
 
 <script>
-    $(function(){
+    window.addEventListener('load', function(){
         @if(is_array(old('subitems')))
             @foreach(old('subitems') as $addedItem)
-                addSubitem({{ $addedItem }});
+                addSubitem('{{ isset($name) ? $name : 'subitems' }}', {{ $addedItem }});
             @endforeach
         @else
             @foreach($addedItems as $addedItem)
-                addSubitem({{ $addedItem->{isset($key) ? $key : 'id'} }});
+                addSubitem('{{ isset($name) ? $name : 'subitems' }}', {{ $addedItem->{isset($key) ? $key : 'id'} }});
             @endforeach
         @endif
     });

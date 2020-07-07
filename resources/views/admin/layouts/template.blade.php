@@ -39,6 +39,9 @@
     <script src="{{ asset('plugins/bootstrap-datepicker/dist/locales/bootstrap-datepicker.'.Config::get('app.locale').'.min.js') }}"></script>
     <script src="{{ asset('plugins/select2/js/select2.full.min.js') }}"></script>
     <script>
+        top.URL_SITE = "{{ url('/') }}";
+        top.URL_ADMIN = "{{ route('admin:dashboard') }}";
+        
         $(document).ready(function(){
             $('.date-picker').datepicker({
                 language: '{{ Config::get('app.locale') }}',
@@ -67,6 +70,10 @@
     
     <link rel="stylesheet" href="{{ asset('plugins/adminlte/css/adminlte.min.css') }}">
     <link rel="stylesheet" href="{{ asset('css/admin.css') }}">
+    
+    <style>
+        .ajaxloader { border-top-color: {{ app('config')->get('template')['theme'] }}; }
+    </style>
 
     <script src="{{ asset('js/admin.js') }}"></script>
 </head>

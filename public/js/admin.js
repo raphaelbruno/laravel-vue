@@ -22,6 +22,11 @@ function init() {
     });
 
     $('.select2').select2();
+    $('.wysiwyg').each(function(index, item){
+        var config = {}
+        if($(item).data('height')) config.height = $(item).data('height');
+        $(item).summernote(config);
+    });
     
     $('form.needs-validation').submit(function(event) {
         if (this.checkValidity() === false) {
@@ -42,9 +47,15 @@ function init() {
         var filename = Object.values(this.files).map(function(item){ return item.name; }).join(', ');
         $(this).closest('.input-group').find('.selected-file').val(filename);
     });
+
+    $('body').prepend('<div class="ajaxloader"></div>');
+    $(document)
+        .ajaxStart(function() { $('body').addClass("loading"); })
+        .ajaxStop(function() { $('body').removeClass("loading"); });
 }
 
-function addSubitem(id){
+function addSubitem(name, id){
+    if(!name) name = 'subitems';
     var row = $($('.subitem .model').html());
     var tbody = $('.subitem table.subitems tbody');
     tbody.append(row);
@@ -53,7 +64,7 @@ function addSubitem(id){
         if($(this).val() == id)
         $(this).attr('selected', true);
     });
-    row.find('select').attr('name', 'subitems[]').select2();
+    row.find('select').attr('name', name + '[]').select2();
 
     updateSubitems();
 }
