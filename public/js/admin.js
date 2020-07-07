@@ -54,14 +54,16 @@ function init() {
         .ajaxStop(function() { $('body').removeClass("loading"); });
 }
 
-function addSubitem(name, id){
+function addSubitem(id, name, selected){
     if(!name) name = 'subitems';
-    var row = $($('.subitem .model').html());
-    var tbody = $('.subitem table.subitems tbody');
+    var subitem = $('#' + id);
+    console.log();
+    var row = $(subitem.find('.model').html());
+    var tbody = subitem.find('table.subitems tbody');
     tbody.append(row);
 
-    if(id) row.find('select option').each(function(){
-        if($(this).val() == id)
+    if(selected) row.find('select option').each(function(){
+        if($(this).val() == selected)
         $(this).attr('selected', true);
     });
     row.find('select').attr('name', name + '[]').select2();
@@ -75,10 +77,11 @@ function deleteSubitem(button){
 }
 
 function updateSubitems(){
-    var tbody = $('.subitem table.subitems tbody');
-    var rows = tbody.find('tr:not(.no-subitems)');
-    tbody.find('.no-subitems').toggle(rows.length < 1);
-    $('.subitem .total').text(rows.length);
+    $('.subitem table.subitems tbody').each(function(){
+        var rows = $(this).find('tr:not(.no-subitems)');
+        $(this).find('.no-subitems').toggle(rows.length < 1);
+        $(this).find('.subitem .total').text(rows.length);
+    });
 }
 
 window.addEventListener('load', init);

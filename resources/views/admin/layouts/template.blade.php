@@ -38,6 +38,7 @@
     <script src="{{ asset('plugins/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js') }}"></script>
     <script src="{{ asset('plugins/bootstrap-datepicker/dist/locales/bootstrap-datepicker.'.Config::get('app.locale').'.min.js') }}"></script>
     <script src="{{ asset('plugins/select2/js/select2.full.min.js') }}"></script>
+    <script src="{{ asset('plugins/cryptojs/sha1.js') }}"></script>
     <script>
         top.URL_SITE = "{{ url('/') }}";
         top.URL_ADMIN = "{{ route('admin:dashboard') }}";

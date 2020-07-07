@@ -1,7 +1,7 @@
 <?php
     $nameString = isset($name) ? $name : 'subitems';
 ?>
-<div class="subitem">
+<div id="{{ sha1($nameString) }}" class="subitem">
     <div class="form-group">
         <label>@lang(isset($label) ? $label : '&nbsp;')</label>
         <div class="card card-outline card-secondary">
@@ -22,7 +22,7 @@
                     </table>
                 </div>
                 <div class="card-footer">
-                    <a href="javascript:void(0);" onclick="addSubitem('{{ $nameString }}');" title="Novo" class="btn btn-sm btn-success float-left">
+                    <a href="javascript:void(0);" onclick="addSubitem('{{ sha1($nameString) }}', '{{ $nameString }}');" title="Novo" class="btn btn-sm btn-success float-left">
                         <i class="fas fa-plus"></i> @lang('crud.new')
                     </a>
                     <div class="float-right">
@@ -53,12 +53,12 @@
 
 <script>
     window.addEventListener('load', function(){
-            @foreach($addedItems as $addedItem)
-                @if(is_numeric($addedItem))
-                    addSubitem('{{ $nameString }}', {{ $addedItem }});
-                @else
-                    addSubitem('{{ $nameString }}', {{ $addedItem->{isset($key) ? $key : 'id'} }});
-                @endif
-            @endforeach
+        @foreach($addedItems as $addedItem)
+            @if(is_numeric($addedItem))
+                addSubitem('{{ sha1($nameString) }}', '{{ $nameString }}', {{ $addedItem }});
+            @else
+                addSubitem('{{ sha1($nameString) }}', '{{ $nameString }}', {{ $addedItem->{isset($key) ? $key : 'id'} }});
+            @endif
+        @endforeach
     });
 </script>
