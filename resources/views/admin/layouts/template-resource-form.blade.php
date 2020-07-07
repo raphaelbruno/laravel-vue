@@ -23,12 +23,15 @@
                         <div class="row">
                             <div class="col">
                                 @yield('fields')
-
-                                @section('instructions')
-                                    <small>@lang('crud.instructions')</small>
-                                @show
                             </div>
+                            
                             @yield('col')
+
+                            @section('instructions')
+                            <div class="col col-12">
+                                <small>@lang('crud.instructions')</small>
+                            </div>
+                            @show
                         </div>
                     </div>
 

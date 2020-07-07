@@ -48,9 +48,11 @@
 @endsection
 
 @section('col')
-    @include('admin.layouts.partials.subitems', [
-        'subitems' => $subitems,
-        'label' => trans('admin.permissions'),
-        'addedItems' => old('subitems') ? old('subitems') : (isset($item) ? $item->permissions : [])
-    ])
+    <div class="col col-md-6">
+        @include('admin.layouts.partials.subitems', [
+            'subitems' => $subitems,
+            'label' => trans('admin.permissions'),
+            'addedItems' => old('subitems') ? old('subitems') : (isset($item) ? $item->permissions : [])
+        ])
+    </div>
 @endsection

@@ -74,9 +74,11 @@
 @endsection
 
 @section('col')
-    @include('admin.layouts.partials.subitems', [
-        'subitems' => $subitems,
-        'label' => trans('admin.roles'),
-        'addedItems' => old('subitems') ? old('subitems') : (isset($item) ? $item->roles : [])
-    ])
+    <div class="col col-md-6">
+        @include('admin.layouts.partials.subitems', [
+            'subitems' => $subitems,
+            'label' => trans('admin.roles'),
+            'addedItems' => old('subitems') ? old('subitems') : (isset($item) ? $item->roles : [])
+        ])
+    </div>
 @endsection
