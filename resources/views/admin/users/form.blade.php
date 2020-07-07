@@ -77,6 +77,6 @@
     @include('admin.layouts.partials.subitems', [
         'subitems' => $subitems,
         'label' => trans('admin.roles'),
-        'addedItems' => isset($item) ? $item->roles : []
+        'addedItems' => old('subitems') ? old('subitems') : (isset($item) ? $item->roles : [])
     ])
 @endsection

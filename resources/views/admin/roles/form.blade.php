@@ -51,6 +51,6 @@
     @include('admin.layouts.partials.subitems', [
         'subitems' => $subitems,
         'label' => trans('admin.permissions'),
-        'addedItems' => isset($item) ? $item->permissions : []
+        'addedItems' => old('subitems') ? old('subitems') : (isset($item) ? $item->permissions : [])
     ])
 @endsection
