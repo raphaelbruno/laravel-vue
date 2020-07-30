@@ -57,7 +57,6 @@ function init() {
 function addSubitem(id, name, selected){
     if(!name) name = 'subitems';
     var subitem = $('#' + id);
-    console.log();
     var row = $(subitem.find('.model').html());
     var tbody = subitem.find('table.subitems tbody');
     tbody.append(row);

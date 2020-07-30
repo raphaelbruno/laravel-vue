@@ -76,7 +76,8 @@
         .ajaxloader { border-top-color: {{ app('config')->get('template')['theme'] }}; }
     </style>
 
-    <script src="{{ asset('js/admin.js') }}"></script>
+<script src="{{ asset('js/multiple-upload.js') }}"></script>
+<script src="{{ asset('js/admin.js') }}"></script>
 </head>
 <body class="hold-transition sidebar-mini layout-fixed layout-navbar-fixed">
     <div class="wrapper">
