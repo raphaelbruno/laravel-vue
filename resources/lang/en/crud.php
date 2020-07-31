@@ -53,6 +53,7 @@ return [
     'back' => 'Back',
     'help' => 'Help',
 
+    'choose-a-option' => 'Choose a Option',
     'delete-confirmation' => 'Delete Confirmation',
     'are-you-sure-delete' => 'Are you sure you want to delete this item',
     

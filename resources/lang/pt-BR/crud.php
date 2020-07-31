@@ -53,6 +53,7 @@ return [
     'back' => 'Voltar',
     'help' => 'Ajuda',
 
+    'choose-a-option' => 'Escolha uma Opção',
     'delete-confirmation' => 'Confirmação de Exclusão',
     'are-you-sure-delete' => 'Realmente deseja excluir este item',
     

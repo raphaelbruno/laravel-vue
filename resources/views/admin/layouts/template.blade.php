@@ -79,7 +79,7 @@
 <script src="{{ asset('js/multiple-upload.js') }}"></script>
 <script src="{{ asset('js/admin.js') }}"></script>
 </head>
-<body class="hold-transition sidebar-mini layout-fixed layout-navbar-fixed">
+<body class="hold-transition sidebar-mini layout-fixed layout-navbar-fixed {{ app('config')->get('template')['dark-mode'] ? 'dark-mode' : '' }}">
     <div class="wrapper">
 
         <!-- Navbar -->

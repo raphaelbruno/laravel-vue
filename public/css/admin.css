@@ -28,6 +28,32 @@ nav ul.nav.nav-treeview li { background-color: rgba(0, 0, 0, 0.15); }
 body.loading { overflow: hidden; }
 body.loading .ajaxloader { display: block; }
 
+/* Dark Mode */
+body.dark-mode,
+body.dark-mode .content-wrapper,
+body.dark-mode .main-footer,
+body.dark-mode .close,
+body.dark-mode .mailbox-attachment-close { color: whitesmoke !important; }
+body.dark-mode,
+body.dark-mode .content-wrapper { background: #333; }
+body.dark-mode .main-header,
+body.dark-mode .modal-content,
+body.dark-mode .main-footer { background: #343a40; border-color: #555; }
+body.dark-mode .card { background-color: #444; }
+body.dark-mode .form-control,
+body.dark-mode .input-group-text,
+body.dark-mode .select2-container--default .select2-selection--single,
+body.dark-mode .select2-dropdown,
+body.dark-mode .btn-default { background-color: #555; border-color: #666; color: whitesmoke; }
+body.dark-mode .form-control:focus,
+body.dark-mode input { background-color: #666; border-color: #888; color: whitesmoke; }
+body.dark-mode .select2-container--default .select2-selection--single .select2-selection__rendered { color: whitesmoke; }
+body.dark-mode .table-hover tbody tr:hover { color: whitesmoke; }
+body.dark-mode .table thead th { border-color: #666; }
+body.dark-mode .table tbody td { border-color: #555; }
+body.dark-mode .modal-header,
+body.dark-mode .modal-footer { border-color: #555; }
+
 @keyframes spin {
   0% { transform: rotate(0deg); }
   100% { transform: rotate(360deg); }

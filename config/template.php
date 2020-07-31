@@ -1,6 +1,7 @@
 <?php 
     return [
-        'theme' => 'purple',
+        'dark-mode' => false,
+        'theme' => 'purple', // ['Primary', 'Secondary', 'Success', 'Danger', 'Warning', 'Info', 'Light', 'Dark', 'Blue', 'Indigo', 'Purple', 'Pink', 'Red', 'Orange', 'Yellow', 'Green', 'Teal', 'Cyan']
         'version' => '1.0.0',
         'menu' => [
             /**

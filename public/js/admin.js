@@ -49,9 +49,16 @@ function init() {
     });
 
     $('body').prepend('<div class="ajaxloader"></div>');
-    $(document)
-        .ajaxStart(function() { $('body').addClass("loading"); })
-        .ajaxStop(function() { $('body').removeClass("loading"); });
+    $(document).ajaxStart(loaderShow).ajaxStop(loaderHide);
+    $('form').submit(loaderShow);
+}
+
+function loaderShow(){
+    $('body').addClass("loading");
+}
+
+function loaderHide(){
+    $('body').removeClass("loading");
 }
 
 function addSubitem(id, name, selected){
