@@ -2,6 +2,7 @@
 namespace App\Helpers;
 
 use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Facades\Storage;
 
 class TemplateHelper 
 {
@@ -53,5 +54,19 @@ class TemplateHelper
                         return true;
         }
         return false;
+    }
+
+    public static function filePath($url, $noimage = false)
+    {
+        return isset($url) && !empty($url)
+                ? empty(parse_url($url)['scheme'])
+                    ? asset(Storage::url($url))
+                    : $url
+                : ($noimage ? asset('img/noimage.jpg') : null);
+    }
+
+    public static function money($value, $withCurrency = false)
+    {
+        return ($withCurrency ? 'R$ ' : '') . number_format($value, 2, ',', '.');
     }
 }

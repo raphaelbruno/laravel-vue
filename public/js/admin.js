@@ -8,6 +8,7 @@ function init() {
     $('.cpf').mask('000.000.000-00', {reverse: true});
     $('.cnpj').mask('00.000.000/0000-00', {reverse: true});
     $('.money').mask("#.##0,00", {reverse: true});
+    $('.integer').mask("#.##0", {reverse: true});
     $('.ip_address').mask('0ZZ.0ZZ.0ZZ.0ZZ', {
         translation: {
             'Z': {
@@ -28,13 +29,6 @@ function init() {
         $(item).summernote(config);
     });
     
-    $('form.needs-validation').submit(function(event) {
-        if (this.checkValidity() === false) {
-            event.preventDefault();
-            event.stopPropagation();
-        }
-        $(this).addClass('was-validated');
-    });
     // Fix .input-group rounded corner
     $('.input-group .invalid-feedback, .input-group .valid-feedback').each(function(index, item){
         $(item).prev()
@@ -50,7 +44,16 @@ function init() {
 
     $('body').prepend('<div class="ajaxloader"></div>');
     $(document).ajaxStart(loaderShow).ajaxStop(loaderHide);
+
     $('form').submit(loaderShow);
+    $('form.needs-validation').submit(function(event) {
+        if (this.checkValidity() === false) {
+            event.preventDefault();
+            event.stopPropagation();
+            loaderHide();
+        }
+        $(this).addClass('was-validated');
+    });
 }
 
 function loaderShow(){

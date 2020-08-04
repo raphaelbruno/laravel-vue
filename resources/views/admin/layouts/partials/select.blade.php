@@ -3,7 +3,7 @@
     @foreach($list as $selectKey => $selectValue)
     <option value="{{ isset($key) ? $selectValue->{$key} : $selectKey }}" 
         {{ isset($selected) && (isset($key) ? $selectValue->{$key} : $selectKey) == $selected ? 'selected' : '' }} >
-        {{ isset($value) ? $selectValue->{$value} : $selectValue }}
+        @lang(isset($value) ? $selectValue->{$value} : $selectValue)
     </option>
     @endforeach
 </select>
