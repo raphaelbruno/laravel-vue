@@ -7,8 +7,8 @@ use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Schema;
 
 
-use \App\User;
-use \App\Permission;
+use \App\Models\User;
+use \App\Models\Permission;
 
 class AuthServiceProvider extends ServiceProvider
 {

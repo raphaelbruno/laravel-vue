@@ -2,6 +2,13 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Middleware\AdministratorAccess;
+use Illuminate\Support\Facades\Auth;
+
+use App\Http\Controllers\Site\PageController;
+use App\Http\Controllers\Auth\LoginController;
+use App\Http\Controllers\Admin\DashboardController;
+use App\Http\Controllers\Admin\MediaController;
+use App\Http\Controllers\Admin\ProfileController;
 
 /*
 |--------------------------------------------------------------------------
@@ -14,33 +21,36 @@ use App\Http\Middleware\AdministratorAccess;
 |
 */
 
-Route::get('/', 'Site\PageController@index');
+Route::get('/', [PageController::class, 'index']);
 
 Auth::routes();
 
 // Google OAuth
 if(!empty(env('GOOGLE_CLIENT_ID')))
 {
-    Route::get('login/google', 'Auth\LoginController@redirectToProviderGoogle');
-    Route::get('login/google/callback', 'Auth\LoginController@handleProviderGoogleCallback');
+    Route::get('login/google', [LoginController::class, 'redirectToProviderGoogle']);
+    Route::get('login/google/callback', [LoginController::class, 'handleProviderGoogleCallback']);
 }
 
 // Admin Routes
 Route::prefix('admin')->namespace('Admin')->as('admin:')->middleware(AdministratorAccess::class)->group(function () {
-    Route::get('/', 'DashboardController@index')->name('dashboard');
+    Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
     
     // Media
-    Route::get('media/{path}', 'MediaController@index')->where('path', '(.*)');
+    Route::get('media/{path}', [MediaController::class, '@index'])->where('path', '(.*)');
     
     // Profile
-    Route::get('profile', 'ProfileController@edit')->name('profile');
-    Route::match(['PUT', 'PATCH'], 'profile/update', 'ProfileController@update')->name('profile.update');
+    Route::get('profile', [ProfileController::class, 'edit'])->name('profile');
+    Route::match(['PUT', 'PATCH'], 'profile/update', [ProfileController::class, 'update'])->name('profile.update');
     
-    // Access Control List
-    Route::resource('users', 'UserController');
-    Route::resource('roles', 'RoleController');
-    Route::resource('permissions', 'PermissionController');
+    Route::resources([
+        // Access Control List
+        'users' => UserController::class,
+        'roles' => RoleController::class,
+        'permissions' => PermissionController::class,
 
-    // CRUDs
-    Route::resource('foos', 'FooController');
+        // CRUDs
+        'foos' => FooController::class,
+    ]);
+
 });

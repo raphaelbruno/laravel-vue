@@ -2,6 +2,8 @@
 
 use Illuminate\Database\Seeder;
 
+use App\Models\Role;
+
 class RoleSeeder extends Seeder
 {
     /**
@@ -20,6 +22,6 @@ class RoleSeeder extends Seeder
             ['title' => 'Common User', 'name' => 'common', 'default' => 0, 'level' => 2],
             ['title' => 'Public User', 'name' => 'public', 'default' => 0, 'level' => null],
         ];
-        DB::table('roles')->insert($roles);
+        Role::insert($roles);
     }
 }

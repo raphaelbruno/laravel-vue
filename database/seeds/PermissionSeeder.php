@@ -1,6 +1,9 @@
 <?php
 
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\DB;
+
+use App\Models\Permission;
 
 class PermissionSeeder extends Seeder
 {
@@ -29,7 +32,7 @@ class PermissionSeeder extends Seeder
             ['title' => 'Foos Update', 'name' => 'foos-update'],
             ['title' => 'Foos Delete', 'name' => 'foos-delete'],
         ];
-        DB::table('permissions')->insert($permissions);
+        Permission::insert($permissions);
         
         /**
          * permission_role

@@ -1,8 +1,7 @@
 <?php
 
-namespace App;
+namespace App\Models;
 
-use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Notifications\Notifiable;
@@ -42,12 +41,12 @@ class User extends Authenticatable
     
     public function profile()
     {
-        return $this->hasOne('App\Profile');
+        return $this->hasOne(Profile::class);
     }
 
     public function roles()
     {
-        return $this->belongsToMany('App\Role')
+        return $this->belongsToMany(Role::class)
             ->whereNull('role_user.deleted_at')
             ->orderBy('level')
             ->orderBy('name')

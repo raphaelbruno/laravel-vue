@@ -10,9 +10,9 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\DB;
 
-use App\User;
-use App\Profile;
-use App\Role;
+use App\Models\User;
+use App\Models\Profile;
+use App\Models\Role;
 
 class LoginController extends Controller
 {

@@ -11,20 +11,18 @@
     <link rel="icon" href="favicon.ico" />
 
     <!-- Scripts -->
-    <script src="{{ asset('plugins/jquery/jquery.min.js') }}"></script>
-    <script src="{{ asset('plugins/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
+    <script src="{{ asset('js/site.js') }}" defer></script>
 
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
-    <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
 
     <!-- Styles -->
-    <link href="{{ asset('plugins/bootstrap/css/bootstrap.min.css') }}" rel="stylesheet">
-    <link rel="stylesheet" href="{{ asset('plugins/fontawesome-free/css/all.min.css') }}">
+    <link href="{{ asset('css/site.css') }}" rel="stylesheet">
 
     <!-- Site Assets -->
-    <link href="{{ asset('css/site.css') }}" rel="stylesheet">
-    <script src="{{ asset('js/site.js') }}"></script>
+    {{-- <link href="{{ asset('css/site.css') }}" rel="stylesheet"> --}}
+    {{-- <script src="{{ asset('js/site.js') }}"></script> --}}
 </head>
 <body class="pt-5">
     <div id="app" class="h-100 d-flex flex-column">
@@ -33,7 +31,7 @@
                 <a class="navbar-brand" href="{{ url('/') }}">
                     {{ config('app.name', 'Laravel') }}
                 </a>
-                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="@lang('Toggle navigation')">
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="@lang('site.toggle-navigation')">
                     <span class="navbar-toggler-icon"></span>
                 </button>
 
@@ -75,7 +73,8 @@
                                                      document.getElementById('logout-form').submit();">
                                         @lang('auth.logout')
                                     </a>
-                                    <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                                    
+                                    <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
                                         @csrf
                                     </form>
                                 </div>

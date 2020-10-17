@@ -19,68 +19,54 @@
     <link rel="icon" href="{{ asset('favicon.ico') }}" />
 
     <!-- Scripts -->
-    <script src="{{ asset('plugins/jquery/jquery.min.js') }}"></script>
-    <script src="{{ asset('plugins/jquery-ui/jquery-ui.min.js') }}"></script>
-    <script>
-        $.widget.bridge('uibutton', $.ui.button)
-    </script>
-    <script src="{{ asset('plugins/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
-    <script src="{{ asset('plugins/chart.js/Chart.min.js') }}"></script>
-    <script src="{{ asset('plugins/sparklines/sparkline.js') }}"></script>
-    <script src="{{ asset('plugins/jqvmap/jquery.vmap.min.js') }}"></script>
-    <script src="{{ asset('plugins/jqvmap/maps/jquery.vmap.usa.js') }}"></script>
-    <script src="{{ asset('plugins/jquery-knob/jquery.knob.min.js') }}"></script>
-    <script src="{{ asset('plugins/jquery-mask/jquery.mask.min.js') }}"></script>
-    <script src="{{ asset('plugins/moment/moment.min.js') }}"></script>
-    <script src="{{ asset('plugins/tempusdominus-bootstrap-4/js/tempusdominus-bootstrap-4.min.js') }}"></script>
-    <script src="{{ asset('plugins/summernote/summernote-bs4.min.js') }}"></script>
-    <script src="{{ asset('plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js') }}"></script>
-    <script src="{{ asset('plugins/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js') }}"></script>
-    <script src="{{ asset('plugins/bootstrap-datepicker/dist/locales/bootstrap-datepicker.'.Config::get('app.locale').'.min.js') }}"></script>
-    <script src="{{ asset('plugins/select2/js/select2.full.min.js') }}"></script>
-    <script src="{{ asset('plugins/cryptojs/sha1.js') }}"></script>
-    <script>
-        top.URL_SITE = "{{ url('/') }}";
-        top.URL_ADMIN = "{{ route('admin:dashboard') }}";
-        
-        $(document).ready(function(){
-            $('.date-picker').datepicker({
-                language: '{{ Config::get('app.locale') }}',
-                format: '{{ app('config')->get('template')['dateformat'] }}',
-                autoclose: true
-            });
-        });
-    </script>
+    <script defer src="{{ asset('js/admin.js') }}"></script>
+    <script defer src="{{ asset('plugins/chart.js/Chart.min.js') }}"></script>
+    <script defer src="{{ asset('plugins/sparklines/sparkline.js') }}"></script>
+    <script defer src="{{ asset('plugins/jqvmap/jquery.vmap.min.js') }}"></script>
+    <script defer src="{{ asset('plugins/jqvmap/maps/jquery.vmap.usa.js') }}"></script>
+    <script defer src="{{ asset('plugins/jquery-knob/jquery.knob.min.js') }}"></script>
+    <script defer src="{{ asset('plugins/jquery-mask/jquery.mask.min.js') }}"></script>
+    <script defer src="{{ asset('plugins/moment/moment.min.js') }}"></script>
+    <script defer src="{{ asset('plugins/tempusdominus-bootstrap-4/js/tempusdominus-bootstrap-4.min.js') }}"></script>
+    <script defer src="{{ asset('plugins/summernote/summernote-bs4.min.js') }}"></script>
+    <script defer src="{{ asset('plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js') }}"></script>
+    <script defer src="{{ asset('plugins/select2/js/select2.full.min.js') }}"></script>
+    <script defer src="{{ asset('plugins/cryptojs/sha1.js') }}"></script>
 
-    <script src="{{ asset('plugins/adminlte/js/adminlte.js') }}"></script>
+    <script defer src="{{ asset('plugins/adminlte/js/adminlte.js') }}"></script>
 
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
-    <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
 
     <!-- Styles -->
-    <link rel="stylesheet" href="{{ asset('plugins/fontawesome-free/css/all.min.css') }}">
-    <link rel="stylesheet" href="{{ asset('plugins/tempusdominus-bootstrap-4/css/tempusdominus-bootstrap-4.min.css') }}">
     <link rel="stylesheet" href="{{ asset('plugins/icheck-bootstrap/icheck-bootstrap.min.css') }}">
     <link rel="stylesheet" href="{{ asset('plugins/jqvmap/jqvmap.min.css') }}">
     <link rel="stylesheet" href="{{ asset('plugins/overlayScrollbars/css/OverlayScrollbars.min.css') }}">
     <link rel="stylesheet" href="{{ asset('plugins/summernote/summernote-bs4.css') }}">
-    <link rel="stylesheet" href="{{ asset('plugins/bootstrap-datepicker/dist/css/bootstrap-datepicker.min.css') }}">
     <link rel="stylesheet" href="{{ asset('plugins/select2/css/select2.min.css') }}">
     <link rel="stylesheet" href="{{ asset('plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css') }}">
     
     <link rel="stylesheet" href="{{ asset('plugins/adminlte/css/adminlte.min.css') }}">
-    <link rel="stylesheet" href="{{ asset('css/admin.css') }}">
     
+
+    <!-- Admin Assets -->
+    <link rel="stylesheet" href="{{ asset('css/admin.css') }}">
     <style>
         .ajaxloader { border-top-color: {{ app('config')->get('template')['theme'] }}; }
     </style>
 
-<script src="{{ asset('js/multiple-upload.js') }}"></script>
-<script src="{{ asset('js/admin.js') }}"></script>
+    <script defer>
+        top.URL_SITE = "{{ url('/') }}";
+        top.URL_ADMIN = "{{ route('admin:dashboard') }}";
+        top.LOCALE = '{{ Config::get('app.locale') }}';
+        top.DATE_FORMAT = '{{ app('config')->get('template')['dateformat'] }}';
+    </script>
+    <script defer src="{{ asset('js/multiple-upload.js') }}"></script>
+    <script defer src="{{ asset('js/admin-actions.js') }}"></script>
 </head>
 <body class="hold-transition sidebar-mini layout-fixed layout-navbar-fixed {{ app('config')->get('template')['dark-mode'] ? 'dark-mode' : '' }}">
-    <div class="wrapper">
+    <div id="app" class="wrapper">
 
         <!-- Navbar -->
         <nav class="main-header navbar navbar-expand navbar-dark bg-{{ app('config')->get('template')['theme'] }}">

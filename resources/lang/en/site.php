@@ -17,4 +17,5 @@ return [
     'administrator' => 'Administrator',
     'all-rights' => 'All rights reserved.',
     'back-to-top' => 'Back to top',
+    'toggle-navigation' => 'Toggle Navigation',
 ];

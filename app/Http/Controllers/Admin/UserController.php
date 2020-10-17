@@ -12,9 +12,9 @@ use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Gate;
 use Carbon\Carbon;
 
-use App\User;
-use App\Profile;
-use App\Role;
+use App\Models\User;
+use App\Models\Profile;
+use App\Models\Role;
 
 class UserController extends Controller
 {

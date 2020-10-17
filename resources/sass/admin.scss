@@ -1,0 +1,77 @@
+// Fonts
+@import url('https://fonts.googleapis.com/css?family=Nunito');
+
+// Variables
+@import 'variables';
+
+// Bootstrap
+@import '~bootstrap/scss/bootstrap';
+@import '~bootstrap-datepicker/dist/css/bootstrap-datepicker.css';
+
+// Font Awesome
+@import '~@fortawesome/fontawesome-free/scss/fontawesome';
+@import '~@fortawesome/fontawesome-free/scss/regular';
+@import '~@fortawesome/fontawesome-free/scss/solid';
+@import '~@fortawesome/fontawesome-free/scss/brands';
+
+
+/* Fix DatePicker Position */
+.datepicker-dropdown { margin-top: calc(3.5rem + 1px); }
+.datepicker-dropdown > div {margin: 10px; }
+
+/* Fix bootstrap readonly style */
+.form-control[readonly] { background-color: transparent; }
+.form-control:disabled { background-color: #e9ecef; }
+
+/* Multiple Upload Component */
+.multiple-upload { border: 1px solid #ced4da; border-radius: .25rem; height: 125px; position: relative; }
+  .multiple-upload .drop-here { background-color: rgba(255, 255, 255, 0.95); position: absolute; width: 100%; height: 100%; text-align: center; font-size: 1.5rem; display: flex; flex-direction: column; justify-content: center; z-index: 200; }
+    .multiple-upload .drop-here i { font-size: 2rem; }
+  .multiple-upload .header { background: #e9ecef; border-bottom: 1px solid #ced4da; line-height: 30px; }
+    .multiple-upload .header label { margin: 0; font-weight: normal; }
+  .multiple-upload ul { display: flex; justify-content: space-evenly; flex-wrap: wrap; list-style: none; height: 90px; padding: 0; overflow: auto; }
+    .multiple-upload ul li { margin: .25rem; background: white; width: 80px; height: 80px; border: 1px solid #ced4da; border-radius: .25rem; position: relative; }
+      .multiple-upload ul li img { max-width: 100%; max-height: 100%; position: relative; top: 50%; left: 50%; transform: translate(-50%, -50%); z-index: 100; padding: .25rem; }
+      .multiple-upload ul li label { position: absolute; bottom: 0; font-size: 10px; line-height: 1rem; background: rgba(0, 0, 0, 0.25); margin: 0; width: 100%; padding: 0 .25rem; white-space: nowrap; overflow: hidden; z-index: 101; }
+      .multiple-upload ul li .delete { position: absolute; top: 0; right: 0; width: 20px; height: 20px; line-height: 20px; border: 0 none; border-radius: .25rem; background-color: red; color: white; font-size: 11px; font-family: cursive; z-index: 102; }
+
+/* Customizations */
+nav ul.nav.nav-treeview li { background-color: rgba(0, 0, 0, 0.15); }
+.note-editor { box-shadow: none; border-color: #ced4da !important; }
+  .note-editor .note-toolbar { padding: 0 5px 5px 5px; background: #e9ecef; }
+
+/* Ajax Loading */
+.ajaxloader { display: none; position: fixed; z-index: 10000; display: none; position: fixed; z-index: 10000; bottom: 67px; right: 10px; border: 7px solid rgb(0, 0, 0, 0.25); border-top: 7px solid rgb(0, 0, 0, 0.5); border-radius: 50%; width: 40px; height: 40px; animation: spin 0.75s linear infinite; }
+body.loading { overflow: hidden; }
+body.loading .ajaxloader { display: block; }
+
+/* Dark Mode */
+body.dark-mode,
+body.dark-mode .content-wrapper,
+body.dark-mode .main-footer,
+body.dark-mode .close,
+body.dark-mode .mailbox-attachment-close { color: whitesmoke !important; }
+body.dark-mode,
+body.dark-mode .content-wrapper { background: #333; }
+body.dark-mode .main-header,
+body.dark-mode .modal-content,
+body.dark-mode .main-footer { background: #343a40; border-color: #555; }
+body.dark-mode .card { background-color: #444; }
+body.dark-mode .form-control,
+body.dark-mode .input-group-text,
+body.dark-mode .select2-container--default .select2-selection--single,
+body.dark-mode .select2-dropdown,
+body.dark-mode .btn-default { background-color: #555; border-color: #666; color: whitesmoke; }
+body.dark-mode .form-control:focus,
+body.dark-mode input { background-color: #666; border-color: #888; color: whitesmoke; }
+body.dark-mode .select2-container--default .select2-selection--single .select2-selection__rendered { color: whitesmoke; }
+body.dark-mode .table-hover tbody tr:hover { color: whitesmoke; }
+body.dark-mode .table thead th { border-color: #666; }
+body.dark-mode .table tbody td { border-color: #555; }
+body.dark-mode .modal-header,
+body.dark-mode .modal-footer { border-color: #555; }
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}

@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Storage;
 use Carbon\Carbon;
 
-use App\Profile;
+use App\Models\Profile;
 
 class ProfileController extends Controller
 {

@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Gate;
 
-use App\Permission;
+use App\Models\Permission;
 
 class PermissionController extends Controller
 {

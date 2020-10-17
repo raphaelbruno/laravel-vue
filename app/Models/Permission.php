@@ -1,6 +1,6 @@
 <?php
 
-namespace App;
+namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -13,7 +13,7 @@ class Permission extends Model
     
     public function roles()
     {
-        return $this->belongsToMany('App\Role')
+        return $this->belongsToMany(Role::class)
             ->whereNull('permission_role.deleted_at')
             ->withTimestamps();
     }

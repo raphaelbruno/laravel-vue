@@ -55,15 +55,6 @@
         </section>
     </div>
 
-    <!-- Modal Delete Confirmation -->
-    <script>
-        function openDeleteComfirmation(url, item){
-            $('#deleteConfirm form').attr('action', url);
-            if(item) $('#deleteConfirm form .item').html(' <b>('+item+')</b>');
-            $('#deleteConfirm').modal('show');
-        }
-    </script>
-
     <div class="modal fade" id="deleteConfirm" tabindex="-1" role="dialog" aria-labelledby="deleteConfirmLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">

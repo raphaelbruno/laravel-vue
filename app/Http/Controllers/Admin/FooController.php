@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Auth;
 
 class FooController extends CrudController
 {
-    protected $model = \App\Foo::class;
+    protected $model = \App\Models\Foo::class;
     protected $onlyMine = true;
     protected $names;
     protected $item;
