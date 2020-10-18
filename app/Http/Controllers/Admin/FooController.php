@@ -3,16 +3,11 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\CrudController;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 
 class FooController extends CrudController
 {
     protected $model = \App\Models\Foo::class;
     protected $onlyMine = true;
-    protected $names;
-    protected $item;
-    protected $title;
     
     protected $rules = [
         'title' => 'required|min:3',
@@ -24,6 +19,7 @@ class FooController extends CrudController
             'title' => trans('crud.title'),
         ];
 
+        $this->icon = 'file';
         $this->item = trans('Foo'); // Create a new file at "resources/lang/" to translate
         $this->title = trans('Foos'); // Create a new file at "resources/lang/" to translate
 

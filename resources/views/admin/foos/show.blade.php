@@ -1,11 +1,11 @@
 <?php
-    $icon = 'fas fa-copy';
+    $fontAwesomeIcon = 'fas fa-' . $icon;
     $resource = App\Helpers\TemplateHelper::getCurrentResource();
 ?>
 @extends('admin.layouts.template-resource-show')
 
 @section('title')
-    <i class="{{ $icon }} mr-1"></i> {{ $title }}
+    <i class="{{ $fontAwesomeIcon }} mr-1"></i> {{ $title }}
 @endsection
 
 @section('breadcrumb')

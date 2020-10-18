@@ -15,7 +15,10 @@ use Exception;
 class CrudController extends Controller
 {
     protected $onlyMine = false;
-    protected $title = null;
+    protected $names;
+    protected $item;
+    protected $title;
+    protected $icon;
     protected $resource = null;
     protected $variablesToView = [];
 
@@ -26,6 +29,9 @@ class CrudController extends Controller
      */
     public function __construct()
     {
+        if(!$this->icon) $this->icon = 'file';
+        if(!$this->item) $this->item = trans('crud.item');
+        if(!$this->title) $this->title = trans('crud.items');
         $this->middleware('auth');
         if(!$this->resource) $this->resource = TemplateHelper::getCurrentResource();
     }
@@ -51,9 +57,10 @@ class CrudController extends Controller
             return Redirect::back()->withErrors([trans('crud.not-authorized')]);
         
         $title = $this->title;
+        $icon = $this->icon;
         $items = $this->incrementToSearch($this->search($request), $request)->paginate();
         
-        return view('admin.'.$this->resource.'.list', array_merge($this->variablesToView, compact('items', 'request', 'title')));
+        return view('admin.'.$this->resource.'.list', array_merge($this->variablesToView, compact('items', 'request', 'title', 'icon')));
     }
     public function search(Request $request)
     {
@@ -85,7 +92,8 @@ class CrudController extends Controller
             return Redirect::back()->withErrors([trans('crud.not-authorized')]);
 
         $title = $this->title;
-        return view('admin.'.$this->resource.'.form', array_merge($this->variablesToView, compact('title')));
+        $icon = $this->icon;
+        return view('admin.'.$this->resource.'.form', array_merge($this->variablesToView, compact('title', 'icon')));
     }
 
     /**
@@ -151,6 +159,7 @@ class CrudController extends Controller
             return Redirect::back()->withErrors([trans('crud.not-authorized')]);
 
         $title = $this->title;
+        $icon = $this->icon;
         $item = $this->model::find($id);
         if(!isset($item))
             return Redirect::back()->withErrors([trans('crud.item-not-found')]);
@@ -158,7 +167,7 @@ class CrudController extends Controller
         if($this->onlyMine && Gate::denies('mine', $item))
             return Redirect::back()->withErrors([trans('crud.not-authorized')]);
         
-        return view('admin.'.$this->resource.'.show', array_merge($this->variablesToView, compact('item', 'title')));
+        return view('admin.'.$this->resource.'.show', array_merge($this->variablesToView, compact('item', 'title', 'icon')));
     }
 
     /**
@@ -173,6 +182,7 @@ class CrudController extends Controller
             return Redirect::back()->withErrors([trans('crud.not-authorized')]);
 
         $title = $this->title;
+        $icon = $this->icon;
         $item = $this->model::find($id);
         if(!isset($item))
             return Redirect::back()->withErrors([trans('crud.item-not-found')]);
@@ -180,7 +190,7 @@ class CrudController extends Controller
         if($this->onlyMine && Gate::denies('mine', $item))
             return Redirect::back()->withErrors([trans('crud.not-authorized')]);
         
-        return view('admin.'.$this->resource.'.form', array_merge($this->variablesToView, compact('item', 'title')));
+        return view('admin.'.$this->resource.'.form', array_merge($this->variablesToView, compact('item', 'title', 'icon')));
     }
 
     /**
