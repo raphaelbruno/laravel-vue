@@ -52,7 +52,7 @@
                                                     : Auth::user()->profile->avatar
                                                 : asset('img/avatar.jpg');
                                         ?>
-                                        <img class="img-thumbnail img-circle img-fluid" src="{{ $avatar }}" alt="">
+                                        <img class="img-thumbnail rounded-circle img-fluid" src="{{ $avatar }}" alt="">
                                     </div>
 
                                     <div class="col">

@@ -20,6 +20,31 @@ window.Vue = require('vue');
 // files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key).default))
 
 Vue.component('info-box', require('./components/admin/InfoBox.vue').default);
+Vue.component('sub-items', require('./components/admin/SubItems.vue').default);
+
+/**
+ * Tranlate function
+ */
+Vue.prototype.trans = (key) => {
+    return _.get(window.translation, key, key);
+};
+
+/**
+ * Select 2
+ */
+Vue.directive('select2', {
+    inserted(el) {
+        $(el).on('select2:select', () => {
+            const event = new Event('change', { bubbles: true, cancelable: true });
+            el.dispatchEvent(event);
+        });
+
+        $(el).on('select2:unselect', () => {
+            const event = new Event('change', {bubbles: true, cancelable: true})
+            el.dispatchEvent(event)
+        })
+    },
+});
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to

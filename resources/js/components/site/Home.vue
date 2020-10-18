@@ -26,7 +26,7 @@
 </script>
 
 <style>
-  .home .content {
+  .home.content {
       text-align: center;
   }
 

@@ -4,7 +4,7 @@ function init() {
         format: top.DATE_FORMAT ? top.DATE_FORMAT : 'yyyy/mm/dd',
         autoclose: true
     });
-
+    
     $('.date').mask('00/00/0000');
     $('.time').mask('00:00:00');
     $('.date_time').mask('00/00/0000 00:00:00');
@@ -24,9 +24,6 @@ function init() {
     });
     $('.ip_address').mask('099.099.099.099');
     $('.percent').mask('##0,00%', {reverse: true});
-    $('.mask').each(function(){
-        $(this).mask($(this).data('mask'), $(this).data());
-    });
 
     $('.select2').select2();
     $('.wysiwyg').each(function(index, item){
@@ -76,33 +73,6 @@ function openDeleteComfirmation(url, item){
     $('#deleteConfirm').modal('show');
 }
 
-function addSubitem(id, name, selected){
-    if(!name) name = 'subitems';
-    var subitem = $('#' + id);
-    var row = $(subitem.find('.model').html());
-    var tbody = subitem.find('table.subitems tbody');
-    tbody.append(row);
 
-    if(selected) row.find('select option').each(function(){
-        if($(this).val() == selected)
-        $(this).attr('selected', true);
-    });
-    row.find('select').attr('name', name + '[]').select2();
-
-    updateSubitems();
-}
-
-function deleteSubitem(button){
-    $(button).closest('tr').remove();
-    updateSubitems();
-}
-
-function updateSubitems(){
-    $('.subitem table.subitems tbody').each(function(){
-        var rows = $(this).find('tr:not(.no-subitems)');
-        $(this).find('.no-subitems').toggle(rows.length < 1);
-        $(this).find('.subitem .total').text(rows.length);
-    });
-}
 
 window.addEventListener('load', init);

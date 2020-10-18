@@ -34,7 +34,7 @@
             <div class="input-group-prepend">
                 <span class="input-group-text"><i class="fas fa-sitemap"></i></span>
             </div>
-            <input type="text" id="level" name="item[level]" data-mask="00" data-mask-reverse="true" class="form-control mask" value="{{ !empty(old('item.level')) ? old('item.level') : ( isset($item) ? $item->level : '' ) }}">
+            <input type="text" id="level" name="item[level]" data-mask="00" data-mask-reverse="true" class="form-control" value="{{ !empty(old('item.level')) ? old('item.level') : ( isset($item) ? $item->level : '' ) }}">
         </div>
     </div>
     <div class="form-group">
@@ -49,10 +49,10 @@
 
 @section('col')
     <div class="col col-md-6">
-        @include('admin.layouts.partials.subitems', [
-            'subitems' => $subitems,
-            'label' => trans('admin.permissions'),
-            'addedItems' => old('subitems') ? old('subitems') : (isset($item) ? $item->permissions : [])
-        ])
+        <sub-items options="{{ json_encode($subitems->map(function($item){ return (object)['key' => $item->id, 'value' => $item->title]; })) }}"
+            label="@lang('admin.permissions')"
+            added-items="{{ json_encode(old('subitems') ? old('subitems') : (isset($item) ? $item->permissions->pluck('id') : [])) }}"
+        >
+        </sub-items>
     </div>
 @endsection

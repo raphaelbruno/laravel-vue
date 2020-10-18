@@ -17503,6 +17503,10 @@ readers do not read off random characters that represent icons */
   background-color: #e9ecef;
 }
 
+.breadcrumb-item {
+  display: initial;
+}
+
 /* Multiple Upload Component */
 
 .multiple-upload {

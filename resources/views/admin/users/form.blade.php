@@ -75,10 +75,10 @@
 
 @section('col')
     <div class="col col-md-6">
-        @include('admin.layouts.partials.subitems', [
-            'subitems' => $subitems,
-            'label' => trans('admin.roles'),
-            'addedItems' => old('subitems') ? old('subitems') : (isset($item) ? $item->roles : [])
-        ])
+        <sub-items options="{{ json_encode($subitems->map(function($item){ return (object)['key' => $item->id, 'value' => $item->title]; })) }}"
+            label="@lang('admin.roles')"
+            added-items="{{ json_encode(old('subitems') ? old('subitems') : (isset($item) ? $item->roles->pluck('id') : [])) }}"
+        >
+        </sub-items>
     </div>
 @endsection

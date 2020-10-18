@@ -61,6 +61,16 @@
         top.URL_ADMIN = "{{ route('admin:dashboard') }}";
         top.LOCALE = '{{ Config::get('app.locale') }}';
         top.DATE_FORMAT = '{{ app('config')->get('template')['dateformat'] }}';
+
+        window.translation = <?php
+            $languageFiles = File::files(resource_path() . '/lang/' . App::getLocale());
+            $translation = [];
+            foreach ($languageFiles as $f) {
+                $filename = pathinfo($f)['filename'];
+                $translation[$filename] = trans($filename);
+            }
+            echo json_encode($translation);
+        ?>;
     </script>
     <script defer src="{{ asset('js/multiple-upload.js') }}"></script>
     <script defer src="{{ asset('js/admin-actions.js') }}"></script>
