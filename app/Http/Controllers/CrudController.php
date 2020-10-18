@@ -58,15 +58,17 @@ class CrudController extends Controller
         
         $title = $this->title;
         $icon = $this->icon;
-        $items = $this->incrementToSearch($this->search($request), $request)->paginate();
+        $items = $this->incrementToSearch($this->filter($this->search($request), $request), $request)->paginate();
         
         return view('admin.'.$this->resource.'.list', array_merge($this->variablesToView, compact('items', 'request', 'title', 'icon')));
     }
     public function search(Request $request)
     {
-        $q = $request->get('q');
-        $queryBuilder = $this->model::where('title', 'ilike', "%{$q}%")->orderBy('title');
-        if($this->onlyMine) $queryBuilder->where('user_id', Auth::user()->id);
+        $queryBuilder = $this->model::query();
+
+        if($this->onlyMine)
+            $queryBuilder->where('user_id', Auth::user()->id);
+
         return $queryBuilder;
     }
 
@@ -77,7 +79,34 @@ class CrudController extends Controller
      * @param \Illuminate\Http\Response $request
      * @return \Illuminate\Database\Eloquent\Builder
      */
-    public function incrementToSearch($queryBuilder, Request $request){
+    public function filter($queryBuilder, Request $request){        
+        $q = $request->get('q');
+        
+        if(preg_match('/^#\d+$/', $q)){ // Search by ID (#1)
+            $queryBuilder->where('id', str_replace('#', '', $q));
+        }elseif(preg_match('/^\w+:.+/', $q)){ // Search by specific field (field:foo)
+            list($field, $value) = explode(':', $q);
+            $queryBuilder->where($field, 'ilike', "%{$value}%");
+        }else{
+            $queryBuilder->where(function($builder) use($q) {
+                $fields = (new $this->model())->getFillable();
+    
+                foreach($fields as $field)
+                    $builder->orWhere($field, 'ilike', "%{$q}%");
+            });        
+        }
+
+        return $queryBuilder;
+    }
+
+    /**
+     * Override this method if you want to increment the query build of search
+     * 
+     * @param \Illuminate\Database\Eloquent\Builder $queryBuilder
+     * @param \Illuminate\Http\Response $request
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function incrementToSearch($queryBuilder, Request $request){        
         return $queryBuilder;
     }
 

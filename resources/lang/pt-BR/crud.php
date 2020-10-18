@@ -53,6 +53,7 @@ return [
     'back' => 'Voltar',
     'help' => 'Ajuda',
 
+    'search-tip' => 'Tente algo como #1 ou campo:valor',
     'choose-a-option' => 'Escolha uma Opção',
     'delete-confirmation' => 'Confirmação de Exclusão',
     'are-you-sure-delete' => 'Realmente deseja excluir este item',

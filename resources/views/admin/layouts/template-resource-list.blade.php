@@ -15,7 +15,7 @@
                             @yield('filters')
                             <div>
                                 <div class="input-group input-group-sm">
-                                    <input type="text" name="q" class="form-control float-right" placeholder="@lang('crud.search')" value="{{ $request->get('q') }}">
+                                    <input type="text" name="q" class="form-control float-right" placeholder="@lang('crud.search')" value="{{ $request->get('q') }}" title="@lang('crud.search-tip')">
                                     <div class="input-group-append">
                                         <a href="{{ route('admin:'.$currentResource.'.index') }}" title="@lang('crud.clear')" class="btn btn-default"><i class="fas fa-eraser"></i></a>
                                     </div>

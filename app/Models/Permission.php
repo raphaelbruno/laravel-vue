@@ -20,7 +20,7 @@ class Permission extends Model
 
     public function rolesToString()
     {
-        return $this->roles->implode('title', ', ');
+        return $this->roles->implode('name', ', ');
     }
 
 }
