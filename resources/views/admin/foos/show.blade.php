@@ -24,10 +24,10 @@
     </div>
     <div class="form-group row">
         <label class="col-2 text-right">@lang('crud.created-at')</label>
-        <div class="col">{{ $item->created_at->format('d/m/Y H:i:s') }}</div>
+        <div class="col">{{ isset($item->created_at) ? $item->created_at->format('d/m/Y H:i:s') : '' }}</div>
     </div>
     <div class="form-group row">
         <label class="col-2 text-right">@lang('crud.updated-at')</label>
-        <div class="col">{{ $item->updated_at->format('d/m/Y H:i:s') }}</div>
+        <div class="col">{{ isset($item->updated_at) ? $item->updated_at->format('d/m/Y H:i:s') : '' }}</div>
     </div>
 @endsection

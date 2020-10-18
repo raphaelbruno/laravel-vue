@@ -17,4 +17,10 @@ class Permission extends Model
             ->whereNull('permission_role.deleted_at')
             ->withTimestamps();
     }
+
+    public function rolesToString()
+    {
+        return $this->roles->implode('title', ', ');
+    }
+
 }
