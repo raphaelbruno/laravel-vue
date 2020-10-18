@@ -17645,6 +17645,18 @@ nav ul.nav.nav-treeview li {
   background: #e9ecef;
 }
 
+/* Custom Classes */
+
+.id {
+  width: 4rem;
+  text-align: center;
+}
+
+.actions {
+  width: 10rem;
+  text-align: center;
+}
+
 /* Ajax Loading */
 
 .ajaxloader {

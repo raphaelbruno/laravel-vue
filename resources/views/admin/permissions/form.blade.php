@@ -20,7 +20,7 @@
         'label' => 'crud.title',
         'required' => true,
         'icon' => $icon,
-        'item' => isset($item) ? $item : null,
+        'value' => !empty(old('item.title')) ? old('item.title') : ( isset($item) ? $item->title : '' ),
     ]) !!}
 
     {!! \App\Helpers\FormHelper::input([
@@ -28,7 +28,7 @@
         'label' => 'crud.name',
         'required' => true,
         'icon' => 'tag',
-        'item' => isset($item) ? $item : null,
+        'value' => !empty(old('item.name')) ? old('item.name') : ( isset($item) ? $item->name : '' ),
     ]) !!}
 
 @endsection

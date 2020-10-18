@@ -47,6 +47,25 @@ class CrudController extends Controller
     }
 
     /**
+     * Detach and Attach subitems from a relationship
+     * 
+     * @param object $item
+     * @param string $relationship
+     * @param array $input
+     */
+    public static function subitems($item, $relationship, $input)
+    {
+        $subitems = isset($input) ? array_map('intval', $input) : [];
+        $subitemsOnDatabase = $item->{$relationship}->map(function($user){ return $user->id; })->toArray();
+        $subitemsToDelete = array_diff($subitemsOnDatabase, $subitems);
+        $subitemsToInsert = array_unique(array_diff($subitems, $subitemsOnDatabase));
+
+        foreach($subitemsToDelete as $id) $item->{$relationship}()->detach($id);
+        foreach($subitemsToInsert as $id) $item->{$relationship}()->attach($id);
+        return (bool) $item->save();
+    }
+
+    /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
@@ -146,7 +165,7 @@ class CrudController extends Controller
 
             DB::beginTransaction();
             $item = $this->model::create($fields);
-            if(!$this->afterStore($item)){
+            if(!$this->afterStore($item, $request)){
                 DB::rollBack();
                 throw new Exception();
             }
@@ -170,7 +189,7 @@ class CrudController extends Controller
         if($this->onlyMine) $fields['user_id'] = Auth::user()->id;
         return $fields;
     }
-    public function afterStore($item)
+    public function afterStore($item, $request)
     {
         return true;
     }
@@ -251,7 +270,7 @@ class CrudController extends Controller
             
             DB::beginTransaction();
             $item->update($fields);
-            if(!$this->afterUpdate($item)){
+            if(!$this->afterUpdate($item, $request)){
                 DB::rollBack();
                 throw new Exception();
             }
@@ -274,7 +293,7 @@ class CrudController extends Controller
     {
         return $fields;
     }
-    public function afterUpdate($item)
+    public function afterUpdate($item, $request)
     {
         return true;
     }

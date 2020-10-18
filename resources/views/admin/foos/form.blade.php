@@ -20,7 +20,7 @@
         'label' => 'crud.title',
         'required' => true,
         'icon' => $icon,
-        'item' => isset($item) ? $item : null,
+        'value' => !empty(old('item.title')) ? old('item.title') : ( isset($item) ? $item->title : '' ),
     ]) !!}
 
 @endsection

@@ -1,49 +1,53 @@
+<?php
+    $fontAwesomeIcon = 'fas fa-' . $icon;
+    $resource = App\Helpers\TemplateHelper::getCurrentResource();
+?>
 @extends('admin.layouts.template-resource-form')
 
 @section('title')
-    <i class="fas fa-id-card mr-1"></i> @lang('admin.roles')
+    <i class="{{ $fontAwesomeIcon }} mr-1"></i> {{ $title }}
 @endsection
 
 @section('breadcrumb')
-    <li class="breadcrumb-item"><a href="{{ route('admin:roles.index') }}"><i class="fas fa-id-card"></i> @lang('admin.roles')</a></li>
+    <li class="breadcrumb-item"><a href="{{ route('admin:'.$resource.'.index') }}"><i class="{{ $fontAwesomeIcon }}"></i> {{ $title }}</a></li>
     <li class="breadcrumb-item"><i class="fas fa-{{ isset($item) ? 'edit' : 'plus' }}"></i> {{ isset($item) ? trans('crud.edit') : trans('crud.new') }}</li>
 @endsection
 
 @section('fields')
-    <div class="form-group">
-        <label for="title">@lang('crud.title')</label>
-        <div class="input-group">
-            <div class="input-group-prepend">
-                <span class="input-group-text"><i class="fas fa-id-card"></i></span>
-            </div>
-            <input type="text" id="title" name="item[title]" class="form-control" value="{{ !empty(old('item.title')) ? old('item.title') : ( isset($item) ? $item->title : '' ) }}">
-        </div>
-    </div>
-    <div class="form-group">
-        <label for="name">@lang('crud.name')</label>
-        <div class="input-group">
-            <div class="input-group-prepend">
-                <span class="input-group-text"><i class="fas fa-tag"></i></span>
-            </div>
-            <input type="text" id="name" name="item[name]" class="form-control" value="{{ !empty(old('item.name')) ? old('item.name') : ( isset($item) ? $item->name : '' ) }}">
-        </div>
-    </div>
-    <div class="form-group">
-        <label for="level">@lang('admin.level')</label>
-        <div class="input-group">
-            <div class="input-group-prepend">
-                <span class="input-group-text"><i class="fas fa-sitemap"></i></span>
-            </div>
-            <input type="text" id="level" name="item[level]" data-mask="00" data-mask-reverse="true" class="form-control" value="{{ !empty(old('item.level')) ? old('item.level') : ( isset($item) ? $item->level : '' ) }}">
-        </div>
-    </div>
-    <div class="form-group">
-        <label for="default">@lang('admin.default')</label>
-        <div class="custom-control custom-switch">
-            <input type="checkbox" name="item[default]" class="custom-control-input" id="default" {{ (!empty(old('item.default')) ? old('item.default') : ( isset($item) ? $item->default : false ) ) ? 'checked' : '' }}>
-            <label class="custom-control-label" for="default"></label>
-        </div>
-    </div>
+
+    {!! \App\Helpers\FormHelper::input([
+        'ref' => 'title',
+        'label' => 'crud.title',
+        'required' => true,
+        'icon' => $icon,
+        'value' => !empty(old('item.title')) ? old('item.title') : ( isset($item) ? $item->title : '' ),
+    ]) !!}
+
+    {!! \App\Helpers\FormHelper::input([
+        'ref' => 'name',
+        'label' => 'crud.name',
+        'required' => true,
+        'icon' => 'tag',
+        'value' => !empty(old('item.name')) ? old('item.name') : ( isset($item) ? $item->name : '' ),
+    ]) !!}
+
+    {!! \App\Helpers\FormHelper::input([
+        'ref' => 'level',
+        'label' => 'admin.level',
+        'icon' => 'sitemap',
+        'value' => !empty(old('item.level')) ? old('item.level') : ( isset($item) ? $item->level : '' ),
+        'attributes' => [
+            'data-mask' => '00',
+            'data-mask-reverse' => 'true'
+        ],
+    ]) !!}
+
+    {!! \App\Helpers\FormHelper::switch([
+        'ref' => 'default',
+        'label' => 'admin.default',
+        'item' => isset($item) ? $item : null,
+        'checked' => (bool) (!empty(old('item.default')) ? old('item.default') : ( isset($item) ? $item->default : false ) ),
+    ]) !!}
 
 @endsection
 

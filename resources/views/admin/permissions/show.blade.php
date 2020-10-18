@@ -15,23 +15,23 @@
 
 @section('fields')
     <div class="form-group row">
-        <label class="col-2 text-right">@lang('crud.title')</label>
+        <label class="col text-right">@lang('crud.title')</label>
         <div class="col">{{ $item->title }}</div>
     </div>
     <div class="form-group row">
-        <label class="col-2 text-right">@lang('crud.name')</label>
+        <label class="col text-right">@lang('crud.name')</label>
         <div class="col">{{ $item->name }}</div>
     </div>
     <div class="form-group row">
-        <label class="col-2 text-right">@lang('admin.roles')</label>
+        <label class="col text-right">@lang('admin.roles')</label>
         <div class="col">{{ $item->rolesToString() }}</div>
     </div>
     <div class="form-group row">
-        <label class="col-2 text-right">@lang('crud.created-at')</label>
+        <label class="col text-right">@lang('crud.created-at')</label>
         <div class="col">{{ isset($item->created_at) ? $item->created_at->format('d/m/Y H:i:s') : '' }}</div>
     </div>
     <div class="form-group row">
-        <label class="col-2 text-right">@lang('crud.updated-at')</label>
+        <label class="col text-right">@lang('crud.updated-at')</label>
         <div class="col">{{ isset($item->updated_at) ? $item->updated_at->format('d/m/Y H:i:s') : '' }}</div>
     </div>
 @endsection
