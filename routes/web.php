@@ -42,6 +42,7 @@ Route::prefix('admin')->namespace('Admin')->as('admin:')->middleware(Administrat
     // Profile
     Route::get('profile', [ProfileController::class, 'edit'])->name('profile');
     Route::match(['PUT', 'PATCH'], 'profile/update', [ProfileController::class, 'update'])->name('profile.update');
+    Route::get('profile/toggleDarkMode', [ProfileController::class, 'toggleDarkMode'])->name('profile.toggleDarkMode');
     
     Route::resources([
         // Access Control List

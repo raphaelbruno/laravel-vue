@@ -95,4 +95,19 @@ class ProfileController extends Controller
                 ->withInput();
         }
     }
+
+    /**
+     * Show the form for editing the specified resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function toggleDarkMode()
+    {
+        $user = Auth::user();
+        if(isset($user->profile)){
+            $user->profile->dark_mode = !$user->profile->dark_mode;
+            $user->profile->save();
+        }
+    }
+
 }

@@ -73,6 +73,20 @@ function openDeleteComfirmation(url, item){
     $('#deleteConfirm').modal('show');
 }
 
+function toggleDarkMode(){
+    if($('body.dark-mode').length > 0){
+        $('body').removeClass('dark-mode');
+        $('.dark-mode-switch i.fas').removeClass('fa-sun')
+            .addClass('fa-moon');
+    }else{
+        $('body').addClass('dark-mode');
+        $('.dark-mode-switch i.fas').removeClass('fa-moon')
+            .addClass('fa-sun');
+    }
 
+    $.ajax({
+        url: URL_ADMIN + '/profile/toggleDarkMode'
+    });
+}
 
 window.addEventListener('load', init);

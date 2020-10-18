@@ -73,6 +73,9 @@ body.dark-mode .table tbody td { border-color: #555; }
 body.dark-mode .modal-header,
 body.dark-mode .modal-footer { border-color: #555; }
 
+.navbar-dark .navbar-nav .nav-link,
+[class*=sidebar-dark] .brand-link { color: white; }
+
 @keyframes spin {
   0% { transform: rotate(0deg); }
   100% { transform: rotate(360deg); }

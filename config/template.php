@@ -1,7 +1,7 @@
 <?php 
     return [
-        'dark-mode' => false,
-        'theme' => 'purple', // ['Primary', 'Secondary', 'Success', 'Danger', 'Warning', 'Info', 'Light', 'Dark', 'Blue', 'Indigo', 'Purple', 'Pink', 'Red', 'Orange', 'Yellow', 'Green', 'Teal', 'Cyan']
+        'dark-mode' => true,
+        'theme' => 'teal', // ['primary', 'secondary', 'success', 'danger', 'warning', 'info', 'light', 'dark', 'blue', 'indigo', 'purple', 'pink', 'red', 'orange', 'yellow', 'green', 'teal', 'cyan']
         'version' => '1.0.0',
         'menu' => [
             /**
@@ -14,18 +14,11 @@
             ['name' => 'admin.dashboard', 'icon' => 'tachometer-alt', 'action' => 'admin:dashboard'],
             ['name' => 'admin.access-control', 'icon' => 'users', 'resource' => ['users', 'roles', 'permissions'], 'permission' => ['users-view', 'roles-view'], 'children' => [
                     ['name' => 'admin.user-list', 'icon' => 'user', 'action' => 'admin:users.index', 'permission' => 'users-view'],
-                    ['name' => 'admin.user-new', 'icon' => 'user', 'action' => 'admin:users.create', 'permission' => 'users-create'],
                     ['name' => 'admin.role-list', 'icon' => 'id-card', 'action' => 'admin:roles.index', 'permission' => 'roles-view'],
-                    ['name' => 'admin.role-new', 'icon' => 'id-card', 'action' => 'admin:roles.create', 'permission' => 'roles-create'],
                     ['name' => 'admin.permission-list', 'icon' => 'clipboard-list', 'action' => 'admin:permissions.index', 'permission' => 'roles-view'],
-                    ['name' => 'admin.permission-new', 'icon' => 'clipboard-list', 'action' => 'admin:permissions.create', 'permission' => 'roles-create']
                 ]
             ],
-            ['name' => 'Foos', 'icon' => 'copy', 'resource' => 'foos', 'permission' => 'foos-view', 'children' => [
-                    ['name' => 'crud.list', 'icon' => 'list', 'action' => 'admin:foos.index', 'permission' => 'foos-view'],
-                    ['name' => 'crud.new', 'icon' => 'plus', 'action' => 'admin:foos.create', 'permission' => 'foos-create']
-                ]
-            ],
+            ['name' => 'Foos', 'icon' => 'copy', 'action' => 'admin:foos.index', 'permission' => 'foos-view'],
         ],
         'dateformat' => 'dd/mm/yyyy',
     ];

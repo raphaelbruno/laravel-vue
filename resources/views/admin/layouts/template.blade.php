@@ -4,6 +4,10 @@
             ? asset(Storage::url(Auth::user()->profile->avatar))
             : Auth::user()->profile->avatar
         : asset('img/avatar.jpg');
+
+    $darkMode = (isset(Auth::user()->profile) && isset(Auth::user()->profile->dark_mode)) 
+        ? Auth::user()->profile->dark_mode
+        : app('config')->get('template')['dark-mode'];
 ?>
 <!doctype html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
@@ -75,7 +79,7 @@
     <script defer src="{{ asset('js/multiple-upload.js') }}"></script>
     <script defer src="{{ asset('js/admin-actions.js') }}"></script>
 </head>
-<body class="hold-transition sidebar-mini layout-fixed layout-navbar-fixed {{ app('config')->get('template')['dark-mode'] ? 'dark-mode' : '' }}">
+<body class="hold-transition sidebar-mini layout-fixed layout-navbar-fixed {{ $darkMode ? 'dark-mode' : ''  }}">
     <div id="app" class="wrapper">
 
         <!-- Navbar -->
@@ -91,8 +95,13 @@
 
 
             <ul class="navbar-nav ml-auto">
+                <li class="">
+                    <a href="javascript:void(0);" title="@lang('admin.toggle-dark-mode')" class="nav-link dark-mode-switch" onclick="toggleDarkMode()">
+                        <i class="nav-icon fas fa-{{ $darkMode ? 'sun' : 'moon' }} mr-1"></i>
+                    </a>
+                </li>
                 <li class="dropdown user user-menu open">
-                    <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" aria-expanded="true">
+                    <a href="javascript:void(0);" title="@lang('admin.profile')" class="nav-link dropdown-toggle" data-toggle="dropdown" aria-expanded="true">
                         <i class="nav-icon fas fa-user mr-1"></i>
                     </a>
                     <ul class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
@@ -227,7 +236,7 @@
                     
                     <div class="row mb-2">
                         <div class="col-sm-6">
-                            <h1 class="m-0 text-dark">@yield('title')</h1>
+                            <h1 class="m-0">@yield('title')</h1>
                         </div>
                         
                         <div class="col-sm-6">

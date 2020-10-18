@@ -40,6 +40,8 @@ return [
     'update-profile' => 'It looks like your profile need more information, click the button bellow to update your profile.',
     'identity' => 'Identity',
     'birthdate' => 'Birthdate',
+    'dark-mode' => 'Dark Mode',
+    'toggle-dark-mode' => 'Toggle Dark Mode',
     'more-information' => 'More info',
     'version' => 'Version',
     'all-rights' => 'All rights reserved.',

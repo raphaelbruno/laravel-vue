@@ -20,6 +20,7 @@ class CreateProfilesTable extends Migration
             $table->bigInteger('identity')->nullable();
             $table->date('birthdate')->nullable();
             $table->string('avatar')->nullable();
+            $table->boolean('dark_mode')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });

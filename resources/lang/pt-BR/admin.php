@@ -40,6 +40,8 @@ return [
     'update-profile' => 'Parece que seu perfil precisa de mais informação, clique no botão abaixo para atualizar seu perfil.',
     'identity' => 'CPF',
     'birthdate' => 'Nascimento',
+    'dark-mode' => 'Modo Escuro',
+    'toggle-dark-mode' => 'Alternar Modo Escuro',
     'more-information' => 'Mais Informações',
     'version' => 'Versão',
     'all-rights' => 'Todos os direitos reservados.',
