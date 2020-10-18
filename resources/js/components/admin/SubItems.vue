@@ -1,5 +1,5 @@
 <template>
-    <div v-bind:id="id" class="subitem">
+    <div :id="id" class="subitem">
         <div class="form-group">
             <label>{{ label }}</label>
             <div class="card card-outline card-secondary">
@@ -13,17 +13,17 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr v-for="(item, index) in list" v-bind:key="index">
+                                <tr v-for="(item, index) in list" :key="index">
                                     <td class="align-middle">
-                                        <select v-model="item.id" v-bind:name="`${validName}[]`" v-select2 class="form-control select2 w-100">
+                                        <select v-model="item.id" :name="`${validName}[]`" v-select2 class="form-control select2 w-100">
                                             <option v-for="(option, optionKey) in optionList"
-                                                v-bind:value="option.key">
+                                                :value="option.key">
                                                 {{ option.value }}
                                             </option>
                                         </select>
                                     </td>
                                     <td class="align-middle text-center">
-                                        <button type="button" v-bind:title="trans('crud.delete')" v-on:click="deleteItem(index)" class="btn btn-danger"><i class="fas fa-trash"></i></button>
+                                        <button type="button" :title="trans('crud.delete')" v-on:click="deleteItem(index)" class="btn btn-danger"><i class="fas fa-trash"></i></button>
                                     </td>
                                 </tr>
                                 <tr v-if="list.length < 1">
@@ -33,7 +33,7 @@
                         </table>
                     </div>
                     <div class="card-footer">
-                        <button type="button" v-bind:title="trans('crud.new')" v-on:click="addItem" class="btn btn-sm btn-success float-left">
+                        <button type="button" :title="trans('crud.new')" v-on:click="addItem" class="btn btn-sm btn-success float-left">
                             <i class="fas fa-plus"></i> {{ trans('crud.new') }}
                         </button>
                         <div class="float-right">
