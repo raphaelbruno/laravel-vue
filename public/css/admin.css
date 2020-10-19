@@ -17749,15 +17749,19 @@ body.dark-mode .modal-footer {
   border-color: #555;
 }
 
-.pagination .page-link,
-.pagination .page-item.disabled .page-link {
+body.dark-mode .pagination .page-link,
+body.dark-mode .pagination .page-item.disabled .page-link {
   background: #555;
   border-color: #666;
   color: white;
 }
 
-.pagination .page-item.disabled .page-link {
+body.dark-mode .pagination .page-item.disabled .page-link {
   color: gray;
+}
+
+body.dark-mode hr {
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .navbar-dark .navbar-nav .nav-link,

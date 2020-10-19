@@ -45,7 +45,6 @@
     {!! \App\Helpers\FormHelper::switch([
         'ref' => 'default',
         'label' => 'admin.default',
-        'item' => isset($item) ? $item : null,
         'checked' => (bool) (!empty(old('item.default')) ? old('item.default') : ( isset($item) ? $item->default : false ) ),
     ]) !!}
 

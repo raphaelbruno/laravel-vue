@@ -2,78 +2,47 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Validator;
-use Illuminate\Support\Facades\Redirect;
-use Illuminate\Support\Facades\Gate;
-use Carbon\Carbon;
-
-use App\Models\User;
+use App\Http\Controllers\CrudController;
 use App\Models\Profile;
-use App\Models\Role;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Redirect;
+use Carbon\Carbon;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Gate;
 
-class UserController extends Controller
+use App\Models\Role;
+use App\Models\User;
+
+class UserController extends CrudController
 {
-    protected $rulesCreate = [
-        'name' => 'required|min:3',
-        'email' => 'required|unique:users|email'
-    ];
-    protected $rulesUpdate = [
-        'name' => 'required|min:3',
-        'email' => 'unique:users|email'
-    ];
-    protected $names;
+    protected $model = User::class;
     
-    /**
-     * Create a new instance.
-     *
-     * @return void
-     */
+    protected $rules = [
+        'name' => 'required|min:3',
+        'email' => 'required|string|email|unique:users,email,NULL,id,deleted_at,NULL',
+    ];
+    
     function __construct()
     {
         $this->names = [
             'name' => trans('crud.name'),
-            'email' => trans('crud.email')
+            'email' => trans('crud.email'),
+            'password' => trans('crud.password'),
+            'confirm-password' => trans('crud.confirm-password'),
+            'identity' => trans('admin.identity'),
+            'birthdate' => trans('admin.birthdate'),
         ];
 
-        $this->middleware('auth');
+        $this->icon = 'user';
+        $this->item = trans('admin.user');
+        $this->title = trans('admin.users');
+
+        parent::__construct();
     }
 
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index(Request $request)
-    {
-        if(Gate::denies('users-view'))
-            return Redirect::back()->withErrors([trans('crud.not-authorized')]);
-            
-        $q = $request->get('q');
-        $items = User::where(function ($query) use ($q) {
-                $query->where('name', 'ilike', "%{$q}%")
-                    ->orWhere('email', 'ilike', "%{$q}%");
-            })
-            ->orderBy('name')
-            ->paginate();
-        
-        return view('admin.users.list', compact('items', 'request'));
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function create()
     {
-        if(Gate::denies('users-create'))
-            return Redirect::back()->withErrors([trans('crud.not-authorized')]);
-        
         $subitems = Role::where(function ($query){
                 if(!Auth::user()->isSuperUser()){
                     $query->where('level', '>', Auth::user()->getHighestLevel());
@@ -83,86 +52,55 @@ class UserController extends Controller
             })
             ->orderBy('title')
             ->get();
-        return view('admin.users.form', compact('subitems'));
+        
+        $this->addToView(compact('subitems'));
+        return parent::create();
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(Request $request)
     {
-        if(Gate::denies('users-create'))
-            return Redirect::back()->withErrors([trans('crud.not-authorized')]);
-
-        $fields = $request->item;
-        $fields['profile'] = $request->profile;
-        $subfields = isset($request->subitems) ? array_map('intval', $request->subitems) : [];
-        $validator = Validator::make($fields, $this->rulesCreate, [], $this->names);
-        if ($validator->fails())
-            return Redirect::back()->withErrors($validator)->withInput();
-
-        if(!isset($fields['password']))
-            $fields['password'] = $fields['confirm-password'] = User::generatePassword();
-        
-        if(empty($fields['confirm-password']) || $fields['password'] != $fields['confirm-password'])
+        if($request->item['password'] != $request->item['confirm-password'])
         {
             return Redirect::back()
                 ->withErrors([trans('auth.please-confirm-password')])
                 ->withInput();
         }
 
-        try {
-            DB::transaction(function() use($fields, $subfields) {
-                $fields['password'] = Hash::make($fields['password']);
-                $item = User::create($fields);
-                
-                $fields['profile']['identity'] = isset($fields['profile']['identity']) ? Profile::clearMask($fields['profile']['identity']) : null;
-                $fields['profile']['birthdate'] = isset($fields['profile']['birthdate']) ? Carbon::createFromFormat('d/m/Y', $fields['profile']['birthdate']) : null;
-                $fields['profile']['user_id'] = $item->id;
-                Profile::create($fields['profile']);
-
-                foreach($subfields as $subitemId)
-                    $item->roles()->attach($subitemId);
-                
-                $item->save();
-            });
-            return Redirect::route('admin:users.index')
-                ->with(['success' => trans('crud.successfully-added', [trans('admin.user')])]);
-        } catch (\Exception $e) {
-            return Redirect::back()
-                ->withErrors([trans('crud.error-occurred') . $e->getMessage()])
-                ->withInput();
-        }
+        return parent::store($request);
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
+    public function prepareFieldStore($fields)
+    {
+        if(!isset($fields['password']))
+            $fields['password'] = Hash::make(User::generatePassword());
+
+        return $fields;
+    }
+
+    public function afterStore($item, $request)
+    {
+        $profile = $request->profile;
+        $profile['identity'] = isset($profile['identity']) ? Profile::clearMask($profile['identity']) : null;
+        $profile['birthdate'] = isset($profile['birthdate']) ? Carbon::createFromFormat('d/m/Y', $profile['birthdate']) : null;
+        $profile['dark_mode'] = (Boolean) (isset($profile['dark_mode']) ? $profile['dark_mode'] : false);
+        $profile['user_id'] = $item->id;
+
+        return self::subitems($item, 'roles', $request->subitems) && Profile::create($profile);
+    }
+
     public function show($id)
     {
         $item = User::find($id);
 
         if(!isset($item))
             return Redirect::back()->withErrors([trans('crud.item-not-found')]);
-        
-        if(Gate::denies('has-level', $item) || Gate::denies('users-view'))
+
+        if(Gate::denies('has-level', $item))
             return Redirect::back()->withErrors([trans('crud.not-authorized')]);
 
-        return view('admin.users.show', compact('item'));
+        return parent::show($id);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function edit($id)
     {
         $item = User::find($id);
@@ -170,7 +108,7 @@ class UserController extends Controller
         if(!isset($item))
             return Redirect::back()->withErrors([trans('crud.item-not-found')]);
 
-        if(Gate::denies('has-level', $item) || Gate::denies('users-update'))
+        if(Gate::denies('has-level', $item))
             return Redirect::back()->withErrors([trans('crud.not-authorized')]);
 
         $subitems = Role::where(function ($query){
@@ -182,16 +120,11 @@ class UserController extends Controller
             })
             ->orderBy('title')
             ->get();
-    return view('admin.users.form', compact('item', 'subitems'));
+
+        $this->addToView(compact('subitems'));
+        return parent::edit($id);
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function update(Request $request, $id)
     {
         $item = User::find($id);
@@ -199,73 +132,46 @@ class UserController extends Controller
         if(!isset($item))
             return Redirect::back()->withErrors([trans('crud.item-not-found')]);
 
-        if(Gate::denies('has-level', $item) || Gate::denies('users-update'))
-            return Redirect::back()->withErrors([trans('crud.not-authorized')]);        
+        if(Gate::denies('has-level', $item))
+            return Redirect::back()->withErrors([trans('crud.not-authorized')]);
 
-        $fields = $request->item;
-        $fields['profile'] = $request->profile;
-        $subfields = isset($request->subitems) ? array_map('intval', $request->subitems) : [];
-        $newPassword = null;
-        
-        if($item->email == $fields['email']) unset($fields['email']);
-        if(!empty($fields['password']))
+        if(!empty($request->item['password']))
         {
-            if(empty($fields['confirm-password']) || $fields['password'] != $fields['confirm-password'])
+            if(empty($request->item['confirm-password']) || $request->item['password'] != $request->item['confirm-password'])
             {
                 return Redirect::back()
                     ->withErrors([trans('auth.please-confirm-password')])
                     ->withInput();
             }
-            $newPassword = Hash::make($fields['password']);
         }
 
-        $subitemsOnDatabase = $item->roles->map(function($role){ return $role->id; })->toArray();
-        $subitemsToDelete = array_diff($subitemsOnDatabase, $subfields);
-        $subitemsToInsert = array_unique(array_diff($subfields, $subitemsOnDatabase));
-
-        $validator = Validator::make($fields, $this->rulesUpdate, [], $this->names);
-        if ($validator->fails())
-            return Redirect::back()->withErrors($validator)->withInput();
-        
-        try {
-            $item->name = $fields['name'];
-            if(!empty($fields['email'])) $item->email = $fields['email'];
-            if(!empty($newPassword)) $item->password = $newPassword;
-            
-            DB::transaction(function() use($item, $fields, $subitemsToDelete, $subitemsToInsert) {
-                if(!isset($item->profile))
-                {
-                    $profile = Profile::create([
-                        'user_id' => $item->id
-                    ]);
-                } else $profile = $item->profile;
-
-                $profile->identity = isset($fields['profile']['identity']) ? Profile::clearMask($fields['profile']['identity']) : null;
-                $profile->birthdate = isset($fields['profile']['birthdate']) ? Carbon::createFromFormat('d/m/Y', $fields['profile']['birthdate']) : null;
-                $profile->save();
-            
-                foreach($subitemsToDelete as $subitemId)
-                    $item->roles()->detach($subitemId);
-                foreach($subitemsToInsert as $subitemId)
-                    $item->roles()->attach($subitemId);
-
-                $item->save();
-            });
-            return Redirect::route('admin:users.index')
-                ->with(['success' => trans('crud.successfully-updated', [trans('admin.user')])]);
-        } catch (\Exception $e) {
-            return Redirect::back()
-                ->withErrors([trans('crud.error-occurred') . $e->getMessage()])
-                ->withInput();
-        }
+        return parent::update($request, $id);
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
+    public function prepareValidationUpdate(Request $request, $item)
+    {
+        $this->rules['email'] = "required|string|email|unique:users,email,{$item->id},id,deleted_at,NULL";
+
+        return $request->item;
+    }
+    
+    public function prepareFieldUpdate($fields, $item)
+    {
+        if(!empty($fields['password']))
+            $fields['password'] = Hash::make($fields['password']);
+        return $fields;
+    }
+
+    public function afterUpdate($item, $request)
+    {
+        $profile = $request->profile;
+        if(isset($profile['identity'])) $item->profile->identity = Profile::clearMask($profile['identity']);
+        if(isset($profile['birthdate'])) $item->profile->birthdate = Carbon::createFromFormat('d/m/Y', $profile['birthdate']);
+        $item->profile->dark_mode = (Boolean) (isset($profile['dark_mode']) ? $profile['dark_mode'] : false);
+        
+        return self::subitems($item, 'roles', $request->subitems) && $item->profile->save();
+    }
+    
     public function destroy($id)
     {
         $item = User::find($id);
@@ -273,18 +179,9 @@ class UserController extends Controller
         if(!isset($item))
             return Redirect::back()->withErrors([trans('crud.item-not-found')]);
 
-        if(Gate::denies('has-level', $item) || Gate::denies('users-delete'))
+        if(Gate::denies('has-level', $item))
             return Redirect::back()->withErrors([trans('crud.not-authorized')]);
 
-        try {
-            $item->delete();
-
-            return Redirect::route('admin:users.index')
-                ->with(['success' => trans('crud.successfully-deleted', [trans('admin.user')])]);
-        } catch (\Exception $e) {
-            return Redirect::back()
-                ->withErrors([trans('crud.error-occurred') . $e->getMessage()])
-                ->withInput();
-        }
+       return parent::destroy($id);
     }
 }

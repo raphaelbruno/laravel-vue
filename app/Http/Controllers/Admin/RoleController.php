@@ -3,8 +3,9 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\CrudController;
-use App\Models\Permission;
 use Illuminate\Http\Request;
+
+use App\Models\Permission;
 
 class RoleController extends CrudController
 {
@@ -14,7 +15,7 @@ class RoleController extends CrudController
         'title' => 'required|min:3',
         'name' => 'required|min:3|unique:roles,name,NULL,id,deleted_at,NULL',
         'level' => 'nullable|numeric|between:0,99',
-        'default' => 'sometimes|boolean'
+        'default' => 'sometimes|boolean',
     ];
     
     function __construct()
@@ -35,14 +36,14 @@ class RoleController extends CrudController
 
     public function create()
     {
-        $subitems = Permission::orderBy('name')->get();
+        $subitems = Permission::orderBy('title')->get();
         $this->addToView(compact('subitems'));
         return parent::create();
     }
 
     public function edit($id)
     {
-        $subitems = Permission::orderBy('name')->get();
+        $subitems = Permission::orderBy('title')->get();
         $this->addToView(compact('subitems'));
         return parent::edit($id);
     }

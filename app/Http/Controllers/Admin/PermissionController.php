@@ -10,7 +10,7 @@ class PermissionController extends CrudController
     
     protected $rules = [
         'title' => 'required|min:3',
-        'name' => 'required|unique:permissions|min:3'
+        'name' => 'required|unique:permissions|min:3',
     ];
     
     function __construct()

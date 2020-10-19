@@ -8,7 +8,9 @@ class FormHelper
     
     public static function input($config)
     {
+        $type = isset($config['type']) ? $config['type'] : 'text';
         $ref = $config['ref'];
+        $name = isset($config['name']) ? $config['name'] : "item[{$ref}]";
         $required = (bool) isset($config['required']) ? $config['required'] : false;
         $icon = isset($config['icon']) ? $config['icon'] : false;
         $label = trans($config['label']);
@@ -29,16 +31,23 @@ class FormHelper
                         <span class="input-group-text"><i class="fas fa-'.$icon.'"></i></span>
                     </div>' : ''
                     ).'
-                    <input type="text" id="'.$ref.'" name="item['.$ref.']" '.($required ? 'required' : '').' class="form-control'.$class.'" value="'.$value.'" '.$attributesString.'>
+                    <input type="'.$type.'" id="'.$ref.'" name="'.$name.'" '.($required ? 'required' : '').' class="form-control'.$class.'" value="'.$value.'" '.$attributesString.'>
                     <div class="invalid-feedback">'.trans('crud.invalid-field', [$label]).'</div>
                 </div>
             </div>
         ';
     }
 
+    public static function password($config)
+    {
+        $config['type'] = 'password';
+        return self::input($config);;
+    }
+
     public static function textarea($config)
     {
         $ref = $config['ref'];
+        $name = isset($config['name']) ? $config['name'] : "item[{$ref}]";
         $required = (bool) isset($config['required']) ? $config['required'] : false;
         $icon = isset($config['icon']) ? $config['icon'] : false;
         $label = trans($config['label']);
@@ -60,7 +69,7 @@ class FormHelper
                         <span class="input-group-text"><i class="fas fa-'.$icon.'"></i></span>
                     </div>' : ''
                     ).'
-                    <textarea id="'.$ref.'" rows="'.$rows.'" name="item['.$ref.']" '.($required ? 'required' : '').' class="form-control'.$class.'" '.$attributesString.'>'.$value.'</textarea>
+                    <textarea id="'.$ref.'" rows="'.$rows.'" name="'.$name.'" '.($required ? 'required' : '').' class="form-control'.$class.'" '.$attributesString.'>'.$value.'</textarea>
                     <div class="invalid-feedback">'.trans('crud.invalid-field', [$label]).'</div>
                 </div>
             </div>
@@ -70,6 +79,7 @@ class FormHelper
     public static function select($config)
     {
         $ref = $config['ref'];
+        $name = isset($config['name']) ? $config['name'] : "item[{$ref}]";
         $required = (bool) isset($config['required']) ? $config['required'] : false;
         $icon = isset($config['icon']) ? $config['icon'] : false;
         $label = trans($config['label']);
@@ -91,7 +101,7 @@ class FormHelper
                         <span class="input-group-text"><i class="fas fa-'.$icon.'"></i></span>
                     </div>' : ''
                     ).'
-                    <select id="'.$ref.'" class="form-control'.$class.'" '.($required ? 'required' : '').'>
+                    <select id="'.$ref.'" name="'.$name.'" class="form-control'.$class.'" '.($required ? 'required' : '').'>
                         '.$optionsString.'
                     </select>
                     <div class="invalid-feedback">'.trans('crud.invalid-field', [$label]).'</div>
@@ -102,14 +112,14 @@ class FormHelper
 
     public static function select2($config)
     {
-        $class = 'select2' . (isset($config['class']) ? ' '.$config['class'] : '');
-        $config['class'] = $class;
+        $config['class'] = 'select2' . (isset($config['class']) ? ' '.$config['class'] : '');
         return self::select($config);
     }
 
     public static function switch($config)
     {
         $ref = $config['ref'];
+        $name = isset($config['name']) ? $config['name'] : "item[{$ref}]";
         $required = (bool) isset($config['required']) ? $config['required'] : false;
         $label = trans($config['label']);
         $class = isset($config['class']) ? ' '.$config['class'] : '';
@@ -119,7 +129,7 @@ class FormHelper
             <div class="form-group">
                 <label for="'.$ref.'">'.$label.' '.($required ? '*' : '').'</label>
                 <div class="custom-control custom-switch">
-                    <input type="checkbox" id="'.$ref.'" name="item['.$ref.']" '.($required ? 'required' : '').' class="custom-control-input'.$class.'" '. ($checked ? 'checked' : '') .'>
+                    <input type="checkbox" id="'.$ref.'" name="'.$name.'" '.($required ? 'required' : '').' class="custom-control-input'.$class.'" '. ($checked ? 'checked' : '') .'>
                     <label class="custom-control-label" for="default"></label>
                     <div class="invalid-feedback">'.trans('crud.invalid-field', [$label]).'</div>
                 </div>
@@ -130,6 +140,7 @@ class FormHelper
     public static function file($config)
     {
         $ref = $config['ref'];
+        $name = isset($config['name']) ? $config['name'] : "item[{$ref}]";
         $required = (bool) isset($config['required']) ? $config['required'] : false;
         $icon = isset($config['icon']) ? $config['icon'] : false;
         $label = trans($config['label']);
@@ -153,7 +164,7 @@ class FormHelper
                     <input type="text" class="form-control selected-file'.$class.'" readonly placeholder="'.trans('crud.choose-file').'">
                     <div class="input-group-append">
                         <label class="btn btn-primary m-0" for="'.$ref.'">
-                            <input id="'.$ref.'" name="item['.$ref.']" type="file" '.($required ? 'required' : '').' class="d-none file'.$class.'">
+                            <input id="'.$ref.'" name="'.$name.'" type="file" '.($required ? 'required' : '').' class="d-none file'.$class.'">
                             <i class="fas fa-search mr-1"></i>
                         </label>
                     </div>

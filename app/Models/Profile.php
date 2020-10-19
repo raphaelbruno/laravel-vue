@@ -9,7 +9,7 @@ class Profile extends Model
 {
     use SoftDeletes;
 
-    protected $fillable = ['user_id', 'identity', 'birthdate', 'avatar'];
+    protected $fillable = ['user_id', 'identity', 'birthdate', 'avatar', 'dark_mode'];
     protected $dates = ['birthdate'];
     
     public function user()
