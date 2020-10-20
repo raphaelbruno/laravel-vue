@@ -1,5 +1,7 @@
 <?php
 
+namespace Database\Seeders;
+
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 
@@ -33,7 +35,7 @@ class PermissionSeeder extends Seeder
             ['title' => 'Foos Delete', 'name' => 'foos-delete'],
         ];
         Permission::insert($permissions);
-        
+
         /**
          * permission_role
          */
@@ -48,7 +50,7 @@ class PermissionSeeder extends Seeder
             ['role_id' => 2, 'permission_id' => 11],
             ['role_id' => 2, 'permission_id' => 12],
             ['role_id' => 2, 'permission_id' => 13],
-            
+
             // Common User
             ['role_id' => 3, 'permission_id' => 1], // Administrator Access
             ['role_id' => 3, 'permission_id' => 10], // Foos
