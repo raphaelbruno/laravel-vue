@@ -47,7 +47,7 @@ class ProfileController extends Controller
         $fields = $request->user;
         $fields['profile'] = $request->profile;
         $newPassword = null;
-        
+
         if(!empty($fields['password']))
         {
             if(empty($fields['confirm-password']) || $fields['password'] != $fields['confirm-password'])
@@ -66,7 +66,8 @@ class ProfileController extends Controller
         if(isset($fields['profile']['avatar'])) $fields['profile']['avatar'] = $fields['profile']['avatar']->store('public/avatars');
         $fields['profile']['identity'] = isset($fields['profile']['identity']) ? Profile::clearMask($fields['profile']['identity']) : null;
         $fields['profile']['birthdate'] = isset($fields['profile']['birthdate']) ? Carbon::createFromFormat('d/m/Y', $fields['profile']['birthdate']) : null;
-        
+        $fields['profile']['dark_mode'] = (Boolean) (isset($fields['profile']['dark_mode']) ? $fields['profile']['dark_mode'] : false);
+
         try {
             $profile = null;
             DB::transaction(function() use($fields, $profile) {
@@ -77,13 +78,13 @@ class ProfileController extends Controller
                         'user_id' => $user->id
                     ]);
                 } else $profile = $user->profile;
-                
+
                 if(isset($fields['profile']['avatar']))
                     $previousAvatar = $profile->avatar;
 
                 $profile->update($fields['profile']);
                 $user->update($fields);
-                
+
                 if(isset($previousAvatar))
                     Storage::delete($previousAvatar);
             });

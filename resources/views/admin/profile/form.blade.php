@@ -1,140 +1,130 @@
-@extends('admin.layouts.template')
+@extends('admin.layouts.template-form', ['method' => 'PATCH'])
 
 @section('title')
     <i class="fas fa-user mr-1"></i> @lang('admin.profile')
 @endsection
 
-@section('breadcrumb')
-<li class="breadcrumb-item"><i class="fas fa-user"></i> @lang('admin.profile')</li>
+@section('label')
+    <i class="fas fa-edit mr-1"></i> @lang('crud.edit')
 @endsection
 
-@section('main')
-<div class="row">
-    <section class="col">
-        <div class="card card-outline card-{{ isset($item) ? 'primary' : 'success' }}">
-            <div class="card-header">
-                <h3 class="card-title"><i class="fas fa-edit mr-1"></i>  @lang('crud.edit')</h3>
+@section('breadcrumb')
+    <li class="breadcrumb-item"><i class="fas fa-user"></i> @lang('admin.profile')</li>
+@endsection
+
+@section('action', route('admin:profile.update'))
+
+@section('fields')
+
+    {!! \App\Helpers\FormHelper::input([
+        'ref' => 'name',
+        'name' => 'user[name]',
+        'label' => 'crud.name',
+        'required' => true,
+        'icon' => 'user',
+        'value' => !empty(old('user.name')) ? old('user.name') : $user->name,
+    ]) !!}
+
+    {!! \App\Helpers\FormHelper::input([
+        'ref' => 'email',
+        'name' => 'user[email]',
+        'label' => 'crud.email',
+        'icon' => 'at',
+        'attributes' => ['disabled' => 'disabled'],
+        'value' => !empty(old('user.email')) ? old('user.email') : $user->email,
+    ]) !!}
+
+    <div class="form-group">
+        <label for="email">@lang('admin.avatar')</label>
+        <div class="row">
+            <div class="col-3 col-md-2 col-lg-3">
+                <?php
+                    $avatar = isset(Auth::user()->profile) && isset(Auth::user()->profile->avatar)
+                        ? empty(parse_url(Auth::user()->profile->avatar)['scheme'])
+                            ? asset(Storage::url(Auth::user()->profile->avatar))
+                            : Auth::user()->profile->avatar
+                        : asset('img/avatar.jpg');
+                ?>
+                <img class="img-thumbnail rounded-circle img-fluid" src="{{ $avatar }}" alt="">
             </div>
 
-            <form method="POST" action="{{ route('admin:profile.update') }}" enctype="multipart/form-data">
-                @csrf
-                @method('PATCH')
-                
-                <div class="card-body">
-                    <div class="row">
-                        <div class="col col-12 col-lg-6">
-                            <div class="form-group">
-                                <label for="name">@lang('crud.name')</label>
-                                <div class="input-group">
-                                    <div class="input-group-prepend">
-                                        <span class="input-group-text"><i class="fas fa-user"></i></span>
-                                    </div>
-                                    <input type="text" id="name" name="user[name]" class="form-control" value="{{ !empty(old('user.name')) ? old('user.name') : $user->name }}">
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label for="email">@lang('crud.email')</label>
-                                <div class="input-group">
-                                    <div class="input-group-prepend">
-                                        <span class="input-group-text"><i class="fas fa-at"></i></span>
-                                    </div>
-                                    <input disabled type="text" id="email" name="user[email]" class="form-control" value="{{ !empty(old('user.email')) ? old('user.email') : $user->email }}">
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label for="email">@lang('admin.avatar')</label>
-                                <div class="row">
-                                    <div class="col-3 col-md-2 col-lg-3">
-                                        <?php
-                                            $avatar = isset(Auth::user()->profile) && isset(Auth::user()->profile->avatar)
-                                                ? empty(parse_url(Auth::user()->profile->avatar)['scheme'])
-                                                    ? asset(Storage::url(Auth::user()->profile->avatar))
-                                                    : Auth::user()->profile->avatar
-                                                : asset('img/avatar.jpg');
-                                        ?>
-                                        <img class="img-thumbnail rounded-circle img-fluid" src="{{ $avatar }}" alt="">
-                                    </div>
-
-                                    <div class="col">
-                                        <div class="input-group">
-                                            <div class="input-group-prepend">
-                                                <span class="input-group-text"><i class="fas fa-image"></i></span>
-                                            </div>
-                                            <input type="text" class="form-control selected-file" readonly placeholder="@lang('crud.choose-file')">
-                                            <div class="input-group-append">
-                                                <label class="btn btn-primary m-0" for="avatar">
-                                                    <input id="avatar" name="profile[avatar]" type="file" class="d-none file">
-                                                    <i class="fas fa-search mr-1"></i>
-                                                </label>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="form-group col">
-                                    <label for="password">@lang('crud.password')</label>
-                                    <div class="input-group">
-                                        <div class="input-group-prepend">
-                                            <span class="input-group-text"><i class="fas fa-key"></i></span>
-                                        </div>
-                                        <input type="password" id="password" name="user[password]" class="form-control">
-                                    </div>
-                                </div>
-                                <div class="form-group col">
-                                    <label for="confirm-password">@lang('crud.confirm-password')</label>
-                                    <div class="input-group">
-                                        <div class="input-group-prepend">
-                                            <span class="input-group-text"><i class="fas fa-key"></i></span>
-                                        </div>
-                                        <input type="password" id="confirm-password" name="user[confirm-password]" class="form-control">
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label for="identity">@lang('admin.identity')</label>
-                                <div class="input-group">
-                                    <div class="input-group-prepend">
-                                        <span class="input-group-text"><i class="far fa-address-card"></i></span>
-                                    </div>
-                                    <input type="text" id="identity" name="profile[identity]" class="form-control cpf" value="{{ !empty(old('profile.identity')) ? old('profile.identity') : ( isset($user->profile) ? $user->profile->getMaskedIdentity() : '' ) }}">
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label for="birthdate">@lang('admin.birthdate')</label>
-                                <div class="input-group">
-                                    <div class="input-group-prepend">
-                                        <span class="input-group-text"><i class="far fa-calendar-alt"></i></span>
-                                    </div>
-                                    <input type="text" id="birthdate" name="profile[birthdate]" class="form-control date date-picker" value="{{ !empty(old('profile.birthdate')) ? old('profile.birthdate') : ( isset($user->profile) && isset($user->profile->birthdate) ? $user->profile->birthdate->format('d/m/Y') : '' ) }}">
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="col col-12 col-lg-6">
-                            <div class="form-group">
-                                <label for="birthdate">@lang('admin.roles')</label>
-                                @foreach($user->roles as $role)
-                                <div class="card card-outline card-warning">
-                                    <div class="card-header">
-                                        <b>{{ $role->title }} (@lang('admin.level'): {{ $role->level }})</b>
-                                    </div>
-                                    <div class="card-body">
-                                        {{ !empty($role->permissionsToString()) ? $role->permissionsToString() : trans('admin.no-items') }}
-                                    </div>
-                                </div>
-                                @endforeach
-                            </div>
-                        </div>
+            <div class="col">
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text"><i class="fas fa-image"></i></span>
+                    </div>
+                    <input type="text" class="form-control selected-file" readonly placeholder="@lang('crud.choose-file')">
+                    <div class="input-group-append">
+                        <label class="btn btn-primary m-0" for="avatar">
+                            <input id="avatar" name="profile[avatar]" type="file" class="d-none file">
+                            <i class="fas fa-search mr-1"></i>
+                        </label>
                     </div>
                 </div>
-
-                <div class="card-footer">
-                    <button type="submit" class="btn btn-success">@lang('crud.save')</button>
-                    <a href="{{ route('admin:dashboard') }}" class="btn btn-danger">@lang('crud.cancel')</a>
-                </div>
-            </form>
+            </div>
         </div>
-    </section>
-</div>
+    </div>
+
+    <div class="row">
+        <div class="form-group col">
+            {!! \App\Helpers\FormHelper::password([
+                'ref' => 'password',
+                'name' => 'user[password]',
+                'label' => 'crud.password',
+                'icon' => 'key',
+            ]) !!}
+        </div>
+        <div class="form-group col">
+            {!! \App\Helpers\FormHelper::password([
+                'ref' => 'confirm-password',
+                'name' => 'user[confirm-password]',
+                'label' => 'crud.confirm-password',
+                'icon' => 'key',
+            ]) !!}
+        </div>
+    </div>
+
+    {!! \App\Helpers\FormHelper::input([
+        'ref' => 'identity',
+        'name' => 'profile[identity]',
+        'label' => 'admin.identity',
+        'icon' => 'address-card',
+        'class' => 'cpf',
+        'value' => !empty(old('profile.identity')) ? old('profile.identity') : ( isset($user->profile) ? $user->profile->getMaskedIdentity() : '' ),
+    ]) !!}
+
+    {!! \App\Helpers\FormHelper::input([
+        'ref' => 'birthdate',
+        'name' => 'profile[birthdate]',
+        'label' => 'admin.birthdate',
+        'icon' => 'address-card',
+        'class' => 'date date-picker',
+        'value' => !empty(old('profile.birthdate')) ? old('profile.birthdate') : ( isset($user->profile) && isset($user->profile->birthdate) ? $user->profile->birthdate->format('d/m/Y') : '' ),
+    ]) !!}
+
+    {!! \App\Helpers\FormHelper::switch([
+        'ref' => 'dark_mode',
+        'name' => 'profile[dark_mode]',
+        'label' => 'admin.dark-mode',
+        'checked' => (bool) (!empty(old('profile.dark_mode')) ? old('profile.dark_mode') : ( isset($user->profile) && isset($user->profile->dark_mode) ? $user->profile->dark_mode : app('config')->get('template')['dark-mode'] ) ),
+    ]) !!}
+
+@endsection
+
+@section('col')
+    <div class="col col-12 col-lg-6">
+        <div class="form-group">
+            <label for="birthdate">@lang('admin.roles')</label>
+            @foreach($user->roles as $role)
+            <div class="card card-outline card-warning">
+                <div class="card-header">
+                    <b>{{ $role->title }} (@lang('admin.level'): {{ $role->level }})</b>
+                </div>
+                <div class="card-body">
+                    {{ !empty($role->permissionsToString()) ? $role->permissionsToString() : trans('admin.no-items') }}
+                </div>
+            </div>
+            @endforeach
+        </div>
+    </div>
 @endsection
