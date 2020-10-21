@@ -35,4 +35,4 @@
         <i class="fas fa-times-circle mr-1"></i>
         @lang('crud.cancel')
     </a>
-@show
+@endsection
