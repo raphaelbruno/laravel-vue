@@ -4,7 +4,7 @@
     $fontAwesomeIcon = 'fas fa-' . $icon;
 ?>
 
-@extends('admin.layouts.template-form')
+@extends('admin.layouts.template-form', ['method' => ($itemID ? 'PATCH' : 'POST')])
 
 @section('title')
     <i class="{{ $fontAwesomeIcon }} mr-1"></i> {{ $title }}
@@ -16,7 +16,7 @@
 @endsection
 
 @section('label')
-    <i class="{{ $fontAwesomeIcon }} mr-1"></i> {{ $label }}
+<h3 class="card-title"><i class="fas fa-{{ $itemID ? 'edit' : 'plus' }} mr-1"></i> {{ $itemID ? trans('crud.edit') : trans('crud.new') }}</h3>
 @endsection
 
 @section('name')
@@ -25,8 +25,6 @@
 
 @section('color', ($itemID ? 'primary' : 'success') )
 @section('action', ($itemID ? route('admin:'.$currentResource.'.update', $itemID) : route('admin:'.$currentResource.'.store')) )
-
-@section('method' ($itemID ? 'PATCH' : 'POST'))
 
 @section('actions')
     <button type="submit" class="btn btn-success">
