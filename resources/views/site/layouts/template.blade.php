@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    
+
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
@@ -73,7 +73,7 @@
                                                      document.getElementById('logout-form').submit();">
                                         @lang('auth.logout')
                                     </a>
-                                    
+
                                     <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
                                         @csrf
                                     </form>
@@ -93,28 +93,28 @@
                     {!! $message !!}
                 </div>
                 @endif
-                
+
                 @if ($message = Session::get('error'))
                 <div class="alert alert-danger alert-dismissible">
                     <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
                     {!! $message !!}
                 </div>
                 @endif
-                
+
                 @if ($message = Session::get('warning'))
                 <div class="alert alert-warning alert-dismissible">
                     <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
                     {!! $message !!}
                 </div>
                 @endif
-                
+
                 @if ($message = Session::get('info'))
                 <div class="alert alert-info alert-dismissible">
                     <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
                     {!! $message !!}
                 </div>
                 @endif
-                
+
                 @if ($errors->any())
                 <div class="alert alert-danger alert-dismissible">
                     <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
@@ -124,8 +124,8 @@
             </div>
             @yield('content')
         </main>
-        
-        <footer class="footer bg-light py-3">
+
+        <footer class="footer py-3">
             <div class="container">
                 <div class="float-right"><a href="#">@lang('site.back-to-top')</a></div>
                 <div>
@@ -133,7 +133,7 @@
                     · <a href="#">Privacy</a> · <a href="#">Terms</a>
                 </div>
             </div>
-        </footer>            
+        </footer>
     </div>
 </body>
 </html>
