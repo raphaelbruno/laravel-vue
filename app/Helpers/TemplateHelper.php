@@ -16,7 +16,7 @@ class TemplateHelper
     public static function getCurrentResource()
     {
         $resource = null;
-        if (preg_match('#(\w*:)*(\w+).*#', \Route::getCurrentRoute()->getName(), $matches))
+        if (preg_match('#(\w*:)*([-a-z]+).*#', \Route::getCurrentRoute()->getName(), $matches))
             $resource = $matches[2];
 
         return $resource;
