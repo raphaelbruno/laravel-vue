@@ -17,12 +17,12 @@ use App\Models\User;
 class UserController extends CrudController
 {
     protected $model = User::class;
-    
+
     protected $rules = [
         'name' => 'required|min:3',
         'email' => 'required|string|email|unique:users,email,NULL,id,deleted_at,NULL',
     ];
-    
+
     function __construct()
     {
         $this->names = [
@@ -35,7 +35,7 @@ class UserController extends CrudController
         ];
 
         $this->icon = 'user';
-        $this->item = trans('admin.user');
+        $this->label = trans('admin.user');
         $this->title = trans('admin.users');
 
         parent::__construct();
@@ -52,7 +52,7 @@ class UserController extends CrudController
             })
             ->orderBy('title')
             ->get();
-        
+
         $this->addToView(compact('subitems'));
         return parent::create();
     }
@@ -154,7 +154,7 @@ class UserController extends CrudController
 
         return $request->item;
     }
-    
+
     public function prepareFieldUpdate($fields, $item)
     {
         if(!empty($fields['password']))
@@ -168,10 +168,10 @@ class UserController extends CrudController
         if(isset($profile['identity'])) $item->profile->identity = Profile::clearMask($profile['identity']);
         if(isset($profile['birthdate'])) $item->profile->birthdate = Carbon::createFromFormat('d/m/Y', $profile['birthdate']);
         $item->profile->dark_mode = (Boolean) (isset($profile['dark_mode']) ? $profile['dark_mode'] : false);
-        
+
         return self::subitems($item, 'roles', $request->subitems) && $item->profile->save();
     }
-    
+
     public function destroy($id)
     {
         $item = User::find($id);

@@ -10,14 +10,14 @@ use App\Models\Permission;
 class RoleController extends CrudController
 {
     protected $model = \App\Models\Role::class;
-    
+
     protected $rules = [
         'title' => 'required|min:3',
         'name' => 'required|min:3|unique:roles,name,NULL,id,deleted_at,NULL',
         'level' => 'nullable|numeric|between:0,99',
         'default' => 'sometimes|boolean',
     ];
-    
+
     function __construct()
     {
         $this->names = [
@@ -28,7 +28,7 @@ class RoleController extends CrudController
         ];
 
         $this->icon = 'id-card';
-        $this->item = trans('admin.role');
+        $this->label = trans('admin.role');
         $this->title = trans('admin.roles');
 
         parent::__construct();
@@ -54,7 +54,7 @@ class RoleController extends CrudController
         $requestItem['default'] = (Boolean) (isset($requestItem['default']) ? $requestItem['default'] : false);
         return $requestItem;
     }
-    
+
     public function afterStore($item, $request)
     {
         return self::subitems($item, 'permissions', $request->subitems);
@@ -64,15 +64,15 @@ class RoleController extends CrudController
     {
         $requestItem = $request->item;
         $requestItem['default'] = (Boolean) (isset($requestItem['default']) ? $requestItem['default'] : false);
-        
+
         $this->rules['name'] = "required|min:3|unique:roles,name,{$item->id},id,deleted_at,NULL";
 
         return $requestItem;
     }
-    
+
     public function afterUpdate($item, $request)
     {
         return self::subitems($item, 'permissions', $request->subitems);
     }
-    
+
 }

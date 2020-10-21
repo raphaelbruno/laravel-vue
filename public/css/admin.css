@@ -17531,6 +17531,11 @@ readers do not read off random characters that represent icons */
   box-shadow: 0 0 0 0.2rem rgba(40, 167, 69, 0.25);
 }
 
+.card-title,
+form {
+  margin-bottom: 0;
+}
+
 /* Multiple Upload Component */
 
 .multiple-upload {

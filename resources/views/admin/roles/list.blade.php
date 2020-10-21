@@ -1,16 +1,6 @@
-<?php
-    $fontAwesomeIcon = 'fas fa-' . $icon;
-    $resource = App\Helpers\TemplateHelper::getCurrentResource();
-?>
+<?php $resource = App\Helpers\TemplateHelper::getCurrentResource(); ?>
+
 @extends('admin.layouts.template-resource-list')
-
-@section('title')
-    <i class="{{ $fontAwesomeIcon }} mr-1"></i> {{ $title }}
-@endsection
-
-@section('breadcrumb')
-    <li class="breadcrumb-item"><i class="{{ $fontAwesomeIcon }}"></i> {{ $title }}</li>
-@endsection
 
 @section('thead')
     <tr>
@@ -56,12 +46,4 @@
             </td>
         </tr>
     @endforeach
-@endsection
-
-@section('actions')
-    @parent
-@endsection
-
-@section('pagination')
-    @include('admin.layouts.partials.navegation', ['pagination' => $items])
 @endsection

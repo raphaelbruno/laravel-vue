@@ -16,7 +16,7 @@ class CrudController extends Controller
 {
     protected $onlyMine = false;
     protected $names;
-    protected $item;
+    protected $label;
     protected $title;
     protected $icon;
     protected $resource = null;
@@ -30,7 +30,7 @@ class CrudController extends Controller
     public function __construct()
     {
         if(!$this->icon) $this->icon = 'file';
-        if(!$this->item) $this->item = trans('crud.item');
+        if(!$this->label) $this->label = trans('crud.item');
         if(!$this->title) $this->title = trans('crud.items');
         $this->middleware('auth');
         if(!$this->resource) $this->resource = TemplateHelper::getCurrentResource();
@@ -38,7 +38,7 @@ class CrudController extends Controller
 
     /**
      * Add Variables to view
-     * 
+     *
      * @param array $variables
      */
     function addToView($variables)
@@ -48,7 +48,7 @@ class CrudController extends Controller
 
     /**
      * Detach and Attach subitems from a relationship
-     * 
+     *
      * @param object $item
      * @param string $relationship
      * @param array $input
@@ -74,11 +74,11 @@ class CrudController extends Controller
     {
         if(Gate::denies($this->resource.'-view'))
             return Redirect::back()->withErrors([trans('crud.not-authorized')]);
-        
+
         $title = $this->title;
         $icon = $this->icon;
         $items = $this->incrementToSearch($this->filter($this->search($request), $request), $request)->paginate();
-        
+
         return view('admin.'.$this->resource.'.list', array_merge($this->variablesToView, compact('items', 'request', 'title', 'icon')));
     }
     public function search(Request $request)
@@ -93,14 +93,14 @@ class CrudController extends Controller
 
     /**
      * Override this method if you want to increment the query build of search
-     * 
+     *
      * @param \Illuminate\Database\Eloquent\Builder $queryBuilder
      * @param \Illuminate\Http\Response $request
      * @return \Illuminate\Database\Eloquent\Builder
      */
-    public function filter($queryBuilder, Request $request){        
+    public function filter($queryBuilder, Request $request){
         $q = $request->get('q');
-        
+
         if(preg_match('/^#\d+$/', $q)){ // Search by ID (#1)
             $queryBuilder->where('id', str_replace('#', '', $q));
         }elseif(preg_match('/^\w+:.+/', $q)){ // Search by specific field (field:foo)
@@ -109,10 +109,10 @@ class CrudController extends Controller
         }else{
             $queryBuilder->where(function($builder) use($q) {
                 $fields = (new $this->model())->getFillable();
-    
+
                 foreach($fields as $field)
                     $builder->orWhere($field, 'ilike', "%{$q}%");
-            });        
+            });
         }
 
         return $queryBuilder;
@@ -120,12 +120,12 @@ class CrudController extends Controller
 
     /**
      * Override this method if you want to increment the query build of search
-     * 
+     *
      * @param \Illuminate\Database\Eloquent\Builder $queryBuilder
      * @param \Illuminate\Http\Response $request
      * @return \Illuminate\Database\Eloquent\Builder
      */
-    public function incrementToSearch($queryBuilder, Request $request){        
+    public function incrementToSearch($queryBuilder, Request $request){
         return $queryBuilder;
     }
 
@@ -139,9 +139,10 @@ class CrudController extends Controller
         if(Gate::denies($this->resource.'-create'))
             return Redirect::back()->withErrors([trans('crud.not-authorized')]);
 
+        $label = $this->label;
         $title = $this->title;
         $icon = $this->icon;
-        return view('admin.'.$this->resource.'.form', array_merge($this->variablesToView, compact('title', 'icon')));
+        return view('admin.'.$this->resource.'.form', array_merge($this->variablesToView, compact('label', 'title', 'icon')));
     }
 
     /**
@@ -172,7 +173,7 @@ class CrudController extends Controller
 
             DB::commit();
             return Redirect::route('admin:'.$this->resource.'.index')
-                ->with(['success' => trans('crud.successfully-added', [trans($this->item)])]);
+                ->with(['success' => trans('crud.successfully-added', [trans($this->label)])]);
         } catch (\Exception $e) {
             $this->errorStore($fields);
             return Redirect::back()
@@ -211,10 +212,10 @@ class CrudController extends Controller
         $item = $this->model::find($id);
         if(!isset($item))
             return Redirect::back()->withErrors([trans('crud.item-not-found')]);
-        
+
         if($this->onlyMine && Gate::denies('mine', $item))
             return Redirect::back()->withErrors([trans('crud.not-authorized')]);
-        
+
         return view('admin.'.$this->resource.'.show', array_merge($this->variablesToView, compact('item', 'title', 'icon')));
     }
 
@@ -229,6 +230,7 @@ class CrudController extends Controller
         if(Gate::denies($this->resource.'-update'))
             return Redirect::back()->withErrors([trans('crud.not-authorized')]);
 
+        $label = $this->label;
         $title = $this->title;
         $icon = $this->icon;
         $item = $this->model::find($id);
@@ -237,8 +239,8 @@ class CrudController extends Controller
 
         if($this->onlyMine && Gate::denies('mine', $item))
             return Redirect::back()->withErrors([trans('crud.not-authorized')]);
-        
-        return view('admin.'.$this->resource.'.form', array_merge($this->variablesToView, compact('item', 'title', 'icon')));
+
+        return view('admin.'.$this->resource.'.form', array_merge($this->variablesToView, compact('item', 'label', 'title', 'icon')));
     }
 
     /**
@@ -256,7 +258,7 @@ class CrudController extends Controller
         $item = $this->model::find($id);
         if(!isset($item))
             return Redirect::back()->withErrors([trans('crud.item-not-found')]);
-            
+
         if($this->onlyMine && Gate::denies('mine', $item))
             return Redirect::back()->withErrors([trans('crud.not-authorized')]);
 
@@ -264,10 +266,10 @@ class CrudController extends Controller
         $validator = Validator::make($fields, $this->rules, [], $this->names);
         if ($validator->fails())
             return Redirect::back()->withErrors($validator)->withInput();
-        
+
         try {
             $fields = $this->prepareFieldUpdate($fields, $item);
-            
+
             DB::beginTransaction();
             $item->update($fields);
             if(!$this->afterUpdate($item, $request)){
@@ -277,7 +279,7 @@ class CrudController extends Controller
 
             DB::commit();
             return Redirect::route('admin:'.$this->resource.'.index')
-                ->with(['success' => trans('crud.successfully-updated', [trans($this->item)])]);
+                ->with(['success' => trans('crud.successfully-updated', [trans($this->label)])]);
         } catch (\Exception $e) {
             $this->errorUpdate($item, $fields);
             return Redirect::back()
@@ -327,7 +329,7 @@ class CrudController extends Controller
 
             DB::commit();
             return Redirect::route('admin:'.$this->resource.'.index')
-                ->with(['success' => trans('crud.successfully-deleted', [trans($this->item)])]);
+                ->with(['success' => trans('crud.successfully-deleted', [trans($this->label)])]);
         } catch (\Exception $e) {
             return Redirect::back()
                 ->withErrors([trans('crud.error-occurred') . $e->getMessage()])

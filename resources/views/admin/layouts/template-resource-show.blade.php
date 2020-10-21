@@ -1,9 +1,19 @@
 <?php
     $currentResource = App\Helpers\TemplateHelper::getCurrentResource();
     $itemID = App\Helpers\TemplateHelper::getItemID();
+    $fontAwesomeIcon = 'fas fa-' . $icon;
 ?>
 
 @extends('admin.layouts.template')
+
+@section('title')
+    <i class="{{ $fontAwesomeIcon }} mr-1"></i> {{ $title }}
+@endsection
+
+@section('breadcrumb')
+    <li class="breadcrumb-item"><a href="{{ route('admin:'.$currentResource.'.index') }}"><i class="{{ $icon }}"></i> {{ $title }}</a></li>
+    <li class="breadcrumb-item"><i class="fas fa-eye"></i> @lang('crud.show')</li>
+@endsection
 
 @section('main')
     <div class="row">

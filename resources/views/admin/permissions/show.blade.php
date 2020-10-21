@@ -1,17 +1,4 @@
-<?php
-    $fontAwesomeIcon = 'fas fa-' . $icon;
-    $resource = App\Helpers\TemplateHelper::getCurrentResource();
-?>
 @extends('admin.layouts.template-resource-show')
-
-@section('title')
-    <i class="{{ $fontAwesomeIcon }} mr-1"></i> {{ $title }}
-@endsection
-
-@section('breadcrumb')
-    <li class="breadcrumb-item"><a href="{{ route('admin:'.$resource.'.index') }}"><i class="{{ $icon }}"></i> {{ $title }}</a></li>
-    <li class="breadcrumb-item"><i class="fas fa-eye"></i> @lang('crud.show')</li>
-@endsection
 
 @section('fields')
     <div class="form-group row">

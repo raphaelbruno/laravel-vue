@@ -1,16 +1,6 @@
-<?php
-    $fontAwesomeIcon = 'fas fa-' . $icon;
-    $resource = App\Helpers\TemplateHelper::getCurrentResource();
-?>
+<?php $resource = App\Helpers\TemplateHelper::getCurrentResource(); ?>
+
 @extends('admin.layouts.template-resource-list')
-
-@section('title')
-    <i class="{{ $fontAwesomeIcon }} mr-1"></i> {{ $title }}
-@endsection
-
-@section('breadcrumb')
-    <li class="breadcrumb-item"><i class="{{ $fontAwesomeIcon }}"></i> {{ $title }}</li>
-@endsection
 
 @section('thead')
     <tr>
@@ -32,7 +22,7 @@
             </td>
             <td class="align-middle">
                 @can('has-level', $item)
-                    <a href="{{ route('admin:users.edit', $item->id) }}" title="@lang('crud.edit')"><b>{{ $item->name }}</b></a>
+                    <a href="{{ route('admin:'.$resource.'.edit', $item->id) }}" title="@lang('crud.edit')"><b>{{ $item->name }}</b></a>
                 @else
                     <b>{{ $item->name }}</b>
                 @endcan
@@ -58,12 +48,4 @@
             </td>
         </tr>
     @endforeach
-@endsection
-
-@section('actions')
-    @parent
-@endsection
-
-@section('pagination')
-    @include('admin.layouts.partials.navegation', ['pagination' => $items])
 @endsection

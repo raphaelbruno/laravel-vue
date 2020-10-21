@@ -1,8 +1,17 @@
 <?php
     $currentResource = App\Helpers\TemplateHelper::getCurrentResource();
+    $fontAwesomeIcon = 'fas fa-' . $icon;
 ?>
 
 @extends('admin.layouts.template')
+
+@section('title')
+    <i class="{{ $fontAwesomeIcon }} mr-1"></i> {{ $title }}
+@endsection
+
+@section('breadcrumb')
+    <li class="breadcrumb-item"><i class="{{ $fontAwesomeIcon }}"></i> {{ $title }}</li>
+@endsection
 
 @section('main')
     <div class="row">
@@ -27,7 +36,7 @@
                         </form>
                     </div>
                 </div>
-                
+
                 <div class="card-body p-0">
                     <div class="table-responsive">
                         <table class="table table-striped table-hover m-0">
@@ -38,7 +47,7 @@
                                 @yield('tbody')
                             </tbody>
                         </table>
-                    </div>                
+                    </div>
                 </div>
 
                 <div class="card-footer">
@@ -49,7 +58,11 @@
                         </a>
                         @endcan
                     @show
-                    @yield('pagination')
+
+                    @section('pagination')
+                        @include('admin.layouts.partials.navegation', ['pagination' => $items])
+                    @show
+
                 </div>
             </div>
         </section>

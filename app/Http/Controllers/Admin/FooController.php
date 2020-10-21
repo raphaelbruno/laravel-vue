@@ -8,11 +8,11 @@ class FooController extends CrudController
 {
     protected $model = \App\Models\Foo::class;
     protected $onlyMine = true;
-    
+
     protected $rules = [
         'title' => 'required|min:3',
     ];
-    
+
     function __construct()
     {
         $this->names = [
@@ -20,7 +20,7 @@ class FooController extends CrudController
         ];
 
         $this->icon = 'file';
-        $this->item = trans('Foo'); // Create a new file at "resources/lang/" to translate
+        $this->label = trans('Foo'); // Create a new file at "resources/lang/" to translate
         $this->title = trans('Foos'); // Create a new file at "resources/lang/" to translate
 
         parent::__construct();

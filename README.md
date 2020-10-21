@@ -1,12 +1,15 @@
-# Boilerplate Laravel 7.0 + AdminLTE 3.0.4 
+# Boilerplate Laravel 8.0 + Vue.js + AdminLTE 3.0.4 
 A blank project with all you need to start a new application using Laravel and AdminLTE.
 
 Use the file config/template.php to customize menu, color, version, etc.
 
 ### Features
+- [X] Vue.js
 - [x] Basic Bootstrap Template (Site)
 - [x] AdminLTE Template (Admin)
-- [X] Multi-language Support
+- [x] Basic Dark Mode (Admin)
+- [x] Form Components Ready to Use
+- [X] Multi-language Support (including Vue.js components)
 - [x] User Authentication
 - [X] User Profile (Basic)
 - [X] Access Control List (Basic ACL)
@@ -45,6 +48,14 @@ You may want to link the storage folder with public folder.
 ```
 php artisan storage:link
 ```
+
+To compile Vue
+```
+npm install
+npm run watch
+```
+
+
 
 ### Run
 ```
@@ -115,9 +126,6 @@ class BookController extends CrudController
 {
   protected $model = \App\Book::class;
   protected $onlyMine = true;
-  protected $names;
-  protected $item;
-  protected $title;
   
   protected $rules = [
     'title' => 'required|min:3',
@@ -131,8 +139,8 @@ class BookController extends CrudController
       'pages' => trans('crud.pages'),
     ];
 
-    $this->item = trans('admin.book');
-    $this->title = trans('admin.books');
+    $this->label = trans('crud.book');
+    $this->title = trans('crud.books');
 
     parent::__construct();
   }
@@ -141,30 +149,14 @@ class BookController extends CrudController
 
 8- Include the Book menu into "/config/template.php"
 ```php
-['name' => 'Books', 'icon' => 'book', 'resource' => 'books', 'permission' => 'books-view', 'children' => [
-    ['name' => 'crud.list', 'icon' => 'list', 'action' => 'admin:books.index', 'permission' => 'books-view'],
-    ['name' => 'crud.new', 'icon' => 'plus', 'action' => 'admin:books.create', 'permission' => 'books-create']
-  ]
-],
+['name' => 'Books', 'icon' => 'book', 'action' => 'admin:books.index', 'permission' => 'books-view'],
 ```
 
 9- Finally add the new field "pages" and change the icon of the 3 views.
 
 /resources/views/admin/books/list.blade.php
 ```html
-<?php
-    $icon = 'fas fa-book';
-    $resource = App\Helpers\TemplateHelper::getCurrentResource();
-?>
 @extends('admin.layouts.template-resource-list')
-
-@section('title')
-    <i class="{{ $icon }} mr-1"></i> {{ $title }}
-@endsection
-
-@section('breadcrumb')
-    <li class="breadcrumb-item"><i class="{{ $icon }}"></i> {{ $title }}</li>
-@endsection
 
 @section('thead')
     <tr>
@@ -197,32 +189,11 @@ class BookController extends CrudController
         </tr>
     @endforeach
 @endsection
-
-@section('actions')
-    @parent
-@endsection
-
-@section('pagination')
-    @include('admin.layouts.partials.navegation', ['pagination' => $items])
-@endsection
 ```
 
 /resources/views/admin/books/show.blade.php
 ```html
-<?php
-    $icon = 'fas fa-book';
-    $resource = App\Helpers\TemplateHelper::getCurrentResource();
-?>
 @extends('admin.layouts.template-resource-show')
-
-@section('title')
-    <i class="{{ $icon }} mr-1"></i> {{ $title }}
-@endsection
-
-@section('breadcrumb')
-    <li class="breadcrumb-item"><a href="{{ route('admin:'.$resource.'.index') }}"><i class="{{ $icon }}"></i> {{ $title }}</a></li>
-    <li class="breadcrumb-item"><i class="fas fa-eye"></i> @lang('crud.show')</li>
-@endsection
 
 @section('fields')
     <div class="form-group row">
@@ -246,46 +217,29 @@ class BookController extends CrudController
         <div class="col">{{ $item->updated_at->format('d/m/Y H:i:s') }}</div>
     </div>
 @endsection
-
 ```
 
 /resources/views/admin/books/form.blade.php
 ```html
-<?php
-    $icon = 'fas fa-book';
-    $resource = App\Helpers\TemplateHelper::getCurrentResource();
-?>
 @extends('admin.layouts.template-resource-form')
 
-@section('title')
-    <i class="{{ $icon }} mr-1"></i> {{ $title }}
-@endsection
-
-@section('breadcrumb')
-    <li class="breadcrumb-item"><a href="{{ route('admin:'.$resource.'.index') }}"><i class="{{ $icon }}"></i> {{ $title }}</a></li>
-    <li class="breadcrumb-item"><i class="fas fa-{{ isset($item) ? 'edit' : 'plus' }}"></i> {{ isset($item) ? trans('crud.edit') : trans('crud.new') }}</li>
-@endsection
-
 @section('fields')
-    <div class="form-group">
-        <label for="title">@lang('crud.title') *</label>
-        <div class="input-group">
-            <div class="input-group-prepend">
-                <span class="input-group-text"><i class="fas fa-book"></i></span>
-            </div>
-            <input type="text" id="title" name="item[title]" required class="form-control" value="{{ isset($item) ? $item->title : old('item.title') }}">
-            <div class="invalid-feedback">@lang('crud.invalid-field', [trans('crud.title')])</div>
-        </div>
-    </div>
-    <div class="form-group">
-        <label for="pages">@lang('crud.pages') *</label>
-        <div class="input-group">
-            <div class="input-group-prepend">
-                <span class="input-group-text"><i class="fas fa-copy"></i></span>
-            </div>
-            <input type="text" id="pages" name="item[pages]" required class="form-control" value="{{ isset($item) ? $item->pages : old('item.pages') }}">
-            <div class="invalid-feedback">@lang('crud.invalid-field', [trans('crud.pages')])</div>
-        </div>
-    </div>
+
+    {!! \App\Helpers\FormHelper::input([
+        'ref' => 'title',
+        'label' => 'crud.title',
+        'required' => true,
+        'icon' => $icon,
+        'value' => !empty(old('item.title')) ? old('item.title') : ( isset($item) ? $item->title : '' ),
+    ]) !!}
+
+    {!! \App\Helpers\FormHelper::input([
+        'ref' => 'pages',
+        'label' => 'crud.pages',
+        'required' => true,
+        'icon' => $icon,
+        'value' => !empty(old('item.pages')) ? old('item.pages') : ( isset($item) ? $item->pages : '' ),
+    ]) !!}
+
 @endsection
 ```
