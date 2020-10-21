@@ -13,7 +13,7 @@ class RoleController extends CrudController
 
     protected $rules = [
         'title' => 'required|min:3',
-        'name' => 'required|min:3|unique:roles,name,NULL,id,deleted_at,NULL',
+        'name' => 'required|min:2|unique:roles,name,NULL,id,deleted_at,NULL',
         'level' => 'nullable|numeric|between:0,99',
         'default' => 'sometimes|boolean',
     ];
@@ -65,7 +65,7 @@ class RoleController extends CrudController
         $requestItem = $request->item;
         $requestItem['default'] = (Boolean) (isset($requestItem['default']) ? $requestItem['default'] : false);
 
-        $this->rules['name'] = "required|min:3|unique:roles,name,{$item->id},id,deleted_at,NULL";
+        $this->rules['name'] = "required|min:2|unique:roles,name,{$item->id},id,deleted_at,NULL";
 
         return $requestItem;
     }

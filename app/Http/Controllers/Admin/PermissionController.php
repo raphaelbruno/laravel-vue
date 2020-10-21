@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\CrudController;
+use Illuminate\Http\Request;
 
 class PermissionController extends CrudController
 {
@@ -10,7 +11,7 @@ class PermissionController extends CrudController
 
     protected $rules = [
         'title' => 'required|min:3',
-        'name' => 'required|unique:permissions|min:3',
+        'name' => 'required|min:2|unique:permissions,name,NULL,id,deleted_at,NULL',
     ];
 
     function __construct()
@@ -25,5 +26,11 @@ class PermissionController extends CrudController
         $this->title = trans('admin.permissions');
 
         parent::__construct();
+    }
+
+    public function prepareValidationUpdate(Request $request, $item)
+    {
+        $this->rules['name'] = "required|min:2|unique:permissions,name,{$item->id},id,deleted_at,NULL";
+        return $request->item;
     }
 }
