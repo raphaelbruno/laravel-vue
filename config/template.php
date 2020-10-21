@@ -1,6 +1,6 @@
-<?php 
+<?php
     return [
-        'dark-mode' => true,
+        'dark-mode' => false,
         'theme' => 'teal', // ['primary', 'secondary', 'success', 'danger', 'warning', 'info', 'light', 'dark', 'blue', 'indigo', 'purple', 'pink', 'red', 'orange', 'yellow', 'green', 'teal', 'cyan']
         'version' => '1.0.0',
         'menu' => [
