@@ -139,10 +139,9 @@ class BookController extends CrudController
       'pages' => trans('crud.pages'),
     ];
 
+    $this->icon = 'book';
     $this->label = trans('crud.book');
     $this->title = trans('crud.books');
-
-    parent::__construct();
   }
 }
 ```
@@ -152,7 +151,7 @@ class BookController extends CrudController
 ['name' => 'Books', 'icon' => 'book', 'action' => 'admin:books.index', 'permission' => 'books-view'],
 ```
 
-9- Finally add the new field "pages" and change the icon of the 3 views.
+9- Finally add the new field "pages" in the 3 views.
 
 /resources/views/admin/books/list.blade.php
 ```html
