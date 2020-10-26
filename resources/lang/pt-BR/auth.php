@@ -35,5 +35,5 @@ return [
     'please-confirm-password' => 'Por gentileza, confirme a senha antes de continuar.',
     'failed' => 'Estas credenciais não batem com os nossos registros.',
     'throttle' => 'Muitas tentativas de login. Por gentileza, tente novamente em :seconds segundos.',
-
+    'logged-out-successfully' => 'Saiu do sistema com segurança.',
 ];

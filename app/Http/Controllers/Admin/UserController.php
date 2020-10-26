@@ -6,7 +6,6 @@ use App\Http\Controllers\CrudController;
 use App\Models\Profile;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Redirect;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Gate;
@@ -19,7 +18,7 @@ class UserController extends CrudController
     protected $model = User::class;
 
     protected $rules = [
-        'name' => 'required|min:3',
+        'name' => 'required|string|min:3',
         'email' => 'required|string|email|unique:users,email,NULL,id,deleted_at,NULL',
     ];
 
@@ -45,6 +44,11 @@ class UserController extends CrudController
     {
         $subitems = Role::where(function ($query){
                 if(!Auth::user()->isSuperUser()){
+                    if(!Auth::user()->getHighestLevel()){
+                        $query->whereRaw("false");
+                        return;
+                    }
+
                     $query->where('level', '>', Auth::user()->getHighestLevel());
                     if(is_numeric(Auth::user()->getHighestLevel()))
                         $query->orWhere('level', null);
@@ -60,11 +64,7 @@ class UserController extends CrudController
     public function store(Request $request)
     {
         if($request->item['password'] != $request->item['confirm-password'])
-        {
-            return Redirect::back()
-                ->withErrors([trans('auth.please-confirm-password')])
-                ->withInput();
-        }
+            return $this->backOrJson(request(), 'confirm_password', 'auth.please-confirm-password');
 
         return parent::store($request);
     }
@@ -93,26 +93,31 @@ class UserController extends CrudController
         $item = User::find($id);
 
         if(!isset($item))
-            return Redirect::back()->withErrors([trans('crud.item-not-found')]);
-
+            return $this->backOrJson(request(), 'item_not_found', 'crud.item-not-found');
+    
         if(Gate::denies('has-level', $item))
-            return Redirect::back()->withErrors([trans('crud.not-authorized')]);
-
+            return $this->backOrJson(request(), 'not_authorized', 'crud.not-authorized');
+    
         return parent::show($id);
     }
 
     public function edit($id)
     {
         $item = User::find($id);
-
+        
         if(!isset($item))
-            return Redirect::back()->withErrors([trans('crud.item-not-found')]);
-
+            return $this->backOrJson(request(), 'item_not_found', 'crud.item-not-found');
+    
         if(Gate::denies('has-level', $item))
-            return Redirect::back()->withErrors([trans('crud.not-authorized')]);
+            return $this->backOrJson(request(), 'not_authorized', 'crud.not-authorized');
 
         $subitems = Role::where(function ($query){
                 if(!Auth::user()->isSuperUser()){
+                    if(!Auth::user()->getHighestLevel()){
+                        $query->whereRaw("false");
+                        return;
+                    }
+
                     $query->where('level', '>', Auth::user()->getHighestLevel());
                     if(is_numeric(Auth::user()->getHighestLevel()))
                         $query->orWhere('level', null);
@@ -130,46 +135,43 @@ class UserController extends CrudController
         $item = User::find($id);
 
         if(!isset($item))
-            return Redirect::back()->withErrors([trans('crud.item-not-found')]);
-
+            return $this->backOrJson(request(), 'item_not_found', 'crud.item-not-found');
+    
         if(Gate::denies('has-level', $item))
-            return Redirect::back()->withErrors([trans('crud.not-authorized')]);
+            return $this->backOrJson(request(), 'not_authorized', 'crud.not-authorized');
 
         if(!empty($request->item['password']))
-        {
             if(empty($request->item['confirm-password']) || $request->item['password'] != $request->item['confirm-password'])
-            {
-                return Redirect::back()
-                    ->withErrors([trans('auth.please-confirm-password')])
-                    ->withInput();
-            }
-        }
+                return $this->backOrJson(request(), 'confirm_password', 'auth.please-confirm-password');
 
         return parent::update($request, $id);
     }
 
     public function prepareValidationUpdate(Request $request, $item)
     {
-        $this->rules['email'] = "required|string|email|unique:users,email,{$item->id},id,deleted_at,NULL";
+        $this->rules['email'] = "sometimes|string|email|unique:users,email,{$item->id},id,deleted_at,NULL";
 
         return $request->item;
     }
 
     public function prepareFieldUpdate($fields, $item)
     {
-        if(!empty($fields['password']))
-            $fields['password'] = Hash::make($fields['password']);
+        if(empty($fields['password'])) unset($fields['password']);
+        else $fields['password'] = Hash::make($fields['password']);            
+
         return $fields;
     }
 
     public function afterUpdate($item, $request)
     {
-        $profile = $request->profile;
-        if(isset($profile['identity'])) $item->profile->identity = Profile::clearMask($profile['identity']);
-        if(isset($profile['birthdate'])) $item->profile->birthdate = Carbon::createFromFormat('d/m/Y', $profile['birthdate']);
-        $item->profile->dark_mode = (Boolean) (isset($profile['dark_mode']) ? $profile['dark_mode'] : false);
+        $fields = $request->profile;
+        $profile = $item->profile ? $item->profile : new Profile(['user_id' => $item->id]);
 
-        return self::subitems($item, 'roles', $request->subitems) && $item->profile->save();
+        if(isset($fields['identity'])) $profile->identity = Profile::clearMask($fields['identity']);
+        if(isset($fields['birthdate'])) $profile->birthdate = Carbon::createFromFormat('d/m/Y', $fields['birthdate']);
+        $profile->dark_mode = (Boolean) (isset($fields['dark_mode']) ? $fields['dark_mode'] : false);
+        
+        return self::subitems($item, 'roles', $request->subitems) && $profile->save();
     }
 
     public function destroy($id)
@@ -177,10 +179,10 @@ class UserController extends CrudController
         $item = User::find($id);
 
         if(!isset($item))
-            return Redirect::back()->withErrors([trans('crud.item-not-found')]);
-
+            return $this->backOrJson(request(), 'item_not_found', 'crud.item-not-found');
+    
         if(Gate::denies('has-level', $item))
-            return Redirect::back()->withErrors([trans('crud.not-authorized')]);
+            return $this->backOrJson(request(), 'not_authorized', 'crud.not-authorized');
 
        return parent::destroy($id);
     }

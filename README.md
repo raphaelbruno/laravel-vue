@@ -5,6 +5,7 @@ Use the file config/template.php to customize menu, color, version, etc.
 
 ### Features
 - [X] Vue.js
+- [X] Laravel Passaport (API)
 - [x] Basic Bootstrap Template (Site)
 - [x] AdminLTE Template (Admin)
 - [x] Basic Dark Mode (Admin)

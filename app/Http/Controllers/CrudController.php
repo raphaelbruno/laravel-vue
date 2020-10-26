@@ -73,13 +73,15 @@ class CrudController extends Controller
     public function index(Request $request)
     {
         if(Gate::denies($this->resource.'-view'))
-            return Redirect::back()->withErrors([trans('crud.not-authorized')]);
+            return $this->backOrJson(request(), 'not_authorized', 'crud.not-authorized');
 
         $title = $this->title;
         $icon = $this->icon;
         $items = $this->incrementToSearch($this->filter($this->search($request), $request), $request)->paginate();
 
-        return view('admin.'.$this->resource.'.list', array_merge($this->variablesToView, compact('items', 'request', 'title', 'icon')));
+        return request()->wantsJson() 
+            ? $items 
+            : view('admin.'.$this->resource.'.list', array_merge($this->variablesToView, compact('items', 'request', 'title', 'icon')));
     }
     public function search(Request $request)
     {
@@ -137,12 +139,14 @@ class CrudController extends Controller
     public function create()
     {
         if(Gate::denies($this->resource.'-create'))
-            return Redirect::back()->withErrors([trans('crud.not-authorized')]);
+            return $this->backOrJson(request(), 'not_authorized', 'crud.not-authorized');
 
         $label = $this->label;
         $title = $this->title;
         $icon = $this->icon;
-        return view('admin.'.$this->resource.'.form', array_merge($this->variablesToView, compact('label', 'title', 'icon')));
+        return request()->wantsJson() 
+            ? null
+            : view('admin.'.$this->resource.'.form', array_merge($this->variablesToView, compact('label', 'title', 'icon')));
     }
 
     /**
@@ -154,12 +158,12 @@ class CrudController extends Controller
     public function store(Request $request)
     {
         if(Gate::denies($this->resource.'-create'))
-            return Redirect::back()->withErrors([trans('crud.not-authorized')]);
+            return $this->backOrJson(request(), 'not_authorized', 'crud.not-authorized');
 
         $fields = $this->prepareValidationStore($request);
         $validator = Validator::make($fields, $this->rules, [], $this->names);
         if ($validator->fails())
-            return Redirect::back()->withErrors($validator)->withInput();
+            return $this->backOrJson(request(), 'validation', $validator);
 
         try {
             $fields = $this->prepareFieldStore($fields);
@@ -172,13 +176,10 @@ class CrudController extends Controller
             }
 
             DB::commit();
-            return Redirect::route('admin:'.$this->resource.'.index')
-                ->with(['success' => trans('crud.successfully-added', [trans($this->label)])]);
+            return $this->routeOrJson(request(), 'admin:'.$this->resource.'.index', trans('crud.successfully-added', [trans($this->label)]));
         } catch (\Exception $e) {
             $this->errorStore($fields);
-            return Redirect::back()
-                ->withErrors([trans('crud.error-occurred') . $e->getMessage()])
-                ->withInput();
+            return $this->backOrJson(request(), 'generic', trans('crud.error-occurred') . $e->getMessage());
         }
     }
     public function prepareValidationStore(Request $request)
@@ -205,18 +206,21 @@ class CrudController extends Controller
     public function show($id)
     {
         if(Gate::denies($this->resource.'-view'))
-            return Redirect::back()->withErrors([trans('crud.not-authorized')]);
+            return $this->backOrJson(request(), 'not_authorized', 'crud.not-authorized');
 
         $title = $this->title;
         $icon = $this->icon;
         $item = $this->model::find($id);
+
         if(!isset($item))
-            return Redirect::back()->withErrors([trans('crud.item-not-found')]);
-
+            return $this->backOrJson(request(), 'item_not_found', 'crud.item-not-found');
+    
         if($this->onlyMine && Gate::denies('mine', $item))
-            return Redirect::back()->withErrors([trans('crud.not-authorized')]);
+            return $this->backOrJson(request(), 'not_authorized', 'crud.not-authorized');
 
-        return view('admin.'.$this->resource.'.show', array_merge($this->variablesToView, compact('item', 'title', 'icon')));
+        return request()->wantsJson() 
+            ? $item
+            : view('admin.'.$this->resource.'.show', array_merge($this->variablesToView, compact('item', 'title', 'icon')));
     }
 
     /**
@@ -228,19 +232,22 @@ class CrudController extends Controller
     public function edit($id)
     {
         if(Gate::denies($this->resource.'-update'))
-            return Redirect::back()->withErrors([trans('crud.not-authorized')]);
+            return $this->backOrJson(request(), 'not_authorized', 'crud.not-authorized');
 
         $label = $this->label;
         $title = $this->title;
         $icon = $this->icon;
         $item = $this->model::find($id);
+        
         if(!isset($item))
-            return Redirect::back()->withErrors([trans('crud.item-not-found')]);
-
+            return $this->backOrJson(request(), 'item_not_found', 'crud.item-not-found');
+    
         if($this->onlyMine && Gate::denies('mine', $item))
-            return Redirect::back()->withErrors([trans('crud.not-authorized')]);
+            return $this->backOrJson(request(), 'not_authorized', 'crud.not-authorized');
 
-        return view('admin.'.$this->resource.'.form', array_merge($this->variablesToView, compact('item', 'label', 'title', 'icon')));
+        return request()->wantsJson() 
+            ? $item
+            : view('admin.'.$this->resource.'.form', array_merge($this->variablesToView, compact('item', 'label', 'title', 'icon')));
     }
 
     /**
@@ -253,19 +260,19 @@ class CrudController extends Controller
     public function update(Request $request, $id)
     {
         if(Gate::denies($this->resource.'-update'))
-            return Redirect::back()->withErrors([trans('crud.not-authorized')]);
+            return $this->backOrJson(request(), 'not_authorized', 'crud.not-authorized');
 
         $item = $this->model::find($id);
         if(!isset($item))
-            return Redirect::back()->withErrors([trans('crud.item-not-found')]);
+            return $this->backOrJson(request(), 'item_not_found', 'crud.item-not-found');
 
         if($this->onlyMine && Gate::denies('mine', $item))
-            return Redirect::back()->withErrors([trans('crud.not-authorized')]);
+            return $this->backOrJson(request(), 'not_authorized', 'crud.not-authorized');
 
         $fields = $this->prepareValidationUpdate($request, $item);
         $validator = Validator::make($fields, $this->rules, [], $this->names);
         if ($validator->fails())
-            return Redirect::back()->withErrors($validator)->withInput();
+            return $this->backOrJson(request(), 'validation', $validator);
 
         try {
             $fields = $this->prepareFieldUpdate($fields, $item);
@@ -278,13 +285,10 @@ class CrudController extends Controller
             }
 
             DB::commit();
-            return Redirect::route('admin:'.$this->resource.'.index')
-                ->with(['success' => trans('crud.successfully-updated', [trans($this->label)])]);
+            return $this->routeOrJson(request(), 'admin:'.$this->resource.'.index', trans('crud.successfully-updated', [trans($this->label)]));
         } catch (\Exception $e) {
             $this->errorUpdate($item, $fields);
-            return Redirect::back()
-                ->withErrors([trans('crud.error-occurred') . $e->getMessage()])
-                ->withInput();
+            return $this->backOrJson(request(), 'generic', trans('crud.error-occurred') . $e->getMessage());
         }
     }
     public function prepareValidationUpdate(Request $request, $item)
@@ -310,15 +314,15 @@ class CrudController extends Controller
     public function destroy($id)
     {
         if(Gate::denies($this->resource.'-delete'))
-            return Redirect::back()->withErrors([trans('crud.not-authorized')]);
-
+            return $this->backOrJson(request(), 'not_authorized', 'crud.not-authorized');
+    
         $item = $this->model::find($id);
         if(!isset($item))
-            return Redirect::back()->withErrors([trans('crud.item-not-found')]);
-
+            return $this->backOrJson(request(), 'item_not_found', 'crud.item-not-found');
+    
         if($this->onlyMine && Gate::denies('mine', $item))
-            return Redirect::back()->withErrors([trans('crud.not-authorized')]);
-
+            return $this->backOrJson(request(), 'not_authorized', 'crud.not-authorized');
+    
         try {
             DB::beginTransaction();
             $item->delete();
@@ -328,16 +332,27 @@ class CrudController extends Controller
             }
 
             DB::commit();
-            return Redirect::route('admin:'.$this->resource.'.index')
-                ->with(['success' => trans('crud.successfully-deleted', [trans($this->label)])]);
+            return $this->routeOrJson(request(), 'admin:'.$this->resource.'.index', trans('crud.successfully-deleted', [trans($this->label)]));
         } catch (\Exception $e) {
-            return Redirect::back()
-                ->withErrors([trans('crud.error-occurred') . $e->getMessage()])
-                ->withInput();
+            return $this->backOrJson(request(), 'generic', trans('crud.error-occurred') . $e->getMessage());
         }
     }
+
     public function afterDestroy($item)
     {
         return true;
+    }
+
+    protected function routeOrJson(Request $request, $route, $message){
+        return $request->wantsJson()
+            ? response(['message' => trans($message)])
+            : Redirect::route($route)->with(['message' => trans($message)]);
+    }
+    
+    protected function backOrJson(Request $request, $error, $message){
+        $isValidator = $message instanceof \Illuminate\Validation\Validator;
+        return $request->wantsJson()
+            ? response(['error' => $error, 'message' => ($isValidator ? $message->errors() : trans($message))])
+            : Redirect::back()->withErrors($isValidator ? $message : [trans($message)])->withInput();
     }
 }

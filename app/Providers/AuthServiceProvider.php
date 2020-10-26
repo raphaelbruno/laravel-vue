@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Schema;
 
 use \App\Models\User;
 use \App\Models\Permission;
+use Laravel\Passport\Passport;
 
 class AuthServiceProvider extends ServiceProvider
 {
@@ -62,5 +63,7 @@ class AuthServiceProvider extends ServiceProvider
                 return $user->hasPermission($permission);
             });
         }
+
+        Passport::routes();
     }
 }

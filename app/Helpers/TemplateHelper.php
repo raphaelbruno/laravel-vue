@@ -2,6 +2,7 @@
 namespace App\Helpers;
 
 use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Storage;
 
 class TemplateHelper 
@@ -9,14 +10,18 @@ class TemplateHelper
     
     public static function getItemID()
     {
-        $params = \Route::getCurrentRoute()->parameters();
+        if(!Route::getCurrentRoute()) return false;
+        
+        $params = Route::getCurrentRoute()->parameters();
         return !empty($params) ? array_values($params)[0] : false;
     }
     
     public static function getCurrentResource()
     {
+        if(!Route::getCurrentRoute()) return null;
+        
         $resource = null;
-        if (preg_match('#(\w*:)*([-a-z]+).*#', \Route::getCurrentRoute()->getName(), $matches))
+        if (preg_match('#(\w*:)*([-a-z]+).*#', Route::getCurrentRoute()->getName(), $matches))
             $resource = $matches[2];
 
         return $resource;
@@ -37,10 +42,10 @@ class TemplateHelper
     
     public static function isMenuActive($item)
     {
-        if(!empty($item))
+        if(!empty($item) && Route::getCurrentRoute())
         {
             // Same Action
-            if(isset($item['action']) && $item['action'] == \Route::getCurrentRoute()->getName())
+            if(isset($item['action']) && $item['action'] == Route::getCurrentRoute()->getName())
                 return true;
 
             // Same Resource
@@ -50,7 +55,7 @@ class TemplateHelper
             // Has Ative Subitem
             if(isset($item['children']))
                 foreach($item['children'] as $child)
-                    if(isset($child['action']) && $child['action'] == \Route::getCurrentRoute()->getName())
+                    if(isset($child['action']) && $child['action'] == Route::getCurrentRoute()->getName())
                         return true;
         }
         return false;

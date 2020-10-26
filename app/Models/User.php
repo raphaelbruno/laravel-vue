@@ -5,11 +5,13 @@ namespace App\Models;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Notifications\Notifiable;
+use Laravel\Passport\HasApiTokens;
 
 class User extends Authenticatable
 {
     use SoftDeletes;
     use Notifiable;
+    use HasApiTokens;
 
     /**
      * The attributes that are mass assignable.
@@ -18,6 +20,15 @@ class User extends Authenticatable
      */
     protected $fillable = [
         'name', 'email', 'password', 'google_id'
+    ];
+
+    /**
+     * The relationships that should always be loaded.
+     *
+     * @var array
+     */
+    protected $with = [
+        'profile'
     ];
 
     /**
@@ -77,6 +88,12 @@ class User extends Authenticatable
     
     public function getHighestLevel(){
         return $this->roles->max('level');
+    }
+
+    public function revokeTokens(){
+        $this->tokens->each(function($token){
+            $token->revoke();
+        });
     }
 
     public function firstName()
