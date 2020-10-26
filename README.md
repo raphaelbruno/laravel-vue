@@ -5,7 +5,7 @@ Use the file config/template.php to customize menu, color, version, etc.
 
 ### Features
 - [X] Vue.js
-- [X] Laravel Passaport (API)
+- [X] Laravel Passport (API)
 - [x] Basic Bootstrap Template (Site)
 - [x] AdminLTE Template (Admin)
 - [x] Basic Dark Mode (Admin)
@@ -46,6 +46,12 @@ If you want a clean database run:
 ```
 php artisan migrate
 ```
+
+If you gonna use Laravel Passport, execute this command to generate the encryption keys
+```
+php artisan passport:install
+```
+
 You may want to link the storage folder with public folder.
 ```
 php artisan storage:link
