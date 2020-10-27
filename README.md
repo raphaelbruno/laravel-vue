@@ -47,9 +47,13 @@ If you want a clean database run:
 php artisan migrate
 ```
 
-If you gonna use Laravel Passport, execute this command to generate the encryption keys
+If you want to use Laravel Passport, execute this command to generate the encryption keys...
 ```
 php artisan passport:install
+```
+...and enable the default routes in .env file by change this property to true.
+```
+ENABLE_API=true
 ```
 
 You may want to link the storage folder with public folder.
