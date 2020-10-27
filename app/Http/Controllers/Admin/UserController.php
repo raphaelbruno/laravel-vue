@@ -71,8 +71,8 @@ class UserController extends CrudController
 
     public function prepareFieldStore($fields)
     {
-        if(!isset($fields['password']))
-            $fields['password'] = Hash::make(User::generatePassword());
+        if(isset($fields['password'])) $fields['password'] = Hash::make($fields['password']);
+        else $fields['password'] = Hash::make(User::generatePassword());
 
         return $fields;
     }
