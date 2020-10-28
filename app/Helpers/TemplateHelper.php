@@ -69,9 +69,4 @@ class TemplateHelper
                     : $url
                 : ($noimage ? asset('img/noimage.jpg') : null);
     }
-
-    public static function money($value, $withCurrency = false)
-    {
-        return ($withCurrency ? 'R$ ' : '') . number_format($value, 2, ',', '.');
-    }
 }
