@@ -1,8 +1,6 @@
 <?php
 namespace App\Helpers;
 
-use Illuminate\Support\Facades\Storage;
-
 class FormHelper
 {
 
@@ -149,13 +147,8 @@ class FormHelper
         $required = (bool) isset($config['required']) ? $config['required'] : false;
         $icon = isset($config['icon']) ? $config['icon'] : false;
         $label = trans($config['label']);
-        $value = isset($config['value']) ? $config['value'] : '';
         $class = isset($config['class']) ? ' '.$config['class'] : '';
-        $image = isset($config['item']) && isset($config['item']->{$ref}) ?
-                    (empty(parse_url($config['item']->{$ref})['scheme'])
-                        ? asset(Storage::url($config['item']->{$ref}))
-                        : $config['item']->{$ref})
-                    : null;
+        $image = TemplateHelper::filePath($config['image']);
 
         return '
             <div class="form-group">
@@ -176,8 +169,9 @@ class FormHelper
                     <div class="invalid-feedback">'.trans('crud.invalid-field', [$label]).'</div>
                 </div>
             </div>
-
-            '.($image ? '<img class="img-thumbnail w-100" src="{{ $image }}" alt="">' : '' ).'
+            <div class="text-center">
+            '.(isset($image) ? '<img class="img-thumbnail img-fluid" src="'.$image.'" alt="">' : '' ).'
+            </div>
         ';
     }
 }

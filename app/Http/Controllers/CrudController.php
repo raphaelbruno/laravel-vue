@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Storage;
 use App\Helpers\TemplateHelper;
 
 use Exception;
@@ -21,6 +22,8 @@ class CrudController extends Controller
     protected $icon;
     protected $resource = null;
     protected $variablesToView = [];
+    protected $uploads = [/* [ name, directory ] */];
+    protected $fileToDelete;
 
     /**
      * Create a new instance.
@@ -189,13 +192,16 @@ class CrudController extends Controller
     public function prepareFieldStore($fields)
     {
         if($this->onlyMine) $fields['user_id'] = Auth::user()->id;
-        return $fields;
+        return $this->prepareUploads($fields);
     }
     public function afterStore($item, $request)
     {
         return true;
     }
-    public function errorStore($fields){}
+    public function errorStore($fields)
+    {
+        $this->deleteUploadedFiles($fields);
+    }
 
     /**
      * Display the specified resource.
@@ -297,13 +303,17 @@ class CrudController extends Controller
     }
     public function prepareFieldUpdate($fields, $item)
     {
-        return $fields;
+        return $this->prepareUploads($fields, $item);
     }
     public function afterUpdate($item, $request)
     {
+        if(isset($this->fileToDelete)) Storage::delete($this->fileToDelete);
         return true;
     }
-    public function errorUpdate($item, $fields){}
+    public function errorUpdate($item, $fields)
+    {
+        $this->deleteUploadedFiles($fields);
+    }
 
     /**
      * Remove the specified resource from storage.
@@ -341,6 +351,26 @@ class CrudController extends Controller
     public function afterDestroy($item)
     {
         return true;
+    }
+
+    /**
+     * Upload
+     */
+    protected function prepareUploads($fields, $item = null)
+    {
+        foreach($this->uploads as $upload)
+            if(isset($fields[$upload['name']])){
+                $fields[$upload['name']] = $fields[$upload['name']]->store($upload['directory']);
+                if(isset($item) && isset($item->{$upload['name']}) && $item->{$upload['name']} != $fields[$upload['name']])
+                    $this->fileToDelete = $item->{$upload['name']};
+            }
+        return $fields;
+    }
+
+    protected function deleteUploadedFiles($fields)
+    {
+        foreach($this->uploads as $upload)        
+            if(isset($fields[$upload['name']])) Storage::delete($fields[$upload['name']]);
     }
 
     protected function routeOrJson(Request $request, $route, $message){
