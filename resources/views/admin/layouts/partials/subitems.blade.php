@@ -21,13 +21,13 @@
                         </tbody>
                     </table>
                 </div>
-                <div class="card-footer">
-                    <a href="javascript:void(0);" onclick="addSubitem('{{ sha1($nameString) }}', '{{ $nameString }}');" title="Novo" class="btn btn-sm btn-success float-left">
-                        <i class="fas fa-plus"></i> @lang('crud.new')
-                    </a>
-                    <div class="float-right">
-                        @lang('crud.total'): <span class="total">0</span>
-                    </div>
+            </div>
+            <div class="card-footer">
+                <a href="javascript:void(0);" onclick="addSubitem('{{ sha1($nameString) }}', '{{ $nameString }}');" title="Novo" class="btn btn-sm btn-success float-left">
+                    <i class="fas fa-plus"></i> @lang('crud.new')
+                </a>
+                <div class="float-right">
+                    @lang('crud.total'): <span class="total">0</span>
                 </div>
             </div>
         </div>

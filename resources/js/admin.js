@@ -26,9 +26,15 @@ Vue.component('pagination', require('./components/admin/Pagination.vue').default
 /**
  * Tranlate function
  */
-Vue.prototype.trans = (key) => {
-    return _.get(window.translation, key, key);
+Vue.prototype.trans = (key, attributes) => {
+    let term = _.get(window.translation, key, key);
+    if(attributes && attributes.length > 0)
+        for(let [key, value] of attributes.entries())
+            term = term.replace(':'+key, _.get(window.translation, value, value));
+    
+    return term;
 };
+
 
 /**
  * Select 2
