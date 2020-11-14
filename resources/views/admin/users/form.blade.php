@@ -19,14 +19,14 @@
     ]) !!}
 
     <div class="row">
-        <div class="form-group col">
+        <div class="form-group col col-12 col-md-6">
             {!! \App\Helpers\FormHelper::password([
                 'ref' => 'password',
                 'label' => 'crud.password',
                 'icon' => 'key',
             ]) !!}
         </div>
-        <div class="form-group col">
+        <div class="form-group col col-12 col-md-6">
             {!! \App\Helpers\FormHelper::password([
                 'ref' => 'confirm-password',
                 'label' => 'crud.confirm-password',
@@ -56,17 +56,27 @@
         'value' => !empty(old('profile.birthdate')) ? old('profile.birthdate') : ( isset($item) && isset($item->profile) ? $item->profile->birthdate : '' ),
     ]) !!}
 
-    {!! \App\Helpers\FormHelper::switch([
-        'ref' => 'dark_mode',
-        'name' => 'profile[dark_mode]',
-        'label' => 'admin.dark-mode',
-        'checked' => (bool) (!empty(old('profile.dark_mode')) ? old('profile.dark_mode') : ( isset($item) && isset($item->profile) ? $item->profile->dark_mode : false ) ),
-    ]) !!}
+    <div class="row">
+        <div class="form-group col">
+            <label>@lang('admin.avatar') </label>
+            <div class="form-field">
+                <img class="img-thumbnail rounded img-fluid" src="{{ \App\Helpers\TemplateHelper::filePath(isset($item) && $item->profile ? $item->profile->avatar : null, true) }}" alt="" />
+            </div>
+        </div>
+        <div class="form-group col">
+            {!! \App\Helpers\FormHelper::switch([
+                'ref' => 'dark_mode',
+                'name' => 'profile[dark_mode]',
+                'label' => 'admin.dark-mode',
+                'checked' => (bool) (!empty(old('profile.dark_mode')) ? old('profile.dark_mode') : ( isset($item) && isset($item->profile) ? $item->profile->dark_mode : false ) ),
+            ]) !!}
+        </div>
+    </div>
 
 @endsection
 
 @section('col')
-    <div class="col col-md-6">
+    <div class="col col-12 col-md-6">
         <sub-items options="{{ json_encode($subitems->map(function($item){ return (object)['key' => $item->id, 'value' => $item->title]; })) }}"
             label="@lang('admin.roles')"
             added-items="{{ json_encode(old('subitems') ? old('subitems') : (isset($item) ? $item->roles->pluck('id') : [])) }}"

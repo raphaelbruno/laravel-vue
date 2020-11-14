@@ -14,12 +14,12 @@
             ['name' => 'admin.dashboard', 'icon' => 'tachometer-alt', 'action' => 'admin:dashboard'],
             ['name' => 'admin.access-control', 'icon' => 'users', 'resource' => ['users', 'roles', 'permissions'], 'permission' => ['users-view', 'roles-view'],
                 'children' => [
-                    ['name' => 'admin.users', 'icon' => 'user', 'action' => 'admin:users.index', 'permission' => 'users-view'],
-                    ['name' => 'admin.roles', 'icon' => 'id-card', 'action' => 'admin:roles.index', 'permission' => 'roles-view'],
-                    ['name' => 'admin.permissions', 'icon' => 'clipboard-list', 'action' => 'admin:permissions.index', 'permission' => 'roles-view'],
+                    ['name' => 'admin.users', 'resource' => 'users', 'icon' => 'user', 'action' => 'admin:users.index', 'permission' => 'users-view'],
+                    ['name' => 'admin.roles', 'resource' => 'roles', 'icon' => 'id-card', 'action' => 'admin:roles.index', 'permission' => 'roles-view'],
+                    ['name' => 'admin.permissions', 'resource' => 'permissions', 'icon' => 'clipboard-list', 'action' => 'admin:permissions.index', 'permission' => 'roles-view'],
                 ]
             ],
-            ['name' => 'Foos', 'icon' => 'copy', 'action' => 'admin:foos.index', 'permission' => 'foos-view'],
+            ['name' => 'Foos', 'resource' => 'foos', 'icon' => 'copy', 'action' => 'admin:foos.index', 'permission' => 'foos-view'],
         ],
         'dateformat' => 'dd/mm/yyyy',
     ];

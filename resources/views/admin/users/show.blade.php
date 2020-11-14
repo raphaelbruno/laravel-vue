@@ -2,6 +2,11 @@
 
 @section('fields')
     <div class="form-group row">
+        <div class="col text-center">
+            <img class="img-thumbnail rounded img-fluid" src="{{ \App\Helpers\TemplateHelper::filePath($item->profile ? $item->profile->avatar : null, true) }}" alt="" />
+        </div>
+    </div>
+    <div class="form-group row">
         <label class="col text-right">@lang('crud.name')</label>
         <div class="col">{{ $item->name }}</div>
     </div>
@@ -24,7 +29,7 @@
 @section('col')
     <div class="subitem col col-12 col-lg-6">
         <div class="form-group">
-            <label for="birthdate">@lang('admin.roles')</label>
+            <label>@lang('admin.roles')</label>
             @foreach($item->roles as $role)
             <div class="card card-outline card-secondary">
                 <div class="card-header">
