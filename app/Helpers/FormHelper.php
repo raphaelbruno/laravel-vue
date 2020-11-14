@@ -4,6 +4,16 @@ namespace App\Helpers;
 class FormHelper
 {
 
+    /**
+     * Usage
+    {!! \App\Helpers\FormHelper::input([
+        'ref' => 'name',
+        'label' => 'translate.name',
+        'required' => true,
+        'icon' => 'user',
+        'value' => !empty(old('item.name')) ? old('item.name') : ( isset($item) ? $item->name : '' ),
+    ]) !!}
+     */
     public static function input($config)
     {
         $type = isset($config['type']) ? $config['type'] : 'text';
@@ -37,12 +47,31 @@ class FormHelper
         ';
     }
 
+    /**
+     * Usage
+    {!! \App\Helpers\FormHelper::password([
+        'ref' => 'password',
+        'label' => 'translate.password',
+        'required' => true,
+        'icon' => 'key',
+        'value' => !empty(old('item.password')) ? old('item.password') : ( isset($item) ? $item->password : '' ),
+    ]) !!}
+     */
     public static function password($config)
     {
         $config['type'] = 'password';
         return self::input($config);;
     }
-
+    
+    /**
+     * Usage
+    {!! \App\Helpers\FormHelper::textarea([
+        'ref' => 'observation',
+        'label' => 'translate.observation',
+        'icon' => 'align-left',
+        'value' => !empty(old('item.observation')) ? old('item.observation') : ( isset($item) ? $item->observation : '' ),
+    ]) !!}
+     */
     public static function textarea($config)
     {
         $ref = $config['ref'];
@@ -76,6 +105,17 @@ class FormHelper
         ';
     }
 
+    /**
+     * Usage
+    {!! \App\Helpers\FormHelper::select([
+        'ref' => 'name',
+        'label' => 'translate.name',
+        'required' => true,
+        'icon' => 'user',
+        'options' => [1 => 'Fulano', 2 => 'Sicrano'],
+        'value' => !empty(old('item.name')) ? old('item.name') : ( isset($item) ? $item->name : '' ),
+    ]) !!}
+     */
     public static function select($config)
     {
         $ref = $config['ref'];
@@ -111,12 +151,31 @@ class FormHelper
         ';
     }
 
+    /**
+     * Usage
+    {!! \App\Helpers\FormHelper::select2([
+        'ref' => 'name',
+        'label' => 'translate.name',
+        'required' => true,
+        'icon' => 'user',
+        'options' => [1 => 'Fulano', 2 => 'Sicrano'],
+        'value' => !empty(old('item.name')) ? old('item.name') : ( isset($item) ? $item->name : '' ),
+    ]) !!}
+     */
     public static function select2($config)
     {
         $config['class'] = 'select2' . (isset($config['class']) ? ' '.$config['class'] : '');
         return self::select($config);
     }
 
+    /**
+     * Usage
+    {!! \App\Helpers\FormHelper::switch([
+        'ref' => 'is_true',
+        'label' => 'translate.is_true',
+        'checked' => (bool) (!empty(old('item.is_true')) ? old('item.is_true') : ( isset($item) && isset($item->is_true) ? $item->is_true : false ) ),
+    ]) !!}
+     */
     public static function switch($config)
     {
         $ref = $config['ref'];
@@ -139,6 +198,15 @@ class FormHelper
         ';
     }
 
+    /**
+     * Usage
+    {!! App\Helpers\FormHelper::file([
+        'ref' => 'image',
+        'label' => 'translate.image',
+        'icon' => 'image',
+        'image' => !empty(old('item.image')) ? old('item.image') : ( isset($item) ? $item->image : '' ),
+    ]) !!}    
+     */
     public static function file($config)
     {
         $ref = $config['ref'];
@@ -149,7 +217,7 @@ class FormHelper
         $label = trans($config['label']);
         $class = isset($config['class']) ? ' '.$config['class'] : '';
         $image = TemplateHelper::filePath($config['image']);
-
+        
         return '
             <div class="form-group">
                 <label for="'.$id.'">'.$label.' '.($required ? '*' : '').'</label>
