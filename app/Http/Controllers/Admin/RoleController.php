@@ -6,10 +6,11 @@ use App\Http\Controllers\CrudController;
 use Illuminate\Http\Request;
 
 use App\Models\Permission;
+use App\Models\Role;
 
 class RoleController extends CrudController
 {
-    protected $model = \App\Models\Role::class;
+    protected $model = Role::class;
 
     protected $rules = [
         'title' => 'required|min:3',

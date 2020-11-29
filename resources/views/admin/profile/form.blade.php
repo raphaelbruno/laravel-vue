@@ -107,7 +107,7 @@
 @section('col')
     <div class="col col-12 col-lg-6">
         <div class="form-group">
-            <label for="birthdate">@lang('admin.roles')</label>
+            <label>@lang('admin.roles')</label>
             @foreach($user->roles as $role)
             <div class="card card-outline card-warning">
                 <div class="card-header">

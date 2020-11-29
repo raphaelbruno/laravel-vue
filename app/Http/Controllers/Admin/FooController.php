@@ -4,9 +4,11 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\CrudController;
 
+use App\Models\Foo;
+
 class FooController extends CrudController
 {
-    protected $model = \App\Models\Foo::class;
+    protected $model = Foo::class;
     protected $onlyMine = true;
 
     protected $rules = [

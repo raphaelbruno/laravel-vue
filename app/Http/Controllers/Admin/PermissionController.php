@@ -5,9 +5,11 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\CrudController;
 use Illuminate\Http\Request;
 
+use App\Models\Permission;
+
 class PermissionController extends CrudController
 {
-    protected $model = \App\Models\Permission::class;
+    protected $model = Permission::class;
 
     protected $rules = [
         'title' => 'required|min:3',
