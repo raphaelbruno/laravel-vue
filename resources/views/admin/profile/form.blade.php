@@ -38,14 +38,7 @@
         <label for="email">@lang('admin.avatar')</label>
         <div class="row">
             <div class="col-3 col-md-2 col-lg-3">
-                <?php
-                    $avatar = isset(Auth::user()->profile) && isset(Auth::user()->profile->avatar)
-                        ? empty(parse_url(Auth::user()->profile->avatar)['scheme'])
-                            ? asset(Storage::url(Auth::user()->profile->avatar))
-                            : Auth::user()->profile->avatar
-                        : asset('img/avatar.jpg');
-                ?>
-                <img class="img-thumbnail rounded-circle img-fluid" src="{{ $avatar }}" alt="">
+                <img class="img-thumbnail rounded-circle img-fluid" src="{{ avatar(Auth::user()->profile ? Auth::user()->profile->avatar : null) }}" alt="">
             </div>
 
             <div class="col">
@@ -106,7 +99,7 @@
         'ref' => 'dark_mode',
         'name' => 'profile[dark_mode]',
         'label' => 'admin.dark-mode',
-        'checked' => (bool) (!empty(old('profile.dark_mode')) ? old('profile.dark_mode') : ( isset($user->profile) && isset($user->profile->dark_mode) ? $user->profile->dark_mode : app('config')->get('template')['dark-mode'] ) ),
+        'checked' => (bool) (!empty(old('profile.dark_mode')) ? old('profile.dark_mode') : isDarkMode($user) ),
     ]) }}
 
 @endsection

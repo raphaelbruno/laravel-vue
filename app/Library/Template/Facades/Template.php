@@ -1,12 +1,12 @@
 <?php
-namespace App\Library\Facades;
+namespace App\Library\Template\Facades;
 
 use Illuminate\Support\Facades\Facade;
 
 /**
- * @see \App\Library\Builders\FormBuilder
+ * @see \App\Library\Template\Template
  */
-class Form extends Facade
+class Template extends Facade
 {
     /**
      * Get the registered name of the component.
@@ -15,6 +15,6 @@ class Form extends Facade
      */
     protected static function getFacadeAccessor()
     {
-        return 'form';
+        return 'template';
     }
 }

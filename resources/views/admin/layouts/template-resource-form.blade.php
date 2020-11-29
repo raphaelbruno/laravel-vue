@@ -1,6 +1,6 @@
 <?php
-    $currentResource = App\Helpers\TemplateHelper::getCurrentResource();
-    $itemID = App\Helpers\TemplateHelper::getItemID();
+    $currentResource = getCurrentResource();
+    $itemID = getItemID();
     $fontAwesomeIcon = 'fas fa-' . $icon;
 ?>
 

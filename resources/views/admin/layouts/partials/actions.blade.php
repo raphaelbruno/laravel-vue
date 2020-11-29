@@ -1,5 +1,5 @@
 <?php
-    if(!isset($resource)) $resource = App\Helpers\TemplateHelper::getCurrentResource();
+    if(!isset($resource)) $resource = getCurrentResource();
 ?>
 
 @can((isset($permission) ? $permission : $resource).'-view')

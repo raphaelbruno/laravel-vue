@@ -9,7 +9,6 @@ use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Storage;
-use App\Helpers\TemplateHelper;
 
 use Exception;
 
@@ -36,7 +35,7 @@ class CrudController extends Controller
         if(!$this->label) $this->label = trans('crud.item');
         if(!$this->title) $this->title = trans('crud.items');
         $this->middleware('auth');
-        if(!$this->resource) $this->resource = TemplateHelper::getCurrentResource();
+        if(!$this->resource) $this->resource = getCurrentResource();
     }
 
     /**

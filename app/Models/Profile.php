@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-use App\Helpers\UtilHelper;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
@@ -20,6 +19,6 @@ class Profile extends Model
 
     public function getMaskedIdentity()
     {
-        return UtilHelper::maskCPF($this->identity);
+        return maskCPF($this->identity);
     }
 }

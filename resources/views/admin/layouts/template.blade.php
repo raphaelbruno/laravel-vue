@@ -1,13 +1,6 @@
 <?php
-    $avatar = isset(Auth::user()->profile) && isset(Auth::user()->profile->avatar)
-        ? empty(parse_url(Auth::user()->profile->avatar)['scheme'])
-            ? asset(Storage::url(Auth::user()->profile->avatar))
-            : Auth::user()->profile->avatar
-        : asset('img/avatar.jpg');
-
-    $darkMode = (isset(Auth::user()->profile) && isset(Auth::user()->profile->dark_mode)) 
-        ? Auth::user()->profile->dark_mode
-        : app('config')->get('template')['dark-mode'];
+    $avatar = avatar(Auth::user()->profile ? Auth::user()->profile->avatar : null);
+    $isDarkMode = isDarkMode();
 ?>
 <!doctype html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
@@ -79,7 +72,7 @@
     <script defer src="{{ asset('js/multiple-upload.js') }}"></script>
     <script defer src="{{ asset('js/admin-actions.js') }}"></script>
 </head>
-<body class="hold-transition sidebar-mini layout-fixed layout-navbar-fixed {{ $darkMode ? 'dark-mode' : ''  }}">
+<body class="hold-transition sidebar-mini layout-fixed layout-navbar-fixed {{ $isDarkMode ? 'dark-mode' : ''  }}">
     <div id="app" class="wrapper">
 
         <!-- Navbar -->
@@ -97,7 +90,7 @@
             <ul class="navbar-nav ml-auto">
                 <li class="">
                     <a href="javascript:void(0);" title="@lang('admin.toggle-dark-mode')" class="nav-link dark-mode-switch" onclick="toggleDarkMode()">
-                        <i class="nav-icon fas fa-{{ $darkMode ? 'sun' : 'moon' }} mr-1"></i>
+                        <i class="nav-icon fas fa-{{ $isDarkMode ? 'sun' : 'moon' }} mr-1"></i>
                     </a>
                 </li>
                 <li class="dropdown user user-menu open">
@@ -159,9 +152,9 @@
                 <nav class="mt-2">
                     <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
                         @foreach(app('config')->get('template')['menu'] as $item)
-                            @if(App\Helpers\TemplateHelper::displayMenu($item))
-                            <li class="nav-item {{ isset($item['children']) ? 'has-treeview' : '' }}  {{ App\Helpers\TemplateHelper::isMenuActive($item) ? 'menu-open' : '' }}">
-                                <a href="{{ isset($item['action']) ? route($item['action']) : 'javascript:void(0);' }}" class="nav-link {{ App\Helpers\TemplateHelper::isMenuActive($item) ? 'active' : '' }}">
+                            @if(Template::displayMenu($item))
+                            <li class="nav-item {{ isset($item['children']) ? 'has-treeview' : '' }}  {{ Template::isMenuActive($item) ? 'menu-open' : '' }}">
+                                <a href="{{ isset($item['action']) ? route($item['action']) : 'javascript:void(0);' }}" class="nav-link {{ Template::isMenuActive($item) ? 'active' : '' }}">
                                     <i class="nav-icon fas fa-{{ $item['icon'] }}"></i>
                                     <p>
                                         @lang($item['name'])
@@ -173,9 +166,9 @@
                                 @if(isset($item['children']))
                                 <ul class="nav nav-treeview">
                                     @foreach($item['children'] as $subitem)
-                                        @if(App\Helpers\TemplateHelper::displayMenu($subitem))
+                                        @if(Template::displayMenu($subitem))
                                         <li class="nav-item">
-                                            <a href="{{ isset($subitem['action']) ? route($subitem['action']) : 'javascript:void(0);' }}" class="nav-link {{ App\Helpers\TemplateHelper::isMenuActive($subitem) ? 'active' : '' }}">
+                                            <a href="{{ isset($subitem['action']) ? route($subitem['action']) : 'javascript:void(0);' }}" class="nav-link {{ Template::isMenuActive($subitem) ? 'active' : '' }}">
                                                 <i class="nav-icon fas fa-{{ $subitem['icon'] }}"></i>
                                                 <p>@lang($subitem['name'])</p>
                                             </a>

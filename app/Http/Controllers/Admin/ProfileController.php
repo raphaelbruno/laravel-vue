@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Helpers\UtilHelper;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -65,7 +64,7 @@ class ProfileController extends Controller
         if(!empty($newPassword)) $fields['password'] = $newPassword;
 
         if(isset($fields['profile']['avatar'])) $fields['profile']['avatar'] = $fields['profile']['avatar']->store('public/avatars');
-        $fields['profile']['identity'] = isset($fields['profile']['identity']) ? UtilHelper::clearMask($fields['profile']['identity']) : null;
+        $fields['profile']['identity'] = isset($fields['profile']['identity']) ? clearMask($fields['profile']['identity']) : null;
         $fields['profile']['birthdate'] = isset($fields['profile']['birthdate']) ? Carbon::createFromFormat('d/m/Y', $fields['profile']['birthdate']) : null;
         $fields['profile']['dark_mode'] = (Boolean) (isset($fields['profile']['dark_mode']) ? $fields['profile']['dark_mode'] : false);
 

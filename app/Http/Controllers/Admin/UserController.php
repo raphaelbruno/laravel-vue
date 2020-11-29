@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Helpers\UtilHelper;
 use App\Http\Controllers\CrudController;
 use App\Models\Profile;
 use Illuminate\Http\Request;
@@ -81,7 +80,7 @@ class UserController extends CrudController
     public function afterStore($item, $request)
     {
         $profile = $request->profile;
-        $profile['identity'] = isset($profile['identity']) ? UtilHelper::clearMask($profile['identity']) : null;
+        $profile['identity'] = isset($profile['identity']) ? clearMask($profile['identity']) : null;
         $profile['birthdate'] = isset($profile['birthdate']) ? Carbon::createFromFormat('d/m/Y', $profile['birthdate']) : null;
         $profile['dark_mode'] = (Boolean) (isset($profile['dark_mode']) ? $profile['dark_mode'] : false);
         $profile['user_id'] = $item->id;
@@ -168,7 +167,7 @@ class UserController extends CrudController
         $fields = $request->profile;
         $profile = $item->profile ? $item->profile : new Profile(['user_id' => $item->id]);
 
-        if(isset($fields['identity'])) $profile->identity = UtilHelper::clearMask($fields['identity']);
+        if(isset($fields['identity'])) $profile->identity = clearMask($fields['identity']);
         if(isset($fields['birthdate'])) $profile->birthdate = Carbon::createFromFormat('d/m/Y', $fields['birthdate']);
         $profile->dark_mode = (Boolean) (isset($fields['dark_mode']) ? $fields['dark_mode'] : false);
         

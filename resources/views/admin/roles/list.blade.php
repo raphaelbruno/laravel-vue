@@ -1,4 +1,4 @@
-<?php $resource = App\Helpers\TemplateHelper::getCurrentResource(); ?>
+<?php $resource = getCurrentResource(); ?>
 
 @extends('admin.layouts.template-resource-list')
 

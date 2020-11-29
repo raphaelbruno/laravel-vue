@@ -1,5 +1,5 @@
 <?php
-    $currentResource = App\Helpers\TemplateHelper::getCurrentResource();
+    $currentResource = getCurrentResource();
     $fontAwesomeIcon = 'fas fa-' . $icon;
 ?>
 

@@ -3,7 +3,7 @@
 @section('fields')
     <div class="form-group row">
         <div class="col text-center">
-            <img class="img-thumbnail rounded img-fluid" src="{{ \App\Helpers\TemplateHelper::filePath($item->profile ? $item->profile->avatar : null, true) }}" alt="" />
+            <img class="img-thumbnail rounded img-fluid" src="{{ avatar($item->profile ? $item->profile->avatar : null) }}" alt="" />
         </div>
     </div>
     <div class="form-group row">

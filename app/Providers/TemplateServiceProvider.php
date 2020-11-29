@@ -2,10 +2,10 @@
 
 namespace App\Providers;
 
-use App\Library\Form\Form;
+use App\Library\Template\Template;
 use Illuminate\Support\ServiceProvider;
 
-class FormServiceProvider extends ServiceProvider
+class TemplateServiceProvider extends ServiceProvider
 {
     /**
      * Register services.
@@ -14,8 +14,8 @@ class FormServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->app->singleton('form', function ($app) {
-            return new Form;
+        $this->app->singleton('template', function ($app) {
+            return new Template;
         });
     }
 

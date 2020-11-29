@@ -1,9 +1,9 @@
 <?php
-namespace App\Library\Builders;
+namespace App\Library\Form;
 
 use Illuminate\Support\HtmlString;
 
-class FormBuilder
+class Form
 {
 
     /**
@@ -218,7 +218,7 @@ class FormBuilder
         $icon = isset($config['icon']) ? $config['icon'] : false;
         $label = isset($config['label']) ? trans($config['label']) : '';
         $class = isset($config['class']) ? ' '.$config['class'] : '';
-        $image = TemplateHelper::filePath($config['image']);
+        $image = filePath($config['image'], true);
         
         return new HtmlString('
             <div class="form-group">

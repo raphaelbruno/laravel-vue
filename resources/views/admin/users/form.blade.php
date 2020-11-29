@@ -60,7 +60,7 @@
         <div class="form-group col">
             <label>@lang('admin.avatar') </label>
             <div class="form-field">
-                <img class="img-thumbnail rounded img-fluid" src="{{ \App\Helpers\TemplateHelper::filePath(isset($item) && $item->profile ? $item->profile->avatar : null, true) }}" alt="" />
+                <img class="img-thumbnail rounded img-fluid" src="{{ avatar(isset($item) && $item->profile ? $item->profile->avatar : null) }}" alt="" />
             </div>
         </div>
         <div class="form-group col">
