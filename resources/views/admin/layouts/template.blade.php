@@ -132,7 +132,11 @@
         <aside class="main-sidebar sidebar-dark-{{ app('config')->get('template')['theme'] }} elevation-4">
             <!-- Brand Logo -->
             <a href="{{ url('/admin') }}" class="brand-link navbar-{{ app('config')->get('template')['theme'] }}">
+                @if(isset(app('config')->get('template')['logo-icon']))
+                <i class="{{ app('config')->get('template')['logo-icon'] }} ml-3 mr-2 "></i>
+                @else
                 <img src="{{ asset('img/logo.jpg') }}" alt="Logo" class="brand-image img-circle elevation-3">
+                @endif
                 <span class="brand-text font-weight-light">{{ config('app.name', 'Laravel') }}</span>
             </a>
 

@@ -29,6 +29,9 @@
         <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
             <div class="container">
                 <a class="navbar-brand" href="{{ url('/') }}">
+                    @if(isset(app('config')->get('template')['logo-icon']))
+                    <i class="{{ app('config')->get('template')['logo-icon'] }} mr-1"></i>
+                    @endif
                     {{ config('app.name', 'Laravel') }}
                 </a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="@lang('site.toggle-navigation')">
