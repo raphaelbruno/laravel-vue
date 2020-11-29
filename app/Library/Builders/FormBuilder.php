@@ -1,28 +1,30 @@
 <?php
-namespace App\Helpers;
+namespace App\Library\Builders;
 
-class FormHelper
+use Illuminate\Support\HtmlString;
+
+class FormBuilder
 {
 
     /**
      * Usage
-    {!! \App\Helpers\FormHelper::input([
+    {{ Form::input([
         'ref' => 'name',
         'label' => 'translate.name',
         'required' => true,
         'icon' => 'user',
         'value' => !empty(old('item.name')) ? old('item.name') : ( isset($item) ? $item->name : '' ),
-    ]) !!}
+    ]) }}
      */
-    public static function input($config)
+    public function input($config = [])
     {
         $type = isset($config['type']) ? $config['type'] : 'text';
-        $ref = $config['ref'];
+        $ref = isset($config['ref']) ? $config['ref'] : '';
         $id = isset($config['id']) ? $config['id'] : $ref;
         $name = isset($config['name']) ? $config['name'] : "item[{$ref}]";
         $required = (bool) isset($config['required']) ? $config['required'] : false;
         $icon = isset($config['icon']) ? $config['icon'] : false;
-        $label = trans($config['label']);
+        $label = isset($config['label']) ? trans($config['label']) : '';
         $value = isset($config['value']) ? $config['value'] : '';
         $class = isset($config['class']) ? ' '.$config['class'] : '';
         $attributes = isset($config['attributes']) ? $config['attributes'] : [];
@@ -31,7 +33,7 @@ class FormHelper
         foreach($attributes as $k => $v)
             $attributesString .= ' '.$k.'="'.$v.'"';
 
-        return '
+        return new HtmlString('
             <div class="form-group">
                 <label for="'.$id.'">'.$label.' '.($required ? '*' : '').'</label>
                 <div class="input-group">
@@ -44,20 +46,20 @@ class FormHelper
                     <div class="invalid-feedback">'.trans('crud.invalid-field', [$label]).'</div>
                 </div>
             </div>
-        ';
+        ');
     }
 
     /**
      * Usage
-    {!! \App\Helpers\FormHelper::password([
+    {{ Form::password([
         'ref' => 'password',
         'label' => 'translate.password',
         'required' => true,
         'icon' => 'key',
         'value' => !empty(old('item.password')) ? old('item.password') : ( isset($item) ? $item->password : '' ),
-    ]) !!}
+    ]) }}
      */
-    public static function password($config)
+    public function password($config)
     {
         $config['type'] = 'password';
         return self::input($config);;
@@ -65,21 +67,21 @@ class FormHelper
     
     /**
      * Usage
-    {!! \App\Helpers\FormHelper::textarea([
+    {{ Form::textarea([
         'ref' => 'observation',
         'label' => 'translate.observation',
         'icon' => 'align-left',
         'value' => !empty(old('item.observation')) ? old('item.observation') : ( isset($item) ? $item->observation : '' ),
-    ]) !!}
+    ]) }}
      */
-    public static function textarea($config)
+    public function textarea($config = [])
     {
-        $ref = $config['ref'];
+        $ref = isset($config['ref']) ? $config['ref'] : '';
         $id = isset($config['id']) ? $config['id'] : $ref;
         $name = isset($config['name']) ? $config['name'] : "item[{$ref}]";
         $required = (bool) isset($config['required']) ? $config['required'] : false;
         $icon = isset($config['icon']) ? $config['icon'] : false;
-        $label = trans($config['label']);
+        $label = isset($config['label']) ? trans($config['label']) : '';
         $value = isset($config['value']) ? $config['value'] : '';
         $class = isset($config['class']) ? ' '.$config['class'] : '';
         $rows = isset($config['rows']) ? $config['rows'] : 3;
@@ -89,7 +91,7 @@ class FormHelper
         foreach($attributes as $k => $v)
             $attributesString .= ' '.$k.'="'.$v.'"';
 
-        return '
+        return new HtmlString('
             <div class="form-group">
                 <label for="'.$id.'">'.$label.' '.($required ? '*' : '').'</label>
                 <div class="input-group">
@@ -102,28 +104,28 @@ class FormHelper
                     <div class="invalid-feedback">'.trans('crud.invalid-field', [$label]).'</div>
                 </div>
             </div>
-        ';
+        ');
     }
 
     /**
      * Usage
-    {!! \App\Helpers\FormHelper::select([
+    {{ Form::select([
         'ref' => 'name',
         'label' => 'translate.name',
         'required' => true,
         'icon' => 'user',
         'options' => [1 => 'Fulano', 2 => 'Sicrano'],
         'value' => !empty(old('item.name')) ? old('item.name') : ( isset($item) ? $item->name : '' ),
-    ]) !!}
+    ]) }}
      */
-    public static function select($config)
+    public function select($config = [])
     {
-        $ref = $config['ref'];
+        $ref = isset($config['ref']) ? $config['ref'] : '';
         $id = isset($config['id']) ? $config['id'] : $ref;
         $name = isset($config['name']) ? $config['name'] : "item[{$ref}]";
         $required = (bool) isset($config['required']) ? $config['required'] : false;
         $icon = isset($config['icon']) ? $config['icon'] : false;
-        $label = trans($config['label']);
+        $label = isset($config['label']) ? trans($config['label']) : '';
         $chooseOption = trans(isset($config['chooseOption']) ? $config['chooseOption'] : 'crud.choose-a-option');
         $options = isset($config['options']) ? $config['options'] : [];
         $class = isset($config['class']) ? ' '.$config['class'] : '';
@@ -133,7 +135,7 @@ class FormHelper
         foreach($options as $k => $v)
             $optionsString .= '<option value="'.$k.'" '.($selected == $k ? 'selected' : '').'>'.$v.'</option>';
 
-        return '
+        return new HtmlString('
             <div class="form-group">
                 <label for="'.$id.'">'.$label.' '.($required ? '*' : '').'</label>
                 <div class="input-group">
@@ -148,21 +150,21 @@ class FormHelper
                     <div class="invalid-feedback">'.trans('crud.invalid-field', [$label]).'</div>
                 </div>
             </div>
-        ';
+        ');
     }
 
     /**
      * Usage
-    {!! \App\Helpers\FormHelper::select2([
+    {{ Form::select2([
         'ref' => 'name',
         'label' => 'translate.name',
         'required' => true,
         'icon' => 'user',
         'options' => [1 => 'Fulano', 2 => 'Sicrano'],
         'value' => !empty(old('item.name')) ? old('item.name') : ( isset($item) ? $item->name : '' ),
-    ]) !!}
+    ]) }}
      */
-    public static function select2($config)
+    public function select2($config = [])
     {
         $config['class'] = 'select2' . (isset($config['class']) ? ' '.$config['class'] : '');
         return self::select($config);
@@ -170,23 +172,23 @@ class FormHelper
 
     /**
      * Usage
-    {!! \App\Helpers\FormHelper::switch([
+    {{ Form::switch([
         'ref' => 'is_true',
         'label' => 'translate.is_true',
         'checked' => (bool) (!empty(old('item.is_true')) ? old('item.is_true') : ( isset($item) && isset($item->is_true) ? $item->is_true : false ) ),
-    ]) !!}
+    ]) }}
      */
-    public static function switch($config)
+    public function switch($config = [])
     {
-        $ref = $config['ref'];
+        $ref = isset($config['ref']) ? $config['ref'] : '';
         $id = isset($config['id']) ? $config['id'] : $ref;
         $name = isset($config['name']) ? $config['name'] : "item[{$ref}]";
         $required = (bool) isset($config['required']) ? $config['required'] : false;
-        $label = trans($config['label']);
+        $label = isset($config['label']) ? trans($config['label']) : '';
         $class = isset($config['class']) ? ' '.$config['class'] : '';
         $checked = isset($config['checked']) ? (bool) $config['checked'] : false;
 
-        return '
+        return new HtmlString('
             <div class="form-group">
                 <label for="'.$id.'">'.$label.' '.($required ? '*' : '').'</label>
                 <div class="custom-control custom-switch">
@@ -195,30 +197,30 @@ class FormHelper
                     <div class="invalid-feedback">'.trans('crud.invalid-field', [$label]).'</div>
                 </div>
             </div>
-        ';
+        ');
     }
 
     /**
      * Usage
-    {!! App\Helpers\FormHelper::file([
+    {{ Form::file([
         'ref' => 'image',
         'label' => 'translate.image',
         'icon' => 'image',
         'image' => !empty(old('item.image')) ? old('item.image') : ( isset($item) ? $item->image : '' ),
-    ]) !!}    
+    ]) }}    
      */
-    public static function file($config)
+    public function file($config = [])
     {
-        $ref = $config['ref'];
+        $ref = isset($config['ref']) ? $config['ref'] : '';
         $id = isset($config['id']) ? $config['id'] : $ref;
         $name = isset($config['name']) ? $config['name'] : "item[{$ref}]";
         $required = (bool) isset($config['required']) ? $config['required'] : false;
         $icon = isset($config['icon']) ? $config['icon'] : false;
-        $label = trans($config['label']);
+        $label = isset($config['label']) ? trans($config['label']) : '';
         $class = isset($config['class']) ? ' '.$config['class'] : '';
         $image = TemplateHelper::filePath($config['image']);
         
-        return '
+        return new HtmlString('
             <div class="form-group">
                 <label for="'.$id.'">'.$label.' '.($required ? '*' : '').'</label>
                 <div class="input-group">
@@ -240,6 +242,6 @@ class FormHelper
             <div class="text-center">
             '.(isset($image) ? '<img class="img-thumbnail img-fluid" src="'.$image.'" alt="">' : '' ).'
             </div>
-        ';
+        ');
     }
 }

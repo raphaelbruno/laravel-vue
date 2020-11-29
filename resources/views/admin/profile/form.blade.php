@@ -16,23 +16,23 @@
 
 @section('fields')
 
-    {!! \App\Helpers\FormHelper::input([
+    {{ Form::input([
         'ref' => 'name',
         'name' => 'user[name]',
         'label' => 'crud.name',
         'required' => true,
         'icon' => 'user',
         'value' => !empty(old('user.name')) ? old('user.name') : $user->name,
-    ]) !!}
+    ]) }}
 
-    {!! \App\Helpers\FormHelper::input([
+    {{ Form::input([
         'ref' => 'email',
         'name' => 'user[email]',
         'label' => 'crud.email',
         'icon' => 'at',
         'attributes' => ['disabled' => 'disabled'],
         'value' => !empty(old('user.email')) ? old('user.email') : $user->email,
-    ]) !!}
+    ]) }}
 
     <div class="form-group">
         <label for="email">@lang('admin.avatar')</label>
@@ -67,47 +67,47 @@
 
     <div class="row">
         <div class="form-group col">
-            {!! \App\Helpers\FormHelper::password([
+            {{ Form::password([
                 'ref' => 'password',
                 'name' => 'user[password]',
                 'label' => 'crud.password',
                 'icon' => 'key',
-            ]) !!}
+            ]) }}
         </div>
         <div class="form-group col">
-            {!! \App\Helpers\FormHelper::password([
+            {{ Form::password([
                 'ref' => 'confirm-password',
                 'name' => 'user[confirm-password]',
                 'label' => 'crud.confirm-password',
                 'icon' => 'key',
-            ]) !!}
+            ]) }}
         </div>
     </div>
 
-    {!! \App\Helpers\FormHelper::input([
+    {{ Form::input([
         'ref' => 'identity',
         'name' => 'profile[identity]',
         'label' => 'admin.identity',
         'icon' => 'address-card',
         'class' => 'cpf',
         'value' => !empty(old('profile.identity')) ? old('profile.identity') : ( isset($user->profile) ? $user->profile->getMaskedIdentity() : '' ),
-    ]) !!}
+    ]) }}
 
-    {!! \App\Helpers\FormHelper::input([
+    {{ Form::input([
         'ref' => 'birthdate',
         'name' => 'profile[birthdate]',
         'label' => 'admin.birthdate',
         'icon' => 'address-card',
         'class' => 'date date-picker',
         'value' => !empty(old('profile.birthdate')) ? old('profile.birthdate') : ( isset($user->profile) && isset($user->profile->birthdate) ? $user->profile->birthdate->format('d/m/Y') : '' ),
-    ]) !!}
+    ]) }}
 
-    {!! \App\Helpers\FormHelper::switch([
+    {{ Form::switch([
         'ref' => 'dark_mode',
         'name' => 'profile[dark_mode]',
         'label' => 'admin.dark-mode',
         'checked' => (bool) (!empty(old('profile.dark_mode')) ? old('profile.dark_mode') : ( isset($user->profile) && isset($user->profile->dark_mode) ? $user->profile->dark_mode : app('config')->get('template')['dark-mode'] ) ),
-    ]) !!}
+    ]) }}
 
 @endsection
 

@@ -2,23 +2,23 @@
 
 @section('fields')
 
-    {!! \App\Helpers\FormHelper::input([
+    {{ Form::input([
         'ref' => 'title',
         'label' => 'crud.title',
         'required' => true,
         'icon' => $icon,
         'value' => !empty(old('item.title')) ? old('item.title') : ( isset($item) ? $item->title : '' ),
-    ]) !!}
+    ]) }}
 
-    {!! \App\Helpers\FormHelper::input([
+    {{ Form::input([
         'ref' => 'name',
         'label' => 'crud.name',
         'required' => true,
         'icon' => 'tag',
         'value' => !empty(old('item.name')) ? old('item.name') : ( isset($item) ? $item->name : '' ),
-    ]) !!}
+    ]) }}
 
-    {!! \App\Helpers\FormHelper::input([
+    {{ Form::input([
         'ref' => 'level',
         'label' => 'admin.level',
         'icon' => 'sitemap',
@@ -27,13 +27,13 @@
             'data-mask' => '00',
             'data-mask-reverse' => 'true'
         ],
-    ]) !!}
+    ]) }}
 
-    {!! \App\Helpers\FormHelper::switch([
+    {{ Form::switch([
         'ref' => 'default',
         'label' => 'admin.default',
         'checked' => (bool) (!empty(old('item.default')) ? old('item.default') : ( isset($item) ? $item->default : false ) ),
-    ]) !!}
+    ]) }}
 
 @endsection
 
