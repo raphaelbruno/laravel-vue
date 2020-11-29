@@ -1,10 +1,10 @@
 <?php
-namespace App\Library\Form\Facades;
+namespace App\Libraries\Form\Facades;
 
 use Illuminate\Support\Facades\Facade;
 
 /**
- * @see \App\Library\Form\Form
+ * @see \App\Libraries\Form\Form
  */
 class Form extends Facade
 {

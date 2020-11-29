@@ -1,5 +1,5 @@
 <?php
-namespace App\Library\Template;
+namespace App\Libraries\Template;
 
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Route;

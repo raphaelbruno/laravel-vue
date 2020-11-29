@@ -1,10 +1,10 @@
 <?php
-namespace App\Library\Template\Facades;
+namespace App\Libraries\Template\Facades;
 
 use Illuminate\Support\Facades\Facade;
 
 /**
- * @see \App\Library\Template\Template
+ * @see \App\Libraries\Template\Template
  */
 class Template extends Facade
 {

@@ -1,5 +1,5 @@
 <?php
-namespace App\Library\Form;
+namespace App\Libraries\Form;
 
 use Illuminate\Support\HtmlString;
 

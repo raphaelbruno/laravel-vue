@@ -2,7 +2,7 @@
 
 namespace App\Providers;
 
-use App\Library\Template\Template;
+use App\Libraries\Template\Template;
 use Illuminate\Support\ServiceProvider;
 
 class TemplateServiceProvider extends ServiceProvider

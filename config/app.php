@@ -230,8 +230,8 @@ return [
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
         
-        'Template' => App\Library\Template\Facades\Template::class,
-        'Form' => App\Library\Form\Facades\Form::class,
+        'Template' => App\Libraries\Template\Facades\Template::class,
+        'Form' => App\Libraries\Form\Facades\Form::class,
 
     ],
 
