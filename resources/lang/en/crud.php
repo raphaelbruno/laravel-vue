@@ -67,4 +67,5 @@ return [
     'item-not-found' => 'The requested item was not found!',
     'not-authorized' => 'Your user is not allowed to complete the request!',
     'invalid-field' => 'Please provide a valid :0.',
+    'relationship-cannot-void' => 'The relationship ":0" can not be void.',
 ];

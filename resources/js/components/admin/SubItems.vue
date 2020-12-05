@@ -66,7 +66,8 @@
         },
         watch: {
             list(value){
-                $(function(){
+                $(() => {
+                    if(!$.fn.select2) return;
                     $('.subitem select.select2[data-select2-id]').select2('destroy');
                     $('.subitem select.select2').select2();
                 })

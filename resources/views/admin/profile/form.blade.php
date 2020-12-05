@@ -27,6 +27,7 @@
 
     {{ Form::input([
         'ref' => 'email',
+        'type' => 'email',
         'name' => 'user[email]',
         'label' => 'crud.email',
         'icon' => 'at',
@@ -65,6 +66,7 @@
                 'name' => 'user[password]',
                 'label' => 'crud.password',
                 'icon' => 'key',
+                'attributes' => ['autocomplete' => 'new-password'],
             ]) }}
         </div>
         <div class="form-group col">
@@ -73,6 +75,7 @@
                 'name' => 'user[confirm-password]',
                 'label' => 'crud.confirm-password',
                 'icon' => 'key',
+                'attributes' => ['autocomplete' => 'new-password'],
             ]) }}
         </div>
     </div>
@@ -108,16 +111,16 @@
     <div class="col col-12 col-lg-6">
         <div class="form-group">
             <label>@lang('admin.roles')</label>
-            @foreach($user->roles as $role)
-            <div class="card card-outline card-warning">
-                <div class="card-header">
+            <div class="card">
+                @foreach($user->roles as $role)
+                <div class="card-header card-outline card-warning">
                     <b>{{ $role->title }} (@lang('admin.level'): {{ $role->level }})</b>
                 </div>
                 <div class="card-body">
                     {{ !empty($role->permissionsToString()) ? $role->permissionsToString() : trans('admin.no-items') }}
                 </div>
+                @endforeach
             </div>
-            @endforeach
         </div>
     </div>
 @endsection

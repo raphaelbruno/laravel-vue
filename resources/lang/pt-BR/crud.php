@@ -67,4 +67,5 @@ return [
     'item-not-found' => 'O item requisitado não foi encontrado!',
     'not-authorized' => 'Seu usuário não tem permissão para completar a requisição!',
     'invalid-field' => 'Preencha corretamente o campo :0.',
+    'relationship-cannot-void' => 'O relacionamento ":0" Não pode ser vazio.',
 ];

@@ -12,6 +12,7 @@
 
     {{ Form::input([
         'ref' => 'email',
+        'type' => 'email',
         'label' => 'crud.email',
         'required' => true,
         'icon' => 'at',
@@ -24,6 +25,7 @@
                 'ref' => 'password',
                 'label' => 'crud.password',
                 'icon' => 'key',
+                'attributes' => ['autocomplete' => 'new-password'],
             ]) }}
         </div>
         <div class="form-group col col-12 col-md-6">
@@ -31,6 +33,7 @@
                 'ref' => 'confirm-password',
                 'label' => 'crud.confirm-password',
                 'icon' => 'key',
+                'attributes' => ['autocomplete' => 'new-password'],
             ]) }}
         </div>
     </div>
@@ -77,9 +80,10 @@
 
 @section('col')
     <div class="col col-12 col-md-6">
-        <sub-items options="{{ json_encode($subitems->map(function($item){ return (object)['key' => $item->id, 'value' => $item->title]; })) }}"
+        <sub-items name="roles"
+            options="{{ json_encode($roles->map(function($item){ return (object)['key' => $item->id, 'value' => $item->title]; })) }}"
             label="@lang('admin.roles')"
-            added-items="{{ json_encode(old('subitems') ? old('subitems') : (isset($item) ? $item->roles->pluck('id') : [])) }}"
+            added-items="{{ json_encode(old('roles') ? old('roles') : (isset($item) ? $item->roles->pluck('id') : [])) }}"
         >
         </sub-items>
     </div>

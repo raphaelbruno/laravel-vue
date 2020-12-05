@@ -39,9 +39,10 @@
 
 @section('col')
     <div class="col col-md-6">
-        <sub-items options="{{ json_encode($subitems->map(function($item){ return (object)['key' => $item->id, 'value' => $item->title]; })) }}"
+        <sub-items name="permissions"
+            options="{{ json_encode($permissions->map(function($item){ return (object)['key' => $item->id, 'value' => $item->title]; })) }}"
             label="@lang('admin.permissions')"
-            added-items="{{ json_encode(old('subitems') ? old('subitems') : (isset($item) ? $item->permissions->pluck('id') : [])) }}"
+            added-items="{{ json_encode(old('permissions') ? old('permissions') : (isset($item) ? $item->permissions->pluck('id') : [])) }}"
         >
         </sub-items>
     </div>

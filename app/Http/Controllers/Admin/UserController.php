@@ -42,7 +42,7 @@ class UserController extends CrudController
 
     public function create()
     {
-        $subitems = Role::where(function ($query){
+        $roles = Role::where(function ($query){
                 if(!Auth::user()->isSuperUser()){
                     if(!Auth::user()->getHighestLevel()){
                         $query->whereRaw("false");
@@ -57,7 +57,7 @@ class UserController extends CrudController
             ->orderBy('title')
             ->get();
 
-        $this->addToView(compact('subitems'));
+        $this->addToView(compact('roles'));
         return parent::create();
     }
 
@@ -85,7 +85,7 @@ class UserController extends CrudController
         $profile['dark_mode'] = (Boolean) (isset($profile['dark_mode']) ? $profile['dark_mode'] : false);
         $profile['user_id'] = $item->id;
 
-        return self::subitems($item, 'roles', $request->subitems) && Profile::create($profile);
+        return self::subitems($item, 'roles', $request->roles, false) && Profile::create($profile);
     }
 
     public function show($id)
@@ -111,7 +111,7 @@ class UserController extends CrudController
         if(Gate::denies('has-level', $item))
             return $this->backOrJson(request(), 'not_authorized', 'crud.not-authorized');
 
-        $subitems = Role::where(function ($query){
+        $roles = Role::where(function ($query){
                 if(!Auth::user()->isSuperUser()){
                     if(!Auth::user()->getHighestLevel()){
                         $query->whereRaw("false");
@@ -126,7 +126,7 @@ class UserController extends CrudController
             ->orderBy('title')
             ->get();
 
-        $this->addToView(compact('subitems'));
+        $this->addToView(compact('roles'));
         return parent::edit($id);
     }
 
@@ -171,7 +171,7 @@ class UserController extends CrudController
         if(isset($fields['birthdate'])) $profile->birthdate = Carbon::createFromFormat('d/m/Y', $fields['birthdate']);
         $profile->dark_mode = (Boolean) (isset($fields['dark_mode']) ? $fields['dark_mode'] : false);
         
-        return self::subitems($item, 'roles', $request->subitems) && $profile->save();
+        return self::subitems($item, 'roles', $request->roles, false) && $profile->save();
     }
 
     public function destroy($id)

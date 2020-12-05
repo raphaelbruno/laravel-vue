@@ -87,7 +87,7 @@ body.dark-mode .pagination .page-link,
 body.dark-mode .pagination .page-item.disabled .page-link { background: #555; border-color: #666; color: white; }
 body.dark-mode .pagination .page-item.disabled .page-link { color: gray; }
 body.dark-mode hr { border-top: 1px solid rgba(255, 255, 255, 0.1); }
-
+body.dark-mode .list-group-item { background-color: rgba(0,0,0,.125); }
 
 .navbar-dark .navbar-nav .nav-link,
 [class*=sidebar-dark] .brand-link { color: white; }

@@ -55,9 +55,13 @@ class CrudController extends Controller
      * @param string $relationship
      * @param array $input
      */
-    public static function subitems($item, $relationship, $input)
+    public static function subitems($item, $relationship, $input, $allowVoid = true)
     {
         $subitems = isset($input) ? array_map('intval', $input) : [];
+        
+        if(!$allowVoid && !count($subitems))
+            throw new Exception(trans('crud.relationship-cannot-void', [trans($relationship)]));
+
         $subitemsOnDatabase = $item->{$relationship}->map(function($user){ return $user->id; })->toArray();
         $subitemsToDelete = array_diff($subitemsOnDatabase, $subitems);
         $subitemsToInsert = array_unique(array_diff($subitems, $subitemsOnDatabase));
