@@ -62,7 +62,7 @@ class Form
     public function password($config)
     {
         $config['type'] = 'password';
-        return self::input($config);;
+        return $this->input($config);;
     }
     
     /**
@@ -105,6 +105,21 @@ class Form
                 </div>
             </div>
         ');
+    }
+
+    /**
+     * Usage
+    {{ Form::wysiwyg([
+        'ref' => 'observation',
+        'label' => 'translate.observation',
+        'value' => !empty(old('item.observation')) ? old('item.observation') : ( isset($item) ? $item->observation : '' ),
+    ]) }}
+     */
+    public function wysiwyg($config = [])
+    {
+        unset($config['icon']);
+        $config['class'] = trim(($config['class'] ?? '') . ' wysiwyg');
+        return $this->textarea($config);
     }
 
     /**
@@ -167,7 +182,7 @@ class Form
     public function select2($config = [])
     {
         $config['class'] = 'select2' . (isset($config['class']) ? ' '.$config['class'] : '');
-        return self::select($config);
+        return $this->select($config);
     }
 
     /**

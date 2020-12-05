@@ -32,6 +32,16 @@
 .card-title,
 form { margin-bottom: 0; }
 
+.note-editor .note-editable.rounded-right,
+.note-editor .note-toolbar.rounded-right,
+.note-editor .note-status-output.rounded-right,
+.note-editor .note-resizebar.rounded-right,
+.note-editor .note-icon-bar.rounded-right,
+.note-editor .note-statusbar.rounded-right,
+.note-editor .note-icon-font.rounded-right,
+.note-editor .dropdown-item.rounded-right,
+.note-editor .note-color-palette .rounded-right { border-top-right-radius: 0 !important; border-bottom-right-radius: 0 !important; }
+
 /* Multiple Upload Component */
 .multiple-upload { border: 1px solid #ced4da; border-radius: .25rem; height: 125px; position: relative; }
   .multiple-upload .drop-here { background-color: rgba(255, 255, 255, 0.95); position: absolute; width: 100%; height: 100%; text-align: center; font-size: 1.5rem; display: flex; flex-direction: column; justify-content: center; z-index: 200; }
@@ -52,6 +62,7 @@ nav ul.nav.nav-treeview li { background-color: rgba(0, 0, 0, 0.15); }
 /* Custom Classes */
 .id { width: 4rem; text-align: center; }
 .actions { width: 10rem; text-align: center; }
+.no-wrap { white-space: nowrap; }
 
 /* Ajax Loading */
 .ajaxloader { display: none; position: fixed; z-index: 10000; display: none; position: fixed; z-index: 10000; bottom: 67px; right: 10px; border: 7px solid rgb(0, 0, 0, 0.25); border-top: 7px solid rgb(0, 0, 0, 0.5); border-radius: 50%; width: 40px; height: 40px; animation: spin 0.75s linear infinite; }
@@ -88,6 +99,17 @@ body.dark-mode .pagination .page-item.disabled .page-link { background: #555; bo
 body.dark-mode .pagination .page-item.disabled .page-link { color: gray; }
 body.dark-mode hr { border-top: 1px solid rgba(255, 255, 255, 0.1); }
 body.dark-mode .list-group-item { background-color: rgba(0,0,0,.125); }
+body.dark-mode .note-editor { border-color: #666 !important; }
+body.dark-mode .note-editor .note-editable,
+body.dark-mode .note-editor .note-dropdown-menu { background-color: #444 !important; }
+body.dark-mode .note-editor .note-toolbar,
+body.dark-mode .note-editor .note-resizebar,
+body.dark-mode .note-editor .dropdown-item:hover,
+body.dark-mode .note-editor .dropdown-item:focus { background-color: #555 !important; }
+body.dark-mode .note-editor .btn { background-color: #575757 !important; color: white !important; border-color: #666 !important; }
+body.dark-mode .note-editor .note-editable *,
+body.dark-mode .note-editor .note-dropdown-menu *{ color: white !important; }
+
 
 .navbar-dark .navbar-nav .nav-link,
 [class*=sidebar-dark] .brand-link { color: white; }

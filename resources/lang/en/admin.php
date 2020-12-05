@@ -28,6 +28,7 @@ return [
     'default' => 'Default',
     'logout' => 'Logout',
     'dashboard' => 'Dashboard',
+    'settings' => 'Settings',
     'informations' => 'Informations',
     'you-are-logged-in' => 'Hi :name, you are logged in!',
     'your-profile' => 'Your Profile',

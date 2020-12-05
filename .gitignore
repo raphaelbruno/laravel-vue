@@ -12,3 +12,10 @@ Homestead.yaml
 npm-debug.log
 yarn-error.log
 docker-compose.yml
+
+/public/js/admin.js.map
+/public/js/admin.js.LICENSE.txt
+/public/js/site.js.map
+/public/js/site.js.LICENSE.txt
+/public/css/site.css.map
+/public/css/admin.css.map

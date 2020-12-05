@@ -28,6 +28,7 @@ return [
     'default' => 'Padrão',
     'logout' => 'Sair',
     'dashboard' => 'Dashboard',
+    'settings' => 'Configurações',
     'informations' => 'Informações',
     'you-are-logged-in' => 'Olá :name, você está logado!',
     'your-profile' => 'Seu Perfil',
