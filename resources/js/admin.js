@@ -22,6 +22,7 @@ window.Vue = require('vue');
 Vue.component('info-box', require('./components/admin/InfoBox.vue').default);
 Vue.component('sub-items', require('./components/admin/SubItems.vue').default);
 Vue.component('pagination', require('./components/admin/Pagination.vue').default);
+Vue.component('select-action', require('./components/admin/SelectAction.vue').default);
 
 /**
  * Tranlate function
