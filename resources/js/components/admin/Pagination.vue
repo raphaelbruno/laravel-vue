@@ -4,7 +4,7 @@
 		<div v-if="lastPage > 1" class="ml-2">
 			<nav>
 			<ul class="pagination pagination-sm m-0">
-				<li :class="`page-item ${link.active ? 'active' : ''}`" v-for="link in processedLinks" >
+				<li :class="`page-item ${link.active ? 'active' : ''}`" v-for="(link, key) in processedLinks" :key="key">
 					<a v-if="link.url" :href="ajax == undefined ? link.url : 'javascript:void(0);'" v-on:click="navigate(link)" class="page-link">{{ link.label }}</a>
 					<span v-else class="page-link">{{ link.label }}</span>
 				</li>

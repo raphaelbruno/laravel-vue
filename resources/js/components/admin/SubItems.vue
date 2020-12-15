@@ -9,21 +9,32 @@
                             <thead>
                                 <tr>
                                     <th>{{ trans('crud.title') }}</th>
+                                    <th class="align-middle" v-for="(field, fieldKey) in fieldList" :key="fieldKey">
+                                        {{ trans(field) }}
+                                    </th>
                                     <th class="text-center actions">{{ trans('crud.delete') }}</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr v-for="(item, index) in list" :key="index">
-                                    <td class="align-middle">
+                                <tr v-for="(item, key) in list" :key="key">
+                                    <td class="align-middle" v-if="isEditable">
+                                        <input type="hidden" v-model="item.id" :name="`${validName}[${key}][id]`" />
+                                        <input type="text" v-model="item.title" :name="`${validName}[${key}][title]`" v-focus class="form-control" required />
+                                        <div class="invalid-feedback">{{trans('crud.invalid-field', [validName])}}</div>
+                                    </td>
+                                    <td class="align-middle" v-else>
                                         <select v-model="item.id" :name="`${validName}[]`" v-select2 class="form-control select2 w-100">
-                                            <option v-for="(option, optionKey) in optionList"
-                                                :value="option.key">
+                                            <option v-for="(option, optionKey) in optionList" :value="option.key" :key="optionKey">
                                                 {{ option.value }}
                                             </option>
                                         </select>
                                     </td>
+                                    <td class="align-middle" v-for="(field, fieldKey) in fieldList" :key="fieldKey">
+                                        <input type="text" v-model="item[fieldKey]" :name="`${validName}[${key}][${fieldKey}]`" class="form-control" />
+                                        <div class="invalid-feedback">{{trans('crud.invalid-field', [field])}}</div>
+                                    </td>
                                     <td class="align-middle text-center">
-                                        <button type="button" :title="trans('crud.delete')" v-on:click="deleteItem(index)" class="btn btn-danger"><i class="fas fa-trash"></i></button>
+                                        <button type="button" :title="trans('crud.delete')" v-on:click="deleteItem(key)" class="btn btn-danger"><i class="fas fa-trash"></i></button>
                                     </td>
                                 </tr>
                                 <tr v-if="list.length < 1">
@@ -48,43 +59,48 @@
 
 <script>
     export default {
-        props: ['id', 'name', 'options', 'label', 'addedItems'],
+        props: ['id', 'name', 'options', 'fields', 'label', 'addedItems', 'editable'],
         data(){
             return {
                 optionList: [],
+                fieldList: [],
                 list: [],
             }
         },
         mounted(){
-            let items = this.addedItems ? JSON.parse(this.addedItems) : [];
+            let items = this.addedItems ? JSON.parse(this.addedItems) : []
             if(items.length > 0 && typeof items[0] != 'object')
                 for(let i = 0; i < items.length; i++)
-                    items[i] = { id: items[i] };
+                    items[i] = { id: items[i] }
 
-            this.optionList = this.options ? JSON.parse(this.options) : [];
-            this.list = items;
+            this.optionList = this.options ? JSON.parse(this.options) : []
+            this.fieldList = this.fields ? JSON.parse(this.fields) : []
+            this.list = items
         },
         watch: {
             list(value){
                 $(() => {
-                    if(!$.fn.select2) return;
-                    $('.subitem select.select2[data-select2-id]').select2('destroy');
-                    $('.subitem select.select2').select2();
+                    if(!$.fn.select2) return
+                    $('.subitem select.select2[data-select2-id]').select2('destroy')
+                    $('.subitem select.select2').select2()
                 })
-            }
+            },
         },
         computed: {
             validName(){
-                return this.name ? this.name : 'subitems';
-            }
+                return this.name ? this.name : 'subitems'
+            },
+            isEditable(){
+                return this.editable && this.editable.toLowerCase() != 'false'
+            },
         },
         methods: {
             addItem(){
-                this.list.push({});
+                this.list.push({})
             },
-            deleteItem(index){
-                this.list.splice(index, 1);
-            }
+            deleteItem(key){
+                this.list.splice(key, 1)
+            },
         }
     }
 </script>

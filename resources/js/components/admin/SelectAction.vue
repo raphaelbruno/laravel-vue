@@ -7,7 +7,7 @@
                 </span>
             </div>
             <select v-model="item.id" v-select2 class="form-control select2 w-100">
-                <option v-for="option in list" :value="option.key">
+                <option v-for="(option, optionKey) in list" :value="option.key" :key="optionKey">
                     {{ option.value }}
                 </option>
             </select>

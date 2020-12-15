@@ -145,10 +145,10 @@ class Form
         $options = isset($config['options']) ? $config['options'] : [];
         $class = isset($config['class']) ? ' '.$config['class'] : '';
         $selected = isset($config['value']) ? ' '.$config['value'] : '';
-
         $optionsString = '<option value="">'.$chooseOption.'</option>';
+        
         foreach($options as $k => $v)
-            $optionsString .= '<option value="'.$k.'" '.($selected == $k ? 'selected' : '').'>'.$v.'</option>';
+            $optionsString .= '<option value="'.$k.'" '.(trim($selected) == trim($k) ? 'selected' : '').'>'.$v.'</option>';
 
         return new HtmlString('
             <div class="form-group">

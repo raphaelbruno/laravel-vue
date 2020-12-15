@@ -48,20 +48,45 @@ class CrudController extends Controller
         $this->variablesToView = array_merge($this->variablesToView, $variables);
     }
 
+
     /**
-     * Detach and Attach subitems from a relationship
+     * Create, Edit and Delete subitems from a One to Many Relationship
      *
      * @param object $item
      * @param string $relationship
      * @param array $input
      */
-    public static function subitems($item, $relationship, $input, $allowVoid = true)
+    public static function subitemOneToMany($item, $relationship, $input, $allowVoid = true)
     {
-        $subitems = isset($input) ? array_map('intval', $input) : [];
+        if(!$allowVoid && (!isset($input) || !count($input)) )
+            throw new Exception(trans('crud.relationship-cannot-void', [trans($relationship)]));
         
-        if(!$allowVoid && !count($subitems))
+        $ids = isset($input) ? array_filter(array_column($input, 'id'), function($value) { return !is_null($value) && $value !== ''; }) : [];
+        $subitemsToDelete = $item->{$relationship}->filter(function($item) use($ids) { return !in_array($item->id, $ids); });
+
+        foreach($input as $subitem)
+            $item->{$relationship}()->updateOrCreate(['id' => $subitem['id']], $subitem);
+
+        foreach($subitemsToDelete as $subitem)
+            $subitem->delete();
+
+        return (bool) $item->save();
+    }
+
+    /**
+     * Detach and Attach subitems from a Many to Many Relationship
+     *
+     * @param object $item
+     * @param string $relationship
+     * @param array $input
+     */
+    public static function subitemManyToMany($item, $relationship, $input, $allowVoid = true)
+    {
+        if(!$allowVoid && (!isset($input) || !count($input)) )
             throw new Exception(trans('crud.relationship-cannot-void', [trans($relationship)]));
 
+        $subitems = isset($input) ? array_map('intval', $input) : [];
+        
         $subitemsOnDatabase = $item->{$relationship}->map(function($user){ return $user->id; })->toArray();
         $subitemsToDelete = array_diff($subitemsOnDatabase, $subitems);
         $subitemsToInsert = array_unique(array_diff($subitems, $subitemsOnDatabase));
@@ -83,7 +108,7 @@ class CrudController extends Controller
 
         $title = $this->title;
         $icon = $this->icon;
-        $items = $this->incrementToSearch($this->filter($this->search($request), $request), $request)->paginate();
+        $items = $this->incrementToSearch($this->filter($this->search($request), $request), $request)->paginate(env('PAGINATION', 10));
 
         return request()->wantsJson() 
             ? $items 

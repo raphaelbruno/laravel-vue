@@ -115,6 +115,6 @@ class LoginController extends Controller
                 Auth::login($newUser);
             });
         }
-        return Redirect::to('/');
+        return Redirect::to($this->redirectTo);
     }
 }

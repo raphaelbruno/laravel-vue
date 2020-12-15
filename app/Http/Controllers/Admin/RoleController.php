@@ -58,7 +58,7 @@ class RoleController extends CrudController
 
     public function afterStore($item, $request)
     {
-        return self::subitems($item, 'permissions', $request->permissions);
+        return self::subitemManyToMany($item, 'permissions', $request->permissions);
     }
 
     public function prepareValidationUpdate(Request $request, $item)
@@ -73,7 +73,7 @@ class RoleController extends CrudController
 
     public function afterUpdate($item, $request)
     {
-        return self::subitems($item, 'permissions', $request->permissions);
+        return self::subitemManyToMany($item, 'permissions', $request->permissions);
     }
 
 }
