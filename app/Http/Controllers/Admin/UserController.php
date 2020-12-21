@@ -40,7 +40,7 @@ class UserController extends CrudController
         parent::__construct();
     }
 
-    public function create()
+    public function options()
     {
         $roles = Role::where(function ($query){
                 if(!Auth::user()->isSuperUser()){
@@ -57,8 +57,7 @@ class UserController extends CrudController
             ->orderBy('title')
             ->get();
 
-        $this->addToView(compact('roles'));
-        return parent::create();
+        return compact('roles');
     }
 
     public function store(Request $request)
@@ -111,22 +110,6 @@ class UserController extends CrudController
         if(Gate::denies('has-level', $item))
             return $this->backOrJson(request(), 'not_authorized', 'crud.not-authorized');
 
-        $roles = Role::where(function ($query){
-                if(!Auth::user()->isSuperUser()){
-                    if(!Auth::user()->getHighestLevel()){
-                        $query->whereRaw("false");
-                        return;
-                    }
-
-                    $query->where('level', '>', Auth::user()->getHighestLevel());
-                    if(is_numeric(Auth::user()->getHighestLevel()))
-                        $query->orWhere('level', null);
-                }
-            })
-            ->orderBy('title')
-            ->get();
-
-        $this->addToView(compact('roles'));
         return parent::edit($id);
     }
 

@@ -35,18 +35,10 @@ class RoleController extends CrudController
         parent::__construct();
     }
 
-    public function create()
+    public function options(Array $exclude = null)
     {
         $permissions = Permission::orderBy('title')->get();
-        $this->addToView(compact('permissions'));
-        return parent::create();
-    }
-
-    public function edit($id)
-    {
-        $permissions = Permission::orderBy('title')->get();
-        $this->addToView(compact('permissions'));
-        return parent::edit($id);
+        return compact('permissions');
     }
 
     public function prepareValidationStore(Request $request)
@@ -73,7 +65,8 @@ class RoleController extends CrudController
 
     public function afterUpdate($item, $request)
     {
-        return self::subitemManyToMany($item, 'permissions', $request->permissions);
+        return self::subitemManyToMany($item, 'permissions', $request->permissions)
+            && parent::afterUpdate($item, $request);
     }
 
 }

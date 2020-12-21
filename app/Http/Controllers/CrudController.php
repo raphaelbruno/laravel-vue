@@ -48,7 +48,16 @@ class CrudController extends Controller
         $this->variablesToView = array_merge($this->variablesToView, $variables);
     }
 
-
+    /**
+     * Override this method if you want to add some lists to view on create and edit routes
+     * 
+     * @return Array
+     */
+    public function options()
+    {
+        return [];
+    }
+    
     /**
      * Create, Edit and Delete subitems from a One to Many Relationship
      *
@@ -175,6 +184,9 @@ class CrudController extends Controller
         $label = $this->label;
         $title = $this->title;
         $icon = $this->icon;
+        
+        $this->addToView($this->options());
+
         return request()->wantsJson() 
             ? null
             : view('admin.'.$this->resource.'.form', array_merge($this->variablesToView, compact('label', 'title', 'icon')));
@@ -272,13 +284,15 @@ class CrudController extends Controller
         $title = $this->title;
         $icon = $this->icon;
         $item = $this->model::find($id);
-        
+
         if(!isset($item))
             return $this->backOrJson(request(), 'item_not_found', 'crud.item-not-found');
     
         if($this->onlyMine && Gate::denies('mine', $item))
             return $this->backOrJson(request(), 'not_authorized', 'crud.not-authorized');
 
+        $this->addToView($this->options());
+        
         return request()->wantsJson() 
             ? $item
             : view('admin.'.$this->resource.'.form', array_merge($this->variablesToView, compact('item', 'label', 'title', 'icon')));

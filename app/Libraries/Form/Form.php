@@ -51,6 +51,28 @@ class Form
 
     /**
      * Usage
+    {{ Form::number([
+        'ref' => 'number',
+        'label' => 'translate.number',
+        'required' => true,
+        'icon' => 'sort-numeric-up-alt',
+        'value' => !empty(old('item.number')) ? old('item.number') : ( isset($item) ? $item->number : '' ),
+    ]) }}
+     */
+    public function number($config)
+    {
+        if(!isset($config['attributes'])) $config['attributes'] = [];
+        $config['type'] = 'number';
+
+        if(isset($config['step'])) $config['attributes']['step'] = $config['step'];
+        if(isset($config['min'])) $config['attributes']['min'] = $config['min'];
+        if(isset($config['max'])) $config['attributes']['max'] = $config['max'];
+        
+        return $this->input($config);
+    }
+    
+    /**
+     * Usage
     {{ Form::password([
         'ref' => 'password',
         'label' => 'translate.password',
@@ -62,7 +84,7 @@ class Form
     public function password($config)
     {
         $config['type'] = 'password';
-        return $this->input($config);;
+        return $this->input($config);
     }
     
     /**
