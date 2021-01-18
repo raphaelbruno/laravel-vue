@@ -40,7 +40,7 @@ class UserController extends CrudController
         parent::__construct();
     }
 
-    public function options()
+    public function options($item = null)
     {
         $roles = Role::where(function ($query){
                 if(!Auth::user()->isSuperUser()){

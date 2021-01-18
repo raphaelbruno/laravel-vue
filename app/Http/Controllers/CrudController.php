@@ -53,7 +53,7 @@ class CrudController extends Controller
      * 
      * @return Array
      */
-    public function options()
+    public function options($item = null)
     {
         return [];
     }
@@ -291,7 +291,7 @@ class CrudController extends Controller
         if($this->onlyMine && Gate::denies('mine', $item))
             return $this->backOrJson(request(), 'not_authorized', 'crud.not-authorized');
 
-        $this->addToView($this->options());
+        $this->addToView($this->options($item));
         
         return request()->wantsJson() 
             ? $item
