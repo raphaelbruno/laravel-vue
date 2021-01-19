@@ -109,7 +109,8 @@ body.dark-mode .note-editor .dropdown-item:focus { background-color: #555 !impor
 body.dark-mode .note-editor .btn { background-color: #575757 !important; color: white !important; border-color: #666 !important; }
 body.dark-mode .note-editor .note-editable *,
 body.dark-mode .note-editor .note-dropdown-menu *{ color: white !important; }
-
+body.dark-mode .multiple-upload { border-color: #666; }
+body.dark-mode .multiple-upload .header { background-color: #555; border-color: #666; }
 
 .navbar-dark .navbar-nav .nav-link,
 [class*=sidebar-dark] .brand-link { color: white; }
