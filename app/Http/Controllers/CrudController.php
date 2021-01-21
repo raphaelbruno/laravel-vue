@@ -22,7 +22,8 @@ class CrudController extends Controller
     protected $resource = null;
     protected $variablesToView = [];
     protected $uploads = [/* [ name, directory ] */];
-    protected $fileToDelete;
+    protected $multipleUploads = [/* [ name, directory ] */];
+    protected $filesToDelete = [];
 
     /**
      * Create a new instance.
@@ -213,7 +214,7 @@ class CrudController extends Controller
 
             DB::beginTransaction();
             $item = $this->model::create($fields);
-            if(!$this->afterStore($item, $request)){
+            if(!$this->afterStore($item, $request) || !$this->saveBinaryFiles($fields, $item)){
                 DB::rollBack();
                 throw new Exception();
             }
@@ -327,7 +328,7 @@ class CrudController extends Controller
 
             DB::beginTransaction();
             $item->update($fields);
-            if(!$this->afterUpdate($item, $request)){
+            if(!$this->afterUpdate($item, $request) || !$this->saveBinaryFiles($fields, $item)){
                 DB::rollBack();
                 throw new Exception();
             }
@@ -349,7 +350,8 @@ class CrudController extends Controller
     }
     public function afterUpdate($item, $request)
     {
-        if(isset($this->fileToDelete)) Storage::delete($this->fileToDelete);
+        foreach($this->filesToDelete as $fileToDelete)
+            if(isset($fileToDelete)) Storage::delete($fileToDelete);
         return true;
     }
     public function errorUpdate($item, $fields)
@@ -400,19 +402,61 @@ class CrudController extends Controller
      */
     protected function prepareUploads($fields, $item = null)
     {
-        foreach($this->uploads as $upload)
-            if(isset($fields[$upload['name']])){
-                $fields[$upload['name']] = $fields[$upload['name']]->store($upload['directory']);
-                if(isset($item) && isset($item->{$upload['name']}) && $item->{$upload['name']} != $fields[$upload['name']])
-                    $this->fileToDelete = $item->{$upload['name']};
+        foreach($this->uploads as $upload){
+            $name = $upload['name'];
+            $directory = $upload['directory'];
+            if(isset($fields[$name])){
+                $fields[$name] = $fields[$name]->store($directory);
+                if(isset($item) && isset($item->{$name}) && $item->{$name} != $fields[$name])
+                    $this->filesToDelete[] = $item->{$name};
             }
+        }
         return $fields;
     }
 
     protected function deleteUploadedFiles($fields)
     {
-        foreach($this->uploads as $upload)        
+        foreach($this->uploads as $upload)
             if(isset($fields[$upload['name']])) Storage::delete($fields[$upload['name']]);
+    }
+
+    function saveBinaryFiles($fields, $item)
+    {
+        foreach($this->multipleUploads as $multipleUpload){
+            $name = $multipleUpload['name'];
+            $directory = $multipleUpload['directory'];
+            $class = get_class($item->{$name}()->getRelated());
+            
+            $files = $fields[$name] ?? [];
+            $filesOnDatabase = $item->{$name}->map(function($file){ return $file->id; })->toArray();
+            $filesToKeep = array_map(function($file){
+                    return json_decode($file)->id;
+                }, array_filter($files, function($file){
+                    return json_decode($file)->id;
+                }));
+            $filesToDelete = array_diff($filesOnDatabase, $filesToKeep);
+            $filesToUpload = array_filter($files, function($file){
+                return !json_decode($file)->id;
+            });
+            
+            // Delete files
+            if(!empty($filesToDelete) && !$class::destroy($filesToDelete)) return false;
+
+            // Upload files
+            foreach($filesToUpload as $file){
+                $source = json_decode($file)->src;
+                $extension = explode('/', mime_content_type($source))[1];
+                $binaryString = str_replace(' ', '+', preg_replace('/.*:.*,(.*)/', '$1', $source));
+                $filename = $directory . sha1($binaryString . uniqid()) . '.' . $extension;
+                
+                if(Storage::disk('public')->put($filename, base64_decode($binaryString))){
+                    if(!$item->{$name}()->create(['src' => $filename])) return false;
+                }
+            }
+
+        }
+
+        return true;
     }
 
     protected function routeOrJson(Request $request, $route, $message){

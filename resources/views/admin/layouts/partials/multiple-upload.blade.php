@@ -27,5 +27,8 @@
         { id: {{ $image->id ? $image->id : 'null' }},  src: '{{ $url }}' },
         @endforeach
     ];
-    new MultipleUpload('{{ $name }}', addedItems);
+    
+    window.addEventListener('load', function () {
+        new MultipleUpload('{{ $name }}', addedItems);
+    });
 </script>

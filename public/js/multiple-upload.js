@@ -1,102 +1,102 @@
-var MultipleUpload = (function(name, addedItems){
-  var files = addedItems ? addedItems : new Array();
-  var element = document.querySelector('#multiple-upload-'+name);
-  
-  document.addEventListener("dragenter", function(event){
-      Object.values(document.getElementsByClassName('drop-here')).forEach(function(item){
-          item.classList.remove('d-none');
-      });
-  });
-  
-  document.addEventListener("dragleave", function(event){
-      if(event.clientX == 0 && event.clientX == 0)
-          Object.values(document.getElementsByClassName('drop-here')).forEach(function(item){
-              item.classList.add('d-none');
-          });
-  });
+var MultipleUpload = (function (name, addedItems) {
+    var files = addedItems ? addedItems : new Array();
+    var element = document.querySelector('#multiple-upload-' + name);
 
-  element.querySelector('[type=file]').addEventListener('change', function(event) {
-      files = files.concat(Object.values(this.files));
-      this.value = "";
-      updatePreview();
-  });
-  element.addEventListener('dragover', function(event) {
-      event.preventDefault();
-  });
-  element.addEventListener('drop', function(event) {
-      event.preventDefault();
-      Object.values(document.getElementsByClassName('drop-here')).forEach(function(item){
-          item.classList.add('d-none');
-      });
-      
-      if (event.dataTransfer.items) {
-          for (var i = 0; i < event.dataTransfer.items.length; i++)
-              if (event.dataTransfer.items[i].kind === 'file')                    
-                  files.push(event.dataTransfer.items[i].getAsFile());
-      } else {
-          for (var i = 0; i < event.dataTransfer.files.length; i++)
-              files.push(event.dataTransfer.files[i]);
-      }        
-      updatePreview();
-  });
+    document.addEventListener("dragenter", function (event) {
+        Object.values(document.getElementsByClassName('drop-here')).forEach(function (item) {
+            item.classList.remove('d-none');
+        });
+    });
 
-  updatePreview();
+    document.addEventListener("dragleave", function (event) {
+        if (event.clientX == 0 && event.clientX == 0)
+            Object.values(document.getElementsByClassName('drop-here')).forEach(function (item) {
+                item.classList.add('d-none');
+            });
+    });
 
-  function removeFromList(index){
-      if(isNaN(index) || index < 0) return;
+    element.querySelector('[type=file]').addEventListener('change', function (event) {
+        files = files.concat(Object.values(this.files));
+        this.value = "";
+        updatePreview();
+    });
+    element.addEventListener('dragover', function (event) {
+        event.preventDefault();
+    });
+    element.addEventListener('drop', function (event) {
+        event.preventDefault();
+        Object.values(document.getElementsByClassName('drop-here')).forEach(function (item) {
+            item.classList.add('d-none');
+        });
 
-      files.splice(index, 1);
-      updatePreview();
-  }
+        if (event.dataTransfer.items) {
+            for (var i = 0; i < event.dataTransfer.items.length; i++)
+                if (event.dataTransfer.items[i].kind === 'file')
+                    files.push(event.dataTransfer.items[i].getAsFile());
+        } else {
+            for (var i = 0; i < event.dataTransfer.files.length; i++)
+                files.push(event.dataTransfer.files[i]);
+        }
+        updatePreview();
+    });
 
-  function updatePreview() {
-      var preview = element.querySelector('.multiple-upload-preview');
+    updatePreview();
 
-      preview.innerHTML = '';
-      element.querySelector('.multiple-upload-total').innerHTML = files.length;
+    function removeFromList(index) {
+        if (isNaN(index) || index < 0) return;
 
-      element.querySelectorAll("input[name='item[" + name + "][]']").forEach(function(input){
-          input.parentNode.removeChild(input);
-      });
+        files.splice(index, 1);
+        updatePreview();
+    }
 
-      files.forEach(function(file, key){
-          var li = document.createElement('li');
+    function updatePreview() {
+        var preview = element.querySelector('.multiple-upload-preview');
 
-          var button = document.createElement('button');
-          button.innerHTML = 'x';
-          button.type = 'button';
-          button.classList.add('delete');
-          button.dataset.index = key;
+        preview.innerHTML = '';
+        element.querySelector('.multiple-upload-total').innerHTML = files.length;
 
-          var img = document.createElement('img');
-          img.dataset.index = key;
+        element.querySelectorAll("input[name='item[" + name + "][]']").forEach(function (input) {
+            input.parentNode.removeChild(input);
+        });
 
-          var input = document.createElement('input');
-          input.dataset.index = key;
-          input.type = 'hidden';
-          input.name = 'item[' + name + '][]';
+        files.forEach(function (file, key) {
+            var li = document.createElement('li');
 
-          li.appendChild(button);
-          li.appendChild(img);
-          preview.appendChild(li);
-          element.appendChild(input);
-          
-          button.addEventListener('click', function(){
-              removeFromList(this.dataset.index)
-          });
+            var button = document.createElement('button');
+            button.innerHTML = 'X';
+            button.type = 'button';
+            button.classList.add('delete');
+            button.dataset.index = key;
 
-          if(file.hasOwnProperty('id')){
-              input.value = JSON.stringify(file);
-              img.src = file.src;
-          } else {
-              var reader = new FileReader();
-              reader.addEventListener('load', function(event) {
-                  var value = { id: null, src: event.target.result };
-                  element.querySelector('input[data-index="' + key + '"]').value = JSON.stringify(value);
-                  element.querySelector('img[data-index="' + key + '"]').src = event.target.result;
-              });
-              reader.readAsDataURL(file);
-          }
-      });
-  }
+            var img = document.createElement('img');
+            img.dataset.index = key;
+
+            var input = document.createElement('input');
+            input.dataset.index = key;
+            input.type = 'hidden';
+            input.name = 'item[' + name + '][]';
+
+            li.appendChild(button);
+            li.appendChild(img);
+            preview.appendChild(li);
+            element.appendChild(input);
+
+            button.addEventListener('click', function () {
+                removeFromList(this.dataset.index)
+            });
+
+            if (file.hasOwnProperty('id')) {
+                input.value = JSON.stringify(file);
+                img.src = file.src;
+            } else {
+                var reader = new FileReader();
+                reader.addEventListener('load', function (event) {
+                    var value = { id: null, src: event.target.result };
+                    element.querySelector('input[data-index="' + key + '"]').value = JSON.stringify(value);
+                    element.querySelector('img[data-index="' + key + '"]').src = event.target.result;
+                });
+                reader.readAsDataURL(file);
+            }
+        });
+    }
 });

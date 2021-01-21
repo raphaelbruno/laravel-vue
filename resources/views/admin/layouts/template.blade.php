@@ -69,7 +69,6 @@
             echo json_encode($translation);
         ?>;
     </script>
-    <script defer src="{{ asset('js/multiple-upload.js') }}"></script>
     <script defer src="{{ asset('js/admin-actions.js') }}"></script>
 </head>
 <body class="hold-transition sidebar-mini layout-fixed layout-navbar-fixed {{ $isDarkMode ? 'dark-mode' : ''  }}">
