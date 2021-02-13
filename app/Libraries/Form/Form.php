@@ -73,6 +73,24 @@ class Form
     
     /**
      * Usage
+    {{ Form::date([
+        'ref' => 'date',
+        'label' => 'translate.date',
+        'required' => true,
+        'value' => !empty(old('item.date')) ? old('item.date') : ( isset($item) ? $item->date : '' ),
+    ]) }}
+     */
+    public function date($config)
+    {
+        if(!isset($config['attributes'])) $config['attributes'] = [];
+        $config['icon'] = 'calendar-alt';
+        $config['class'] = trim(($config['class'] ?? '') . ' date date-picker');
+
+        return $this->input($config);
+    }
+    
+    /**
+     * Usage
     {{ Form::password([
         'ref' => 'password',
         'label' => 'translate.password',

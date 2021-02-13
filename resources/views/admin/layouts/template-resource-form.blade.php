@@ -4,7 +4,7 @@
     $fontAwesomeIcon = 'fas fa-' . $icon;
 ?>
 
-@extends('admin.layouts.template-form', ['method' => ($itemID ? 'PATCH' : 'POST')])
+@extends('admin.layouts.template-form', ['method' => $method ?? ($itemID ? 'PUT' : 'POST')])
 
 @section('title')
     <i class="{{ $fontAwesomeIcon }} mr-1"></i> {{ $title }}
