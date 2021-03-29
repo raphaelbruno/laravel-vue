@@ -68,3 +68,25 @@ function clearMask($identity)
 {
     return preg_replace( '/[^0-9]/', '', $identity);
 }
+
+function firstName($name)
+{
+    $names = explode(' ', trim($name));
+    if(count($names) >= 1) return $names[0];
+    return $name;
+}
+
+function lastName($name)
+{
+    $names = explode(' ', trim($name));
+    if(count($names) >= 1) return $names[count($names)-1];
+    return $name;
+}
+
+function shortName($name)
+{
+    $names = explode(' ', trim($name));
+    if(count($names) >= 2)
+        return $names[0] . ' ' . $names[count($names)-1];
+    return $name;
+}

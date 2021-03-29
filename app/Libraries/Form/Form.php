@@ -20,8 +20,8 @@ class Form
     {
         $type = isset($config['type']) ? $config['type'] : 'text';
         $ref = isset($config['ref']) ? $config['ref'] : '';
-        $id = isset($config['id']) ? $config['id'] : $ref;
-        $name = isset($config['name']) ? $config['name'] : "item[{$ref}]";
+        $id = isset($config['id']) ? $config['id'] : ($ref ?? null);
+        $name = isset($config['name']) ? $config['name'] : ($ref ? "item[{$ref}]" : null);
         $required = (bool) isset($config['required']) ? $config['required'] : false;
         $icon = isset($config['icon']) ? $config['icon'] : false;
         $label = isset($config['label']) ? trans($config['label']) : '';
@@ -35,14 +35,14 @@ class Form
 
         return new HtmlString('
             <div class="form-group">
-                <label for="'.$id.'">'.$label.' '.($required ? '*' : '').'</label>
+                <label '.($id ? 'for="'.$id.'"' : '').'>'.$label.' '.($required ? '*' : '').'</label>
                 <div class="input-group">
                     '.($icon ?
                     '<div class="input-group-prepend">
                         <span class="input-group-text"><i class="fas fa-'.$icon.'"></i></span>
                     </div>' : ''
                     ).'
-                    <input type="'.$type.'" id="'.$id.'" name="'.$name.'" '.($required ? 'required' : '').' class="form-control'.$class.'" value="'.$value.'" '.$attributesString.'>
+                    <input type="'.$type.'" '.($id ? 'id="'.$id.'"' : '').' name="'.$name.'" '.($required ? 'required' : '').' class="form-control'.$class.'" value="'.$value.'" '.$attributesString.'>
                     <div class="invalid-feedback">'.trans('crud.invalid-field', [$label]).'</div>
                 </div>
             </div>
@@ -88,6 +88,24 @@ class Form
 
         return $this->input($config);
     }
+
+    /**
+     * Usage
+    {{ Form::time([
+        'ref' => 'time',
+        'label' => 'translate.time',
+        'required' => true,
+        'value' => !empty(old('item.time')) ? old('item.time') : ( isset($item) ? $item->time : '' ),
+    ]) }}
+     */
+    public function time($config)
+    {
+        if(!isset($config['attributes'])) $config['attributes'] = [];
+        $config['icon'] = 'clock';
+        $config['class'] = trim(($config['class'] ?? '') . ' time time-picker');
+
+        return $this->input($config);
+    }
     
     /**
      * Usage
@@ -117,8 +135,8 @@ class Form
     public function textarea($config = [])
     {
         $ref = isset($config['ref']) ? $config['ref'] : '';
-        $id = isset($config['id']) ? $config['id'] : $ref;
-        $name = isset($config['name']) ? $config['name'] : "item[{$ref}]";
+        $id = isset($config['id']) ? $config['id'] : ($ref ?? null);
+        $name = isset($config['name']) ? $config['name'] : ($ref ? "item[{$ref}]" : null);
         $required = (bool) isset($config['required']) ? $config['required'] : false;
         $icon = isset($config['icon']) ? $config['icon'] : false;
         $label = isset($config['label']) ? trans($config['label']) : '';
@@ -133,14 +151,14 @@ class Form
 
         return new HtmlString('
             <div class="form-group">
-                <label for="'.$id.'">'.$label.' '.($required ? '*' : '').'</label>
+                <label '.($id ? 'for="'.$id.'"' : '').'>'.$label.' '.($required ? '*' : '').'</label>
                 <div class="input-group">
                     '.($icon ?
                     '<div class="input-group-prepend">
                         <span class="input-group-text"><i class="fas fa-'.$icon.'"></i></span>
                     </div>' : ''
                     ).'
-                    <textarea id="'.$id.'" rows="'.$rows.'" name="'.$name.'" '.($required ? 'required' : '').' class="form-control'.$class.'" '.$attributesString.'>'.$value.'</textarea>
+                    <textarea '.($id ? 'id="'.$id.'"' : '').' rows="'.$rows.'" name="'.$name.'" '.($required ? 'required' : '').' class="form-control'.$class.'" '.$attributesString.'>'.$value.'</textarea>
                     <div class="invalid-feedback">'.trans('crud.invalid-field', [$label]).'</div>
                 </div>
             </div>
@@ -176,8 +194,8 @@ class Form
     public function select($config = [])
     {
         $ref = isset($config['ref']) ? $config['ref'] : '';
-        $id = isset($config['id']) ? $config['id'] : $ref;
-        $name = isset($config['name']) ? $config['name'] : "item[{$ref}]";
+        $id = isset($config['id']) ? $config['id'] : ($ref ?? null);
+        $name = isset($config['name']) ? $config['name'] : ($ref ? "item[{$ref}]" : null);
         $required = (bool) isset($config['required']) ? $config['required'] : false;
         $icon = isset($config['icon']) ? $config['icon'] : false;
         $label = isset($config['label']) ? trans($config['label']) : '';
@@ -188,18 +206,18 @@ class Form
         $optionsString = '<option value="">'.$chooseOption.'</option>';
         
         foreach($options as $k => $v)
-            $optionsString .= '<option value="'.$k.'" '.(trim($selected) == trim($k) ? 'selected' : '').'>'.$v.'</option>';
+            $optionsString .= '<option value="'.$k.'" '.(trim($selected) == trim($k) ? 'selected' : '').'>'.trans($v).'</option>';
 
         return new HtmlString('
             <div class="form-group">
-                <label for="'.$id.'">'.$label.' '.($required ? '*' : '').'</label>
+                <label '.($id ? 'for="'.$id.'"' : '').'>'.$label.' '.($required ? '*' : '').'</label>
                 <div class="input-group">
                     '.($icon ?
                     '<div class="input-group-prepend">
                         <span class="input-group-text"><i class="fas fa-'.$icon.'"></i></span>
                     </div>' : ''
                     ).'
-                    <select id="'.$id.'" name="'.$name.'" class="form-control'.$class.'" '.($required ? 'required' : '').'>
+                    <select '.($id ? 'id="'.$id.'"' : '').' name="'.$name.'" class="form-control'.$class.'" '.($required ? 'required' : '').'>
                         '.$optionsString.'
                     </select>
                     <div class="invalid-feedback">'.trans('crud.invalid-field', [$label]).'</div>
@@ -236,8 +254,8 @@ class Form
     public function switch($config = [])
     {
         $ref = isset($config['ref']) ? $config['ref'] : '';
-        $id = isset($config['id']) ? $config['id'] : $ref;
-        $name = isset($config['name']) ? $config['name'] : "item[{$ref}]";
+        $id = isset($config['id']) ? $config['id'] : ($ref ?? null);
+        $name = isset($config['name']) ? $config['name'] : ($ref ? "item[{$ref}]" : null);
         $required = (bool) isset($config['required']) ? $config['required'] : false;
         $label = isset($config['label']) ? trans($config['label']) : '';
         $class = isset($config['class']) ? ' '.$config['class'] : '';
@@ -245,10 +263,10 @@ class Form
 
         return new HtmlString('
             <div class="form-group">
-                <label for="'.$id.'">'.$label.' '.($required ? '*' : '').'</label>
+                <label '.($id ? 'for="'.$id.'"' : '').'>'.$label.' '.($required ? '*' : '').'</label>
                 <div class="custom-control custom-switch">
-                    <input type="checkbox" id="'.$id.'" name="'.$name.'" '.($required ? 'required' : '').' class="custom-control-input'.$class.'" '. ($checked ? 'checked' : '') .'>
-                    <label class="custom-control-label" for="'.$id.'"></label>
+                    <input type="checkbox" '.($id ? 'id="'.$id.'"' : '').' name="'.$name.'" '.($required ? 'required' : '').' class="custom-control-input'.$class.'" '. ($checked ? 'checked' : '') .'>
+                    <label class="custom-control-label" '.($id ? 'for="'.$id.'"' : '').'></label>
                     <div class="invalid-feedback">'.trans('crud.invalid-field', [$label]).'</div>
                 </div>
             </div>
@@ -267,8 +285,8 @@ class Form
     public function file($config = [])
     {
         $ref = isset($config['ref']) ? $config['ref'] : '';
-        $id = isset($config['id']) ? $config['id'] : $ref;
-        $name = isset($config['name']) ? $config['name'] : "item[{$ref}]";
+        $id = isset($config['id']) ? $config['id'] : ($ref ?? null);
+        $name = isset($config['name']) ? $config['name'] : ($ref ? "item[{$ref}]" : null);
         $required = (bool) isset($config['required']) ? $config['required'] : false;
         $icon = isset($config['icon']) ? $config['icon'] : false;
         $label = isset($config['label']) ? trans($config['label']) : '';
@@ -277,7 +295,7 @@ class Form
         
         return new HtmlString('
             <div class="form-group">
-                <label for="'.$id.'">'.$label.' '.($required ? '*' : '').'</label>
+                <label '.($id ? 'for="'.$id.'"' : '').'>'.$label.' '.($required ? '*' : '').'</label>
                 <div class="input-group">
                     '.($icon ?
                     '<div class="input-group-prepend">
@@ -286,8 +304,8 @@ class Form
                     ).'
                     <input type="text" class="form-control selected-file'.$class.'" readonly placeholder="'.trans('crud.choose-file').'">
                     <div class="input-group-append">
-                        <label class="btn btn-primary m-0" for="'.$id.'">
-                            <input id="'.$id.'" name="'.$name.'" type="file" '.($required ? 'required' : '').' class="d-none file'.$class.'">
+                        <label class="btn btn-primary m-0" '.($id ? 'for="'.$id.'"' : '').'>
+                            <input '.($id ? 'id="'.$id.'"' : '').' name="'.$name.'" type="file" '.($required ? 'required' : '').' class="d-none file'.$class.'">
                             <i class="fas fa-search mr-1"></i>
                         </label>
                     </div>

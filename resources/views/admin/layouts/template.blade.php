@@ -54,8 +54,7 @@
     </style>
 
     <script defer>
-        top.URL_SITE = "{{ url('/') }}";
-        top.URL_ADMIN = "{{ route('admin:dashboard') }}";
+        top.APP_URL = "{{ url('/') }}";
         top.LOCALE = '{{ Config::get('app.locale') }}';
         top.DATE_FORMAT = '{{ app('config')->get('template')['dateformat'] }}';
 
@@ -147,7 +146,7 @@
                         <img class="img-circle elevation-2" src="{{ $avatar }}" alt="User Image">
                     </div>
                     <div class="info">
-                        <a href="{{ route('admin:profile') }}" class="d-block">{{ Auth::user()->shortName() }}</a>
+                        <a href="{{ route('admin:profile') }}" class="d-block">{{ Auth::user()->short_name }}</a>
                     </div>
                 </div>
 

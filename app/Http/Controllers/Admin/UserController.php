@@ -89,7 +89,7 @@ class UserController extends CrudController
 
     public function show($id)
     {
-        $item = User::find($id);
+        $item = User::with(['roles', 'roles.permissions', 'profile'])->find($id);
 
         if(!isset($item))
             return $this->backOrJson(request(), 'item_not_found', 'crud.item-not-found');
@@ -102,7 +102,7 @@ class UserController extends CrudController
 
     public function edit($id)
     {
-        $item = User::find($id);
+        $item = User::with(['roles', 'roles.permissions', 'profile'])->find($id);
         
         if(!isset($item))
             return $this->backOrJson(request(), 'item_not_found', 'crud.item-not-found');
@@ -115,7 +115,7 @@ class UserController extends CrudController
 
     public function update(Request $request, $id)
     {
-        $item = User::find($id);
+        $item = User::with(['roles', 'roles.permissions'])->find($id);
 
         if(!isset($item))
             return $this->backOrJson(request(), 'item_not_found', 'crud.item-not-found');

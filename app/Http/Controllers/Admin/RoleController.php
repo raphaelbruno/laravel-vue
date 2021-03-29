@@ -35,7 +35,7 @@ class RoleController extends CrudController
         parent::__construct();
     }
 
-    public function options(Array $exclude = null)
+    public function options($item = null)
     {
         $permissions = Permission::orderBy('title')->get();
         return compact('permissions');

@@ -7,6 +7,8 @@
 require('./bootstrap');
 
 window.Vue = require('vue');
+Vue.use(require('vue-moment'));
+import { VueMaskDirective } from 'v-mask'
 
 /**
  * The following block of code may be used to automatically register your
@@ -39,7 +41,7 @@ Vue.prototype.trans = (key, attributes) => {
 
 
 /**
- * Select 2
+ * Directives
  */
 Vue.directive('select2', {
     inserted(el) {
@@ -53,6 +55,43 @@ Vue.directive('select2', {
             el.dispatchEvent(event)
         })
     },
+});
+Vue.directive('focus', {
+    inserted(el) {
+        el.focus();
+    }
+});
+Vue.directive('mask', VueMaskDirective);
+
+ /**
+  * Filters
+  */
+Vue.filter('cpf', (number) => {
+    number = typeof number != 'string' ? number.toString() : number;
+    number = number.padStart(11, '0');
+    number = number.replace(/^(\d{3})(\d{3})(\d{3})(\d{2})/, '$1.$2.$3-$4');
+    return number;
+});
+Vue.filter('cnpj', (number) => {
+    number = typeof number != 'string' ? number.toString() : number;
+    number = number.padStart(14, '0');
+    number = number.replace(/^(\d{2})(\d{3})(\d{3})(\d{4})(\d{2})/, '$1.$2.$3/$4-$5');
+    return number;
+});
+Vue.filter('cpfcnpj', (number) => {
+    number = typeof number != 'string' ? number.toString() : number;
+    if(number.length > 11){
+        number = number.padStart(14, '0');
+        number = number.replace(/^(\d{2})(\d{3})(\d{3})(\d{4})(\d{2})/, '$1.$2.$3/$4-$5');
+    }else{
+        number = number.padStart(11, '0');
+        number = number.replace(/^(\d{3})(\d{3})(\d{3})(\d{2})/, '$1.$2.$3-$4');    
+    }
+    return number;
+});
+Vue.filter('date', function (value) {
+    if (!value) return new Date();
+    return new Date(value.replace(/\.(.*)/g, ""));
 });
 
 /**

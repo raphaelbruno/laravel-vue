@@ -4,7 +4,7 @@
     </div>
     @if($pagination->lastPage() > 1)
     <div class="ml-2">
-        {{ $pagination->links('admin.layouts.partials.pagination') }}
+        {{ $pagination->withQueryString()->links('admin.layouts.partials.pagination') }}
     </div>
     @endif
 </div>

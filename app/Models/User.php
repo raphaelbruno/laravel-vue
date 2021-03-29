@@ -23,15 +23,6 @@ class User extends Authenticatable
     ];
 
     /**
-     * The relationships that should always be loaded.
-     *
-     * @var array
-     */
-    protected $with = [
-        'profile'
-    ];
-
-    /**
      * The attributes that should be hidden for arrays.
      *
      * @var array
@@ -49,6 +40,7 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
+    protected $appends = ['first_name', 'last_name', 'short_name'];
     
     public function profile()
     {
@@ -96,27 +88,9 @@ class User extends Authenticatable
         });
     }
 
-    public function firstName()
-    {
-        $names = explode(' ', trim($this->name));
-        if(count($names) >= 1) return $names[0];
-        return $this->name;
-    }
-
-    public function lastName()
-    {
-        $names = explode(' ', trim($this->name));
-        if(count($names) >= 1) return $names[count($names)-1];
-        return $this->name;
-    }
-
-    public function shortName()
-    {
-        $names = explode(' ', trim($this->name));
-        if(count($names) >= 2)
-            return $names[0] . ' ' . $names[count($names)-1];
-        return $this->name;
-    }
+    public function getFirstNameAttribute(){ return firstName($this->name); }
+    public function getLastNameAttribute(){ return lastName($this->name); }
+    public function getShortNameAttribute(){ return shortName($this->name); }
 
     public static function generatePassword($length = 8)
     {

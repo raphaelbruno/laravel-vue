@@ -14,6 +14,7 @@
 @endsection
 
 @section('main')
+    @yield('top')
     <div class="row">
         <section class="col connectedSortable">
             <div class="card card-outline card-secondary">
@@ -22,6 +23,7 @@
                     <div class="card-tools">
                         <form method="GET" class="d-flex align-items-center">
                             @yield('filters')
+                            @section('query')
                             <div>
                                 <div class="input-group input-group-sm">
                                     <input type="text" name="q" class="form-control float-right" placeholder="@lang('crud.search')" value="{{ $request->get('q') }}" title="@lang('crud.search-tip')">
@@ -33,6 +35,7 @@
                                     </div>
                                 </div>
                             </div>
+                            @show
                         </form>
                     </div>
                 </div>
@@ -53,14 +56,16 @@
                 <div class="card-footer">
                     @section('actions')
                         @can($currentResource.'-create')
-                        <a href="{{ route('admin:'.$currentResource.'.create') }}" title="@lang('crud.new')" class="btn btn-sm btn-success float-left">
-                            <i class="fas fa-plus mr-1"></i> @lang('crud.new')
-                        </a>
+                            @if (Route::has('admin:'.$currentResource.'.create'))
+                                <a href="{{ route('admin:'.$currentResource.'.create') }}" title="@lang('crud.new')" class="btn btn-sm btn-success float-left">
+                                    <i class="fas fa-plus mr-1"></i> @lang('crud.new')
+                                </a>
+                            @endif
                         @endcan
                     @show
 
                     @section('pagination')
-                        @include('admin.layouts.partials.navegation', ['pagination' => $items])
+                        @include('admin.layouts.partials.navigation', ['pagination' => $items])
                     @show
 
                 </div>
@@ -97,4 +102,5 @@
             </div>
         </div>
     </div>
+    @yield('bottom')
 @endsection

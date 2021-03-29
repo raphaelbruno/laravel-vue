@@ -38,7 +38,7 @@ class AuthController extends Controller
         $token = $user->createToken('authToken');
         
         return response([
-            'user' => User::find($user->id),
+            'user' => User::with(['roles', 'roles.permissions', 'profile'])->find($user->id),
             'token' => $token->accessToken,
         ]);
     }

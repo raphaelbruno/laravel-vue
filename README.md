@@ -189,7 +189,7 @@ class BookController extends CrudController
                 </a>
             </td>
             <td class="align-middle">{{ $item->pages }}</td>
-            <td class="align-middle">{{ $item->user->shortName() }}</td>
+            <td class="align-middle">{{ $item->user->short_name }}</td>
             <td class="align-middle text-center text-nowrap">
                 @include('admin.layouts.partials.actions', [
                     'resource' => $resource,
@@ -217,7 +217,7 @@ class BookController extends CrudController
     </div>
     <div class="form-group row">
         <label class="col-2 text-right">@lang('crud.author')</label>
-        <div class="col">{{ $item->user->shortName() }}</div>
+        <div class="col">{{ $item->user->short_name }}</div>
     </div>
     <div class="form-group row">
         <label class="col-2 text-right">@lang('crud.created-at')</label>

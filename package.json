@@ -12,6 +12,7 @@
     "devDependencies": {
         "axios": "^0.19",
         "bootstrap": "^4.0.0",
+        "bootstrap-datepicker": "^1.9.0",
         "cross-env": "^7.0",
         "jquery": "^3.2",
         "laravel-mix": "^5.0.7",
@@ -20,11 +21,12 @@
         "resolve-url-loader": "^2.3.1",
         "sass": "^1.20.1",
         "sass-loader": "^8.0.0",
+        "v-mask": "^2.2.4",
         "vue": "^2.5.17",
+        "vue-moment": "^4.1.0",
         "vue-template-compiler": "^2.6.10"
     },
     "dependencies": {
-        "@fortawesome/fontawesome-free": "^5.15.1",
-        "bootstrap-datepicker": "^1.9.0"
+        "@fortawesome/fontawesome-free": "^5.15.1"
     }
 }

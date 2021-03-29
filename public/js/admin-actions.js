@@ -87,7 +87,7 @@ function toggleDarkMode(){
     }
 
     $.ajax({
-        url: URL_ADMIN + '/profile/toggleDarkMode'
+        url: APP_URL + '/admin/profile/toggleDarkMode'
     })
 }
 

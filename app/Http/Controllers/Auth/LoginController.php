@@ -76,7 +76,8 @@ class LoginController extends Controller
             return Redirect::route('login')->withErrors([trans('auth.failed')]);
         }
 
-        $existingUser = User::where('email', $user->getEmail())->first();
+        $existingUser = User::with(['roles', 'roles.permissions', 'profile'])
+            ->where('email', $user->getEmail())->first();
         if($existingUser){
             DB::transaction(function() use($user, $existingUser, $driver) {
                 if(is_null($existingUser->{$driver.'_id'})){
