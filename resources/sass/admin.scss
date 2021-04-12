@@ -69,6 +69,20 @@ nav ul.nav.nav-treeview li { background-color: rgba(0, 0, 0, 0.15); }
 body.loading { overflow: hidden; }
 body.loading .ajaxloader { display: block; }
 
+/* Messages */
+.messages .action { position: relative; }
+.messages .action .badge { position: absolute; top: -5px; right: -5px; }
+.messages .text { max-height: 50vh; overflow: auto; }
+.messages .historic { padding-right: 1rem; max-height: 50vh; overflow: auto; }
+  .messages .historic .message { position: relative; padding: 0.5rem; margin: 5px 5rem 5px 1rem; border-radius: 0.5rem; background-color: #eee; }
+    .messages .historic .message.me { margin: 5px 1rem 5px 5rem; background-color: #dcf8c6; }
+  .messages .historic .message .user { font-weight: bold; }
+    .messages .historic .message .content { margin-bottom: 0.5rem; }
+    .messages .historic .message .datetime { font-size: 0.6rem; position: absolute; bottom: 0.25rem; right: 0.5rem; }
+  
+    .messages .historic .message::before { content: ''; position: absolute; width: 0; height: 0; border: 1rem solid transparent; border-top: 1rem solid #eee; top: 0; left: -1rem; }
+    .messages .historic .message.me::before { left: initial; right: -1rem; border-top-color: #dcf8c6; }
+
 /* Dark Mode */
 body.dark-mode,
 body.dark-mode .content-wrapper,
@@ -112,6 +126,10 @@ body.dark-mode .note-editor .note-dropdown-menu *{ color: white !important; }
 body.dark-mode .multiple-upload { border-color: #666; }
 body.dark-mode .multiple-upload .header { background-color: #555; border-color: #666; }
 body.dark-mode .multiple-upload ul li { background-color: #333; border-color: #555; }
+body.dark-mode .messages .historic .message { background-color: #262d31; }
+body.dark-mode .messages .historic .message.me { background-color: #056162; }
+body.dark-mode .messages .historic .message::before { border-top-color: #262d31; }
+body.dark-mode .messages .historic .message.me::before { border-top-color: #056162; }
 
 .navbar-dark .navbar-nav .nav-link,
 [class*=sidebar-dark] .brand-link { color: white; }

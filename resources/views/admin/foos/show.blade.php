@@ -7,7 +7,7 @@
     </div>
     <div class="form-group row">
         <label class="col text-right">@lang('crud.author')</label>
-        <div class="col">{{ $item->user->shortName() }}</div>
+        <div class="col">{{ $item->user->short_name }}</div>
     </div>
     <div class="form-group row">
         <label class="col text-right">@lang('crud.created-at')</label>

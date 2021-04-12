@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Facades\Auth;
 use Laravel\Passport\HasApiTokens;
 
 class User extends Authenticatable
@@ -40,7 +41,7 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
-    protected $appends = ['first_name', 'last_name', 'short_name'];
+    protected $appends = ['me', 'first_name', 'last_name', 'short_name'];
     
     public function profile()
     {
@@ -88,6 +89,7 @@ class User extends Authenticatable
         });
     }
 
+    public function getMeAttribute(){ return Auth::user()->id === $this->id; }
     public function getFirstNameAttribute(){ return firstName($this->name); }
     public function getLastNameAttribute(){ return lastName($this->name); }
     public function getShortNameAttribute(){ return shortName($this->name); }

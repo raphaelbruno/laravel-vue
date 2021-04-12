@@ -23,7 +23,7 @@
                 </a>
             </td>
             <td class="align-middle">
-                {{ $item->user->shortName() }}
+                {{ $item->user->short_name }}
             </td>
             <td class="align-middle text-center text-nowrap">
                 @include('admin.layouts.partials.actions', [

@@ -21,6 +21,7 @@ import { VueMaskDirective } from 'v-mask'
 // const files = require.context('./', true, /\.vue$/i)
 // files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key).default))
 
+Vue.component('messages', require('./components/admin/Messages.vue').default);
 Vue.component('info-box', require('./components/admin/InfoBox.vue').default);
 Vue.component('sub-items', require('./components/admin/SubItems.vue').default);
 Vue.component('pagination', require('./components/admin/Pagination.vue').default);

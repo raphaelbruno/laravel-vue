@@ -8,6 +8,7 @@ use App\Http\Controllers\Site\PageController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\MediaController;
+use App\Http\Controllers\Admin\MessageController;
 use App\Http\Controllers\Admin\ProfileController;
 
 /*
@@ -38,6 +39,10 @@ Route::prefix('admin')->namespace('Admin')->as('admin:')->middleware(Administrat
     
     // Media
     Route::get('media/{path}', [MediaController::class, '@index'])->where('path', '(.*)');
+    
+    // Messages
+    Route::get('messages/{session}', [MessageController::class, 'show'])->name('messages.show');
+    Route::post('messages/{session}/send', [MessageController::class, 'send'])->name('messages.send');
     
     // Profile
     Route::get('profile', [ProfileController::class, 'edit'])->name('profile');
