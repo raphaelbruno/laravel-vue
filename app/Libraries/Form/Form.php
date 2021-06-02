@@ -19,9 +19,10 @@ class Form
     public function input($config = [])
     {
         $type = isset($config['type']) ? $config['type'] : 'text';
+        $model = isset($config['model']) ? $config['model'] : 'item';
         $ref = isset($config['ref']) ? $config['ref'] : '';
         $id = isset($config['id']) ? $config['id'] : ($ref ?? null);
-        $name = isset($config['name']) ? $config['name'] : ($ref ? "item[{$ref}]" : null);
+        $name = isset($config['name']) ? $config['name'] : ($ref ? "{$$model}[{$ref}]" : null);
         $required = (bool) isset($config['required']) ? $config['required'] : false;
         $icon = isset($config['icon']) ? $config['icon'] : false;
         $label = isset($config['label']) ? trans($config['label']) : '';
@@ -134,9 +135,10 @@ class Form
      */
     public function textarea($config = [])
     {
+        $model = isset($config['model']) ? $config['model'] : 'item';
         $ref = isset($config['ref']) ? $config['ref'] : '';
         $id = isset($config['id']) ? $config['id'] : ($ref ?? null);
-        $name = isset($config['name']) ? $config['name'] : ($ref ? "item[{$ref}]" : null);
+        $name = isset($config['name']) ? $config['name'] : ($ref ? "{$model}[{$ref}]" : null);
         $required = (bool) isset($config['required']) ? $config['required'] : false;
         $icon = isset($config['icon']) ? $config['icon'] : false;
         $label = isset($config['label']) ? trans($config['label']) : '';
@@ -177,6 +179,7 @@ class Form
     {
         unset($config['icon']);
         $config['class'] = trim(($config['class'] ?? '') . ' wysiwyg');
+        if(isset($config['rows']))$config['attributes'] = [ 'data-height' => 20+(23*$config['rows']) ];
         return $this->textarea($config);
     }
 
@@ -193,9 +196,10 @@ class Form
      */
     public function select($config = [])
     {
+        $model = isset($config['model']) ? $config['model'] : 'item';
         $ref = isset($config['ref']) ? $config['ref'] : '';
         $id = isset($config['id']) ? $config['id'] : ($ref ?? null);
-        $name = isset($config['name']) ? $config['name'] : ($ref ? "item[{$ref}]" : null);
+        $name = isset($config['name']) ? $config['name'] : ($ref ? "{$model}[{$ref}]" : null);
         $required = (bool) isset($config['required']) ? $config['required'] : false;
         $icon = isset($config['icon']) ? $config['icon'] : false;
         $label = isset($config['label']) ? trans($config['label']) : '';
@@ -204,6 +208,11 @@ class Form
         $class = isset($config['class']) ? ' '.$config['class'] : '';
         $selected = isset($config['value']) ? ' '.$config['value'] : '';
         $optionsString = '<option value="">'.$chooseOption.'</option>';
+        $attributes = isset($config['attributes']) ? $config['attributes'] : [];
+
+        $attributesString = '';
+        foreach($attributes as $k => $v)
+            $attributesString .= ' '.$k.'="'.$v.'"';
         
         foreach($options as $k => $v)
             $optionsString .= '<option value="'.$k.'" '.(trim($selected) == trim($k) ? 'selected' : '').'>'.trans($v).'</option>';
@@ -217,7 +226,7 @@ class Form
                         <span class="input-group-text"><i class="fas fa-'.$icon.'"></i></span>
                     </div>' : ''
                     ).'
-                    <select '.($id ? 'id="'.$id.'"' : '').' name="'.$name.'" class="form-control'.$class.'" '.($required ? 'required' : '').'>
+                    <select '.($id ? 'id="'.$id.'"' : '').' name="'.$name.'" class="form-control'.$class.'" '.($required ? 'required' : '').' '.$attributesString.'>
                         '.$optionsString.'
                     </select>
                     <div class="invalid-feedback">'.trans('crud.invalid-field', [$label]).'</div>
@@ -253,9 +262,10 @@ class Form
      */
     public function switch($config = [])
     {
+        $model = isset($config['model']) ? $config['model'] : 'item';
         $ref = isset($config['ref']) ? $config['ref'] : '';
         $id = isset($config['id']) ? $config['id'] : ($ref ?? null);
-        $name = isset($config['name']) ? $config['name'] : ($ref ? "item[{$ref}]" : null);
+        $name = isset($config['name']) ? $config['name'] : ($ref ? "{$model}[{$ref}]" : null);
         $required = (bool) isset($config['required']) ? $config['required'] : false;
         $label = isset($config['label']) ? trans($config['label']) : '';
         $class = isset($config['class']) ? ' '.$config['class'] : '';
@@ -284,9 +294,10 @@ class Form
      */
     public function file($config = [])
     {
+        $model = isset($config['model']) ? $config['model'] : 'item';
         $ref = isset($config['ref']) ? $config['ref'] : '';
         $id = isset($config['id']) ? $config['id'] : ($ref ?? null);
-        $name = isset($config['name']) ? $config['name'] : ($ref ? "item[{$ref}]" : null);
+        $name = isset($config['name']) ? $config['name'] : ($ref ? "{$model}[{$ref}]" : null);
         $required = (bool) isset($config['required']) ? $config['required'] : false;
         $icon = isset($config['icon']) ? $config['icon'] : false;
         $label = isset($config['label']) ? trans($config['label']) : '';
@@ -306,7 +317,7 @@ class Form
                     <div class="input-group-append">
                         <label class="btn btn-primary m-0" '.($id ? 'for="'.$id.'"' : '').'>
                             <input '.($id ? 'id="'.$id.'"' : '').' name="'.$name.'" type="file" '.($required ? 'required' : '').' class="d-none file'.$class.'">
-                            <i class="fas fa-search mr-1"></i>
+                            <i class="fas fa-search"></i>
                         </label>
                     </div>
                     <div class="invalid-feedback">'.trans('crud.invalid-field', [$label]).'</div>
