@@ -459,11 +459,13 @@ class CrudController extends Controller
         return true;
     }
 
-    protected function routeOrJson(Request $request, $route, $message){
+    protected function routeOrJson(Request $request, $route, $message, $type = 'message'){
+        $route = is_array($route) ? $route : [$route];
         $isValidator = $message instanceof \Illuminate\Validation\Validator;
+        
         return $request->wantsJson()
             ? response(['message' => ($isValidator ? $message->errors() : trans($message))])
-            : Redirect::route($route)->with($isValidator ? $message : ['message' => trans($message)]);
+            : Redirect::route(...$route)->with($isValidator ? $message : ["{$type}" => trans($message)]);
     }
     
     protected function backOrJson(Request $request, $error, $message){

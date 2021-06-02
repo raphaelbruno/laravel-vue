@@ -215,7 +215,7 @@
                     </div>
                     @endif
                     
-                    @if ($message = Session::get('info'))
+                    @if ($message = Session::get('info') ?? Session::get('message'))
                     <div class="alert alert-info alert-dismissible">
                         <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
                         {!! $message !!}
