@@ -71,11 +71,11 @@ class CrudController extends Controller
         if(!$allowVoid && (!isset($input) || !count($input)) )
             throw new Exception(trans('crud.relationship-cannot-void', [trans($relationship)]));
         
-        $ids = isset($input) ? array_filter(array_column($input, 'id'), function($value) { return !is_null($value) && $value !== ''; }) : [];
+        $ids = collect($input)->whereNotNull('id')->pluck('id')->toArray();
         $subitemsToDelete = $item->{$relationship}->filter(function($item) use($ids) { return !in_array($item->id, $ids); });
 
         foreach($input as $subitem)
-            $item->{$relationship}()->updateOrCreate(['id' => $subitem['id']], $subitem);
+            $item->{$relationship}()->updateOrCreate(['id' => $subitem['id'] ?? null], $subitem);
 
         foreach($subitemsToDelete as $subitem)
             $subitem->delete();
